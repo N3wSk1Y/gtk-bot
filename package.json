@@ -1,0 +1,19 @@
+{
+  "name": "gtk-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^13.8.1",
+    "express": "^4.18.1",
+    "mcdata": "^1.0.9",
+    "request": "^2.88.2",
+    "spworlds": "^1.0.0"
+  }
+}
