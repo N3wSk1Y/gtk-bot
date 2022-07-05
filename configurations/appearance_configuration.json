@@ -1,0 +1,13 @@
+{
+    "MainLogo": "https://cdn.iconscout.com/icon/free/png-256/logo-3446031-2882300.png",
+    "Colors": {
+        "Default": "#2f3136",
+        "Success": "#44cf6b",
+        "Error": "#d63f47",
+        "Warning": "#fac10e",
+        "HighWarning": "#ff8400"
+    },
+    "Tags": {
+        "GTK": "«Глорианская Торговая Компания» \uD83D\uDCB8"
+    }
+}

@@ -1,0 +1,13 @@
+{
+    "BOT_TOKEN": "OTkwNjgxNTA3NDkwMzEyMjIy.GpxRaF.HygsCTSWvvDbN2FuNn92MjKghLxhwerHAqSsSA",
+    "STATUS": {
+        "enable": false,
+        "activity": {
+            "status": "online",
+            "activities": [{
+                "name": "за клиентами",
+                "type": "WATCHING"
+            }]
+        }
+    }
+}
