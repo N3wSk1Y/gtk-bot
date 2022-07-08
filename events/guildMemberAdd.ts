@@ -1,11 +1,11 @@
 import Discord, { ColorResolvable, MessageEmbed } from "discord.js";
 import { SPWorlds } from "spworlds";
-import CardsConfig from '../configurations/cards_configuration.json';
-import AppearanceConfig from '../configurations/appearance_configuration.json'
+import CardsConfig from '../configurations/cards.json';
+import AppearanceConfig from '../configurations/appearance.json'
 
 const sp = new SPWorlds(CardsConfig.CARD_ID, CardsConfig.CARD_TOKEN);
 
-module.exports = {
+export = {
     name: 'guildMemberAdd',
     once: false,
     async execute (client: Discord.Client, member: Discord.GuildMember): Promise<void> {

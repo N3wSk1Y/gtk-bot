@@ -10,9 +10,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/mysql": "^2.15.21",
     "discord.js": "^13.8.1",
     "express": "^4.18.1",
     "mcdata": "^1.0.9",
+    "pg": "^8.7.3",
     "request": "^2.88.2",
     "spworlds": "^1.0.0"
   },

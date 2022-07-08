@@ -1,18 +1,17 @@
 import Discord, {ColorResolvable, MessageEmbed, TextChannel} from "discord.js";
 import { SPWorlds } from "spworlds";
 import mcdata from "mcdata";
-import CardsConfig from '../configurations/cards_configuration.json';
-import AppearanceConfig from '../configurations/appearance_configuration.json'
-import ChannelsConfig from '../configurations/channels_configuration.json'
+import CardsConfig from '../configurations/cards.json';
+import AppearanceConfig from '../configurations/appearance.json'
+import ChannelsConfig from '../configurations/channels.json'
 
 const sp = new SPWorlds(CardsConfig.CARD_ID, CardsConfig.CARD_TOKEN);
 
-module.exports = {
+export = {
     name: 'messageCreate',
     once: false,
     async execute (client: Discord.Client, message: Discord.Message): Promise<void> {
         if (message.author.bot) return;
-
         if (message.channelId === ChannelsConfig.REVIEWS_CHANNEL) {
             const username = await sp.findUser(message.author.id);
             const minecraftUser = await mcdata.playerStatus(username, { renderSize: 2 })
