@@ -70,7 +70,7 @@ export = {
                         .setTitle('Личный кабинет')
                         .setDescription('Заработок с процентов присылается раз в неделю.')
                         .setThumbnail(minecraftUser.skin.avatar)
-                        .setFooter(AppearanceConfig.Tags.GTK, AppearanceConfig.Images.MainLogo)
+                        .setFooter(AppearanceConfig.Tags.Bank, AppearanceConfig.Images.MainLogo)
                         .addFields(
                             { name: 'Никнейм', value: `\`${bank_account.minecraft_username}\``, inline: true },
                             { name: 'Баланс счета', value: `\`${bank_account.balance}\` <:diamond_ore:990969911671136336>`, inline: true },
@@ -196,7 +196,6 @@ export = {
 
                 };
                 const response = await HTTPRequest(options)
-                console.log(JSON.parse(response as string).url)
                 const row = new MessageActionRow()
                     .addComponents(
                         new MessageButton()

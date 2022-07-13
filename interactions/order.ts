@@ -197,7 +197,7 @@ export = {
                     .addComponents(
                         new MessageButton()
                             .setCustomId('submit_bank')
-                            .setLabel('Оплатить через ГлорианБанк (-20%)')
+                            .setLabel('Оплатить через ГлорианБанк (-10%)')
                             .setEmoji('990969911671136336')
                             .setStyle('SUCCESS'),
                         new MessageButton()

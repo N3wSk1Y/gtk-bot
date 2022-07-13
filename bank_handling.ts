@@ -26,6 +26,16 @@ export async function getBalance(userid: number): Promise<number> {
     return response[0].balance;
 }
 
+export async function topupBalance (userid: number, value: number, reason: string): Promise<number> {
+    if (!await accountExists(userid))
+        return
+    const balance = (await DBRequest(`SELECT * FROM users WHERE id = ${userid}`) as any[])[0].balance as number
+
+    await DBRequest(`UPDATE \`users\` SET balance = ${balance+value} WHERE \`users\`.\`id\` = ${userid}`)
+    const response = await DBRequest(`SELECT * FROM \`users\` WHERE id = ${userid}`) as any[]
+    return response[0].balance;
+}
+
 export async function transferBalance (userid: number, value: number, target: OperationTypes, reason: string): Promise<number> {
     if (!await accountExists(userid))
         return
