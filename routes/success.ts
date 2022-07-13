@@ -32,13 +32,11 @@ router.post('/callback', async (req, res, next) => {
     if (req.hostname === 'gtk-sp.ru') {
         return next();
     }
-    // const isValid = sp.verifyHash(req.body, req.headers['X-Body-Hash'] as any)
-    const isValid = true
 
     const user = await client.users.fetch(req.body.data)
     const minecraftUser = await mcdata.playerStatus(req.body.payer, { renderSize: 2 })
 
-    if (isValid) {
+    if (sp.verifyHash(JSON.stringify(req.body), req.headers['X-Body-Hash'] as any)) {
         const account = (await DBRequest(`SELECT * FROM users WHERE minecraft_username = '${req.body.payer}'`) as any[])[0]
         const balance = await topupBalance(account.id, req.body.amount, "Пополнение счет в ГлорианБанке")
 
