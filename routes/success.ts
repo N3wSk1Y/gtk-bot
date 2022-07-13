@@ -23,6 +23,7 @@ router.post('/callback', async (req, res, next) => {
     const isValid = true
 
     const user = await client.users.fetch(parseInt(req.body.data) as any)
+    console.log(user.username)
     const minecraftUser = await mcdata.playerStatus(req.body.payer, { renderSize: 2 })
 
     if (isValid) {
