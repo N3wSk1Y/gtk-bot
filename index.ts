@@ -14,6 +14,7 @@ const client = new Client({
 });
 
 // TODO: Пройтись по всем варнингам во всех файлах
+// TODO: Добавить историю пополнения и снятие денег
 
 const botEvents = fs.readdirSync('./events/').filter(f => f.endsWith('.js'))
 const botRoutes = fs.readdirSync('./interactions/').filter(f => f.endsWith('.js'))
