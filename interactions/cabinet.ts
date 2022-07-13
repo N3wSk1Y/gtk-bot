@@ -191,9 +191,7 @@ export = {
                         "amount": parseInt(value),
                         "redirectUrl": "https://gtk-sp.ru/payment/success",
                         "webhookUrl": "https://gtk-sp.ru/payment/callback",
-                        "data": {
-                            discord_id: interaction.user.id
-                        }
+                        "data": interaction.user.id
                     })
 
                 };
