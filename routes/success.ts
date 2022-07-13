@@ -6,6 +6,9 @@ router.get('/success', function(req, res, next) {
 });
 
 router.post('/callback', function(req, res, next) {
+    if (req.hostname === 'gtk-sp.ru') {
+        return next();
+    }
     res.send(req.body);
     console.log(req.body)
     console.log(req.headers)
