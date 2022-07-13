@@ -40,7 +40,7 @@ router.post('/callback', async (req, res, next) => {
         await user.send({embeds:[embed]})
     } else {
         const embed = new MessageEmbed()
-            .setColor(AppearanceConfig.Colors.Warning as ColorResolvable)
+            .setColor(AppearanceConfig.Colors.Error as ColorResolvable)
             .setTitle(`Ошибка пополнения счета`)
             .setDescription(`**Произошла ошибка при пополнении счета. Если вы считаете, что все сделали правильно, обратитесь в #поддержка и приложите этот скриншот.**`)
             .setFooter(AppearanceConfig.Tags.Bank, AppearanceConfig.Images.MainLogo)
