@@ -19,7 +19,9 @@ router.post('/callback', async (req, res, next) => {
     if (req.hostname === 'gtk-sp.ru') {
         return next();
     }
+    // const isValid = sp.verifyHash(req.body, req.headers['X-Body-Hash'] as any)
     const isValid = sp.verifyHash(req.body, req.headers['X-Body-Hash'] as any)
+
     // @ts-ignore
     const user = await client.user.fetch(parseInt(req.body.data))
     const minecraftUser = await mcdata.playerStatus(req.body.payer, { renderSize: 2 })
