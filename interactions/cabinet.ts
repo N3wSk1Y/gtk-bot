@@ -196,7 +196,7 @@ export = {
 
                 };
                 const response = await HTTPRequest(options)
-
+                console.log(JSON.parse(response as string).url)
                 const row = new MessageActionRow()
                     .addComponents(
                         new MessageButton()
