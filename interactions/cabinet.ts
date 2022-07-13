@@ -189,8 +189,8 @@ export = {
                     },
                     body: JSON.stringify({
                         "amount": parseInt(value),
-                        "redirectUrl": "http://185.225.35.95:80/payment/success",
-                        "webhookUrl": "http://185.225.35.95:80/payment/callback",
+                        "redirectUrl": "https://gtk-sp.ru/payment/success",
+                        "webhookUrl": "https://gtk-sp.ru/payment/callback",
                         "data": {
                             discord_id: interaction.user.id
                         }
