@@ -137,7 +137,7 @@ export = {
                         const response = await DBRequest(`SELECT * FROM transfer_history WHERE userid = ${users[0].id}`) as any[]
                         let log = ""
                         for (const responseElement of response) {
-                            log += `**${responseElement.date}** | **${responseElement.value}** | **${responseElement.reason}**\n\n`
+                            log += `**${responseElement.date}** | **${responseElement.value}**  <:diamond_ore:990969911671136336> | **${responseElement.reason}**\n\n`
                         }
                         embed.setTitle("История покупок")
                         embed.setDescription(log)
