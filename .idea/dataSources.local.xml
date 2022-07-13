@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="dataSourceStorageLocal" created-in="WS-221.5921.27">
-    <data-source name="newskiy_gtk@newskiy.beget.tech" uuid="35be94b8-8392-44e5-a02b-4908c5cd2569">
-      <database-info product="MySQL" version="5.7.21-20-beget-5.7.21-20-1-log" jdbc-version="4.2" driver-name="MySQL Connector/J" driver-version="mysql-connector-java-8.0.25 (Revision: 08be9e9b4cba6aa115f9b27b215887af40b159e0)" dbms="MYSQL" exact-version="5.7.21" exact-driver-version="8.0">
+    <data-source name="gtk@185.225.35.95" uuid="e094b53e-5a5f-4cb0-bad9-676e295dc578">
+      <database-info product="MySQL" version="8.0.29-0ubuntu0.22.04.2" jdbc-version="4.2" driver-name="MySQL Connector/J" driver-version="mysql-connector-java-8.0.25 (Revision: 08be9e9b4cba6aa115f9b27b215887af40b159e0)" dbms="MYSQL" exact-version="8.0.29" exact-driver-version="8.0">
         <extra-name-characters>#@</extra-name-characters>
         <identifier-quote-string>`</identifier-quote-string>
       </database-info>
       <case-sensitivity plain-identifiers="exact" quoted-identifiers="exact" />
       <secret-storage>master_key</secret-storage>
-      <user-name>newskiy_gtk</user-name>
+      <user-name>root</user-name>
       <schema-mapping>
         <introspection-scope>
           <node kind="schema" qname="@" />

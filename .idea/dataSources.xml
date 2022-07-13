@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="newskiy_gtk@newskiy.beget.tech" uuid="35be94b8-8392-44e5-a02b-4908c5cd2569">
+    <data-source source="LOCAL" name="gtk@185.225.35.95" uuid="e094b53e-5a5f-4cb0-bad9-676e295dc578">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://newskiy.beget.tech:3306/newskiy_gtk</jdbc-url>
+      <jdbc-url>jdbc:mysql://185.225.35.95:3306/gtk</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

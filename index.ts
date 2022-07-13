@@ -1,5 +1,6 @@
 import { Client, Intents } from 'discord.js';
 import fs from 'fs'
+import './app'
 
 import BotConfig from './configurations/bot.json';
 

@@ -103,7 +103,7 @@ export = {
                 await interaction.showModal(modal);
             }
 
-            // Обработка истории операций
+            // Обработка истории
             if (interaction.customId === 'history') {
                 const row = new MessageActionRow()
                     .addComponents(
@@ -126,6 +126,7 @@ export = {
                 await interaction.update({ components: [row] })
             }
 
+            // Обработка историй (выбор по кнопке)
             if (interaction.customId.endsWith('_history')) {
                 const embed = new MessageEmbed()
                     .setFooter(AppearanceConfig.Tags.Bank, AppearanceConfig.Images.MainLogo)
@@ -153,6 +154,7 @@ export = {
             }
         }
 
+        // Пополнение счета (финал)
         if (interaction.isModalSubmit()) {
             // Форма регистрации
             if (interaction.customId === 'registration_modal') {
@@ -188,8 +190,8 @@ export = {
                     },
                     body: JSON.stringify({
                         "amount": parseInt(value),
-                        "redirectUrl": "https://sp-credit.herokuapp.com/success",
-                        "webhookUrl": "https://sp-credit.herokuapp.com/callback", // TODO: Нужно поставить на сервер
+                        "redirectUrl": "http://185.225.35.95/payment/success",
+                        "webhookUrl": "http://185.225.35.95/payment/callback",
                         "data": username
                     })
 
