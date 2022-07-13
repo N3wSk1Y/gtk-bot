@@ -189,8 +189,8 @@ export = {
                     },
                     body: JSON.stringify({
                         "amount": parseInt(value),
-                        "redirectUrl": "http://185.225.35.95:80/payment/success",
-                        "webhookUrl": "http://185.225.35.95:80/payment/callback",
+                        "redirectUrl": "http://185.225.35.95:3000/payment/success",
+                        "webhookUrl": "http://185.225.35.95:3000/payment/callback",
                         "data": {
                             discord_id: interaction.user.id
                         }

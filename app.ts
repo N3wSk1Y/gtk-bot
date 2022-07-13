@@ -15,6 +15,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/payment', paymentRouter);
 
-app.listen(80, () => {
-    console.log(`Сервер запущен на порте ${80}`)
+app.listen(3000, () => {
+    console.log(`Сервер запущен на порте ${3000}`)
 })
