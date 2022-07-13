@@ -39,16 +39,15 @@ router.post('/callback', async (req, res, next) => {
     const minecraftUser = await mcdata.playerStatus(req.body.payer, { renderSize: 2 })
 
     if (isValid) {
-        console.log(req.body.payer)
         const account = (await DBRequest(`SELECT * FROM users WHERE minecraft_username = '${req.body.payer}'`) as any[])[0]
         const balance = await topupBalance(account.id, req.body.amount, "Пополнение счет в ГлорианБанке")
 
         const embed = new MessageEmbed()
             .setColor(AppearanceConfig.Colors.Success as ColorResolvable)
             .setTitle(`Пополнение счета`)
-            .setDescription(`**Ваш счет успешно пополнен на ${req.body.amount} <:diamond_ore:990969911671136336>**`)
+            .setDescription(`**Ваш счет успешно пополнен на \`${req.body.amount}\` <:diamond_ore:990969911671136336>**`)
             .setThumbnail(minecraftUser.skin.avatar)
-            .addField("**Текущий баланс:**", `${balance} <:diamond_ore:990969911671136336>`)
+            .addField("**Текущий баланс:**", `**\`${balance}\`** <:diamond_ore:990969911671136336>`)
             .setFooter(AppearanceConfig.Tags.Bank, AppearanceConfig.Images.MainLogo)
         await user.send({embeds:[embed]})
     } else {
