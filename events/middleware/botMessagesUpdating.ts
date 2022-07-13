@@ -10,6 +10,7 @@ import {
 import AppearanceConfig from '../../configurations/appearance.json'
 import ChannelsConfig from '../../configurations/channels.json'
 import TemplatesConfig from '../../configurations/templates.json'
+import crypto from 'crypto'
 
 export async function UpdateMessages (client: Client) {
     const rowBankMenu = new MessageActionRow()
@@ -23,7 +24,8 @@ export async function UpdateMessages (client: Client) {
     const embedBankMenu = new MessageEmbed()
         .setColor(AppearanceConfig.Colors.Default as ColorResolvable)
         .setTitle(AppearanceConfig.Tags.Bank)
-        .setFooter("© Все права защищены.", AppearanceConfig.MainLogo)
+        .setImage(AppearanceConfig.Images.Bank[crypto.randomInt(0, AppearanceConfig.Images.Bank.length)])
+        .setFooter("© Все права защищены.", AppearanceConfig.Images.MainLogo)
         .setDescription('**Первый частный банк на СП!**');
 
     // TODO: Добавить шаблон сообщения для личного кабинета
@@ -43,7 +45,8 @@ export async function UpdateMessages (client: Client) {
     const embedMarketMenu = new MessageEmbed()
         .setColor(AppearanceConfig.Colors.Default as ColorResolvable)
         .setTitle(AppearanceConfig.Tags.iMarket)
-        .setFooter("© Все права защищены.", AppearanceConfig.MainLogo)
+        .setImage(AppearanceConfig.Images.iMarket[crypto.randomInt(0, AppearanceConfig.Images.iMarket.length)])
+        .setFooter("© Все права защищены.", AppearanceConfig.Images.MainLogo)
 
     await ( client.channels.cache.get(ChannelsConfig.BOT_MESSAGES_TEMPLATES_CHANNEL) as TextChannel ).messages.fetch(TemplatesConfig.TEMPLATES.MARKET_TEMPLATE).then((message) => {
         embedMarketMenu.setDescription(message.content);
@@ -77,25 +80,26 @@ export async function UpdateMessages (client: Client) {
                         description: 'Работа в ГлорианБанке',
                         value: 'finance',
                     },
-                    {
-                    	emoji: '993119853210775662',
-                    	label: 'Менеджер персонала',
-                    	description: 'Контроль сотрудников',
-                    	value: 'manager',
-                    },
-                    {
-                    	emoji: '993118584538665000',
-                    	label: 'Юрист/Адвокат',
-                    	description: 'Контроль документации, суды',
-                    	value: 'lawyer',
-                    },
+                    // {
+                    // 	emoji: '993119853210775662',
+                    // 	label: 'Менеджер персонала',
+                    // 	description: 'Контроль сотрудников',
+                    // 	value: 'manager',
+                    // },
+                    // {
+                    // 	emoji: '993118584538665000',
+                    // 	label: 'Юрист/Адвокат',
+                    // 	description: 'Контроль документации, суды',
+                    // 	value: 'lawyer',
+                    // },
                 ])
         )
 
     const embedJobMenu = new MessageEmbed()
         .setColor(AppearanceConfig.Colors.Default as ColorResolvable)
-        .setTitle('Трудоустройство в Глорианскую Торговую Компанию 💼')
-        .setFooter("© Все права защищены.", AppearanceConfig.MainLogo)
+        .setTitle('Трудоустройство в Глорианскую Торговую Компанию')
+        .setImage(AppearanceConfig.Images.Employment)
+        .setFooter("© Все права защищены.", AppearanceConfig.Images.MainLogo)
 
     await ( client.channels.cache.get(ChannelsConfig.BOT_MESSAGES_TEMPLATES_CHANNEL) as TextChannel ).messages.fetch(TemplatesConfig.TEMPLATES.EMPLOYMENT_TEMPLATE).then((message) => {
         embedJobMenu.setDescription(message.content);

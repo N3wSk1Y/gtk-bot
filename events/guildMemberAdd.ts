@@ -17,7 +17,7 @@ export = {
                 .setTitle(`Ошибка синхронизации`)
                 .setColor(AppearanceConfig.Colors.Error as ColorResolvable)
                 .setDescription("К сожалению, ваш Discord не привязан к Minecraft-аккаунту с купленной проходкой на СП.")
-                .setFooter(AppearanceConfig.Tags.GTK, AppearanceConfig.MainLogo)
+                .setFooter(AppearanceConfig.Tags.GTK, AppearanceConfig.Images.MainLogo)
             await member.send({ embeds: [embed] })
             await member.kick("Отсутствует проходка на СП")
         }

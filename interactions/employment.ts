@@ -73,7 +73,7 @@ export = {
                     .setTitle(`Заявка отправлена`)
                     .setThumbnail(minecraftUser.skin.avatar)
                     .setDescription("Заявление будет рассмотрено в течении суток.\nВам напишут в личные сообщения с результатом.")
-                    .setFooter(AppearanceConfig.Tags.GTK, AppearanceConfig.MainLogo)
+                    .setFooter(AppearanceConfig.Tags.GTK, AppearanceConfig.Images.MainLogo)
                 await interaction.reply({ ephemeral: true, embeds: [notifyEmbed] });
 
 
@@ -82,7 +82,7 @@ export = {
                     .setTitle(`Заявка на трудоустройство от ${username}`)
                     .setThumbnail(minecraftUser.skin.avatar)
                     .setTimestamp()
-                    .setFooter(AppearanceConfig.Tags.GTK, AppearanceConfig.MainLogo)
+                    .setFooter(AppearanceConfig.Tags.GTK, AppearanceConfig.Images.MainLogo)
                     .setFields(
                         { name: 'Никнейм', value: "```" + username + "```" },
                         { name: 'Вакансия', value: "```" + vacancy + "```" },

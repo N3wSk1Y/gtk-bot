@@ -1,5 +1,11 @@
 {
-    "MainLogo": "https://cdn.iconscout.com/icon/free/png-256/logo-3446031-2882300.png",
+    "Images": {
+        "MainLogo": "https://i.imgur.com/u7KGwje.png",
+        "iMarket": ["https://i.imgur.com/UPNlQbA.png", "https://i.imgur.com/hAX5CU8.png", "https://i.imgur.com/IT5ogsJ.png"],
+        "Bank": ["https://i.imgur.com/vwQ5KVp.png", "https://i.imgur.com/hhLmK1i.png", "https://i.imgur.com/apOhPG9.png"],
+        "Employment": "https://i.imgur.com/SHAxuwS.png",
+        "MayAds": "https://i.imgur.com/Twmm4cl.png"
+    },
     "Colors": {
         "Default": "#2f3136",
         "Success": "#44cf6b",

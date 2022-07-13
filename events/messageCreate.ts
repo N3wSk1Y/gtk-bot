@@ -20,7 +20,7 @@ export = {
                 .setColor(AppearanceConfig.Colors.Default as ColorResolvable)
                 .setDescription("```" + message.content + "```" + "\n**Вы можете оставить свой отзыв/пожелание, просто написав его в этом канале**")
                 .setThumbnail(minecraftUser.skin.avatar)
-                .setFooter(AppearanceConfig.Tags.GTK, AppearanceConfig.MainLogo)
+                .setFooter(AppearanceConfig.Tags.GTK, AppearanceConfig.Images.MainLogo)
             await ( client.channels.cache.get(ChannelsConfig.REVIEWS_CHANNEL) as TextChannel ).send({ embeds: [embed] });
             await message.delete()
         }

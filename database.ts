@@ -1,5 +1,6 @@
 import mysql from 'mysql';
 import DatabaseConfig from './configurations/database.json'
+import request from "request";
 
 const connection = mysql.createConnection({
     host     : DatabaseConfig.HOST,
@@ -14,5 +15,14 @@ export async function DBRequest(request: string) {
             if (error) reject(error)
             resolve(results)
         });
+    })
+}
+
+export async function HTTPRequest(options: any) {
+    return new Promise((resolve, reject) => {
+        request(options, function (error: any, response: { body: unknown; }) {
+            if (error) reject(error)
+            resolve(response.body)
+        })
     })
 }
