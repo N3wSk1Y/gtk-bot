@@ -1,15 +1,28 @@
 import express from "express";
 import {SPWorlds} from "spworlds";
 import CardsConfig from "../configurations/cards.json";
-import {client} from "../index";
-import {ColorResolvable, MessageEmbed, UserResolvable} from "discord.js";
+import Discord, {Client, ColorResolvable, Intents, MessageEmbed, UserResolvable} from "discord.js";
 import AppearanceConfig from "../configurations/appearance.json";
+import BotConfig from '../configurations/bot.json'
 import mcdata from "mcdata";
 import {DBRequest} from "../database";
 import {topupBalance} from "../bank_handling";
 
 const router = express.Router();
 const sp = new SPWorlds(CardsConfig.CARD_ID, CardsConfig.CARD_TOKEN);
+const client = new Client({
+    intents: [
+        Intents.FLAGS.GUILDS,
+        Intents.FLAGS.GUILD_MESSAGES,
+        Intents.FLAGS.GUILD_INVITES,
+        Intents.FLAGS.GUILD_BANS,
+        Intents.FLAGS.GUILD_MEMBERS
+    ]
+});
+client.login(BotConfig.BOT_TOKEN)
+    .catch((error) => {
+        console.error("Ошибка при авторизации бота:\n" + error);
+    })
 
 router.get('/success', function(req, res, next) {
     res.send("Оплата успешно проведена!\nМожете вернуться в Discord");
@@ -22,9 +35,8 @@ router.post('/callback', async (req, res, next) => {
     // const isValid = sp.verifyHash(req.body, req.headers['X-Body-Hash'] as any)
     const isValid = true
 
-    // const user = await client.users.fetch(parseInt(req.body.data) as any)
-    const user = await client.users.fetch(332149563831877632 as unknown as UserResolvable)
-    console.log(user.username)
+    console.log(req.body.data)
+    const user = await client.users.fetch(parseInt(req.body.data) as any)
     const minecraftUser = await mcdata.playerStatus(req.body.payer, { renderSize: 2 })
 
     if (isValid) {

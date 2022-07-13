@@ -3,7 +3,7 @@ import fs from 'fs'
 import './app'
 import BotConfig from './configurations/bot.json';
 
-export const client = new Client({
+const client = new Client({
     intents: [
         Intents.FLAGS.GUILDS,
         Intents.FLAGS.GUILD_MESSAGES,
