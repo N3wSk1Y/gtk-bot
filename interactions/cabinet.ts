@@ -152,6 +152,41 @@ export = {
                 interaction.message.embeds.splice(1, 0, embed)
                 await interaction.update({ embeds: [embed] })
             }
+
+            // Обработка кредитов
+            if (interaction.customId === 'takecredit') {
+                const modal = new Modal()
+                    .setCustomId('takecredit_modal')
+                    .setTitle('Заявка на кредитование')
+
+                const value = new TextInputComponent()
+                    .setCustomId('takecredit_value')
+                    .setLabel("Введите сумму кредитования (АР)")
+                    .setStyle('SHORT')
+                    .setRequired(true)
+                    .setMinLength(1)
+                    .setMaxLength(6)
+
+                const time = new TextInputComponent()
+                    .setCustomId('takecredit_time')
+                    .setLabel("Введите время на выплату кредита (дней)")
+                    .setStyle('SHORT')
+                    .setRequired(true)
+                    .setMinLength(1)
+                    .setMaxLength(3)
+
+                const target = new TextInputComponent()
+                    .setCustomId('takecredit_target')
+                    .setLabel("Введите цель кредитования")
+                    .setStyle('PARAGRAPH')
+                    .setRequired(true)
+
+                const firstActionRow = new MessageActionRow().addComponents(value);
+                const secondActionRow = new MessageActionRow().addComponents(time);
+                const thirdActionRow = new MessageActionRow().addComponents(target);
+                modal.addComponents(firstActionRow as any, secondActionRow as any, thirdActionRow as any);
+                await interaction.showModal(modal);
+            }
         }
 
         if (interaction.isModalSubmit()) {
@@ -218,6 +253,57 @@ export = {
                     .setDescription(`Не забудьте разрешить <@${client.user.id}> присылать вам сообщения, если вы блокировали их до этого.\nВам будут приходить уведомления об операциях, вкладах и доставке.`)
                     .setFooter(AppearanceConfig.Tags.Bank, AppearanceConfig.Images.MainLogo)
                 await interaction.reply({ ephemeral: true, embeds: [embed1, embed2], components: [row] });
+            }
+
+            // Форма кредитования
+            if (interaction.customId === 'takecredit_modal') {
+                const value = interaction.fields.getTextInputValue('takecredit_value')
+                const time = interaction.fields.getTextInputValue('takecredit_time')
+                const target = interaction.fields.getTextInputValue('takecredit_target')
+                const username = await sp.findUser(interaction.user.id);
+                const minecraftUser = await mcdata.playerStatus(username, { renderSize: 2 })
+                const notifyEmbed = new MessageEmbed()
+                    .setColor(AppearanceConfig.Colors.Success as ColorResolvable)
+                    .setTitle(`Заявка на кредит отправлена`)
+                    .setThumbnail(minecraftUser.skin.avatar)
+                    .setDescription("Заявление будет рассмотрено в течении дня.")
+                    .setFooter(AppearanceConfig.Tags.Bank, AppearanceConfig.Images.MainLogo)
+                    .setFields(
+                        { name: 'Никнейм', value: `\`${username}\`` },
+                        { name: 'Сумма кредитования', value: `\`${value}\` <:diamond_ore:990969911671136336>` },
+                        { name: 'Время кредитования', value: `${time} дней` },
+                        { name: 'Цель кредитования', value: target },
+                        { name: 'Процентная ставка', value: "Будет определена при составлении договора с сотрудником Банка." },
+                    )
+                await interaction.reply({ ephemeral: true, embeds: [notifyEmbed] });
+
+
+                const requestEmbed = new MessageEmbed()
+                    .setColor(AppearanceConfig.Colors.Default as ColorResolvable)
+                    .setTitle(`Заявка на кредитование`)
+                    .setThumbnail(minecraftUser.skin.avatar)
+                    .setTimestamp()
+                    .setFooter(AppearanceConfig.Tags.Bank, AppearanceConfig.Images.MainLogo)
+                    .setFields(
+                        { name: 'Никнейм', value: `\`${username}\`` },
+                        { name: 'Сумма кредитования', value: `\`${value}\` <:diamond_ore:990969911671136336>` },
+                        { name: 'Время кредитования', value: `${time} дней` },
+                        { name: 'Цель кредитования', value: target },
+                        { name: 'Процентная ставка', value: "Не определена" },
+                    )
+
+                const row = new MessageActionRow()
+                    .addComponents(
+                        new MessageButton()
+                            .setCustomId('access_credit')
+                            .setLabel('Одобрить')
+                            .setStyle('SUCCESS'),
+                        new MessageButton()
+                            .setCustomId('delete')
+                            .setLabel('Удалить заявку')
+                            .setStyle('DANGER'),
+                    );
+                ( client.channels.cache.get(ChannelsConfig.CREDITS_APPLICATIONS_CHANNEL) as TextChannel ).send({ embeds: [requestEmbed], components: [row] });
             }
         }
 

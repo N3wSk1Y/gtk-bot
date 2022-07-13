@@ -24,7 +24,7 @@ export = {
         const minecraftUser = await mcdata.playerStatus(username, { renderSize: 2 })
 
         if (interaction.isModalSubmit()) {
-            // Принятие отправленного заказа (после отправки формы с адресом)
+            // Принятие заказа из ГлорианБанка
             if (interaction.customId === 'submit_modal') {
                 const row = new MessageActionRow()
                     .addComponents(
@@ -204,7 +204,8 @@ export = {
                             .setCustomId('submit_spworlds')
                             .setLabel('Оплатить через SPWorlds')
                             .setEmoji('990969911671136336')
-                            .setStyle('PRIMARY'),
+                            .setStyle('PRIMARY')
+                            .setDisabled(true),
                     )
                 interaction.message.embeds.push(embed as any)
                 await interaction.update({ embeds: interaction.message.embeds, components: [row] });
@@ -283,23 +284,6 @@ export = {
                 await interaction.showModal(modal)
                 // @ts-ignore
                 await transferBalance(users[0].id as number, total, OperationTypes.iMarket, `Покупка товаров в iMarket`)
-            }
-
-            // Оплата через SPWorlds
-            if (interaction.customId === 'submit_spworlds') {
-                const modal = new Modal()
-                    .setCustomId('submit_modal')
-                    .setTitle('Оформление заказа')
-
-                const value = new TextInputComponent()
-                    .setCustomId('submit_address')
-                    .setLabel("Введите адрес доставки")
-                    .setStyle('PARAGRAPH')
-                    .setRequired(true)
-
-                const firstActionRow = new MessageActionRow().addComponents(value);
-                modal.addComponents(firstActionRow as any);
-                await interaction.showModal(modal);
             }
         }
     }
