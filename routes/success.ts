@@ -2,7 +2,7 @@ import express from "express";
 import {SPWorlds} from "spworlds";
 import CardsConfig from "../configurations/cards.json";
 import {client} from "../index";
-import {ColorResolvable, MessageEmbed} from "discord.js";
+import {ColorResolvable, MessageEmbed, UserResolvable} from "discord.js";
 import AppearanceConfig from "../configurations/appearance.json";
 import mcdata from "mcdata";
 import {DBRequest} from "../database";
@@ -12,7 +12,7 @@ const router = express.Router();
 const sp = new SPWorlds(CardsConfig.CARD_ID, CardsConfig.CARD_TOKEN);
 
 router.get('/success', function(req, res, next) {
-    res.send("Оплата успешно проведена!");
+    res.send("Оплата успешно проведена!\nМожете вернуться в Discord");
 });
 
 router.post('/callback', async (req, res, next) => {
@@ -22,7 +22,8 @@ router.post('/callback', async (req, res, next) => {
     // const isValid = sp.verifyHash(req.body, req.headers['X-Body-Hash'] as any)
     const isValid = true
 
-    const user = await client.users.fetch(parseInt(req.body.data) as any)
+    // const user = await client.users.fetch(parseInt(req.body.data) as any)
+    const user = await client.users.fetch(332149563831877632 as unknown as UserResolvable)
     console.log(user.username)
     const minecraftUser = await mcdata.playerStatus(req.body.payer, { renderSize: 2 })
 
