@@ -154,7 +154,6 @@ export = {
             }
         }
 
-        // Пополнение счета (финал)
         if (interaction.isModalSubmit()) {
             // Форма регистрации
             if (interaction.customId === 'registration_modal') {
@@ -190,8 +189,8 @@ export = {
                     },
                     body: JSON.stringify({
                         "amount": parseInt(value),
-                        "redirectUrl": "http://185.225.35.95/payment/success",
-                        "webhookUrl": "http://185.225.35.95/payment/callback",
+                        "redirectUrl": "http://185.225.35.95:3000/payment/success",
+                        "webhookUrl": "http://185.225.35.95:3000/payment/callback",
                         "data": username
                     })
 

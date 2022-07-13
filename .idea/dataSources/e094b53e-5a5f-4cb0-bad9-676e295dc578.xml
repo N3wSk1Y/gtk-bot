@@ -1109,9 +1109,7 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <Host>localhost</Host>
       <Plugin>caching_sha2_password</Plugin>
     </user>
-    <user id="283" parent="1" name="root">
-      <Plugin>caching_sha2_password</Plugin>
-    </user>
+    <user id="283" parent="1" name="root"/>
     <user id="284" parent="1" name="root">
       <Host>localhost</Host>
       <Plugin>caching_sha2_password</Plugin>
