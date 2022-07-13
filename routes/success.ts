@@ -23,11 +23,13 @@ router.post('/callback', async (req, res, next) => {
     // @ts-ignore
     const user = await client.user.fetch(parseInt(req.body.data))
     const minecraftUser = await mcdata.playerStatus(req.body.payer, { renderSize: 2 })
-    const account = (await DBRequest(`SELECT * FROM users WHERE minecraft_username = '${req.body.payer}'`) as any[])[0]
-    const balance = await topupBalance(account.id, req.body.amount, "Пополнение счет в ГлорианБанке")
+
     if (isValid) {
+        const account = (await DBRequest(`SELECT * FROM users WHERE minecraft_username = '${req.body.payer}'`) as any[])[0]
+        const balance = await topupBalance(account.id, req.body.amount, "Пополнение счет в ГлорианБанке")
+
         const embed = new MessageEmbed()
-            .setColor(AppearanceConfig.Colors.Default as ColorResolvable)
+            .setColor(AppearanceConfig.Colors.Success as ColorResolvable)
             .setTitle(`Пополнение счета`)
             .setDescription(`**Ваш счет успешно пополнен на ${req.body.amount} <:diamond_ore:990969911671136336>**`)
             .setThumbnail(minecraftUser.skin.avatar)
@@ -35,7 +37,12 @@ router.post('/callback', async (req, res, next) => {
             .setFooter(AppearanceConfig.Tags.Bank, AppearanceConfig.Images.MainLogo)
         await user.send({embeds:[embed]})
     } else {
-
+        const embed = new MessageEmbed()
+            .setColor(AppearanceConfig.Colors.Warning as ColorResolvable)
+            .setTitle(`Ошибка пополнения счета`)
+            .setDescription(`**Произошла ошибка при пополнении счета. Если вы считаете, что все сделали правильно, обратитесь в #поддержка и приложите этот скриншот.**`)
+            .setFooter(AppearanceConfig.Tags.Bank, AppearanceConfig.Images.MainLogo)
+        await user.send({embeds:[embed]})
     }
 });
 
