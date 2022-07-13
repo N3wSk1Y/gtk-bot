@@ -22,8 +22,7 @@ router.post('/callback', async (req, res, next) => {
     // const isValid = sp.verifyHash(req.body, req.headers['X-Body-Hash'] as any)
     const isValid = true
 
-    // @ts-ignore
-    const user = await client.user.fetch(parseInt(req.body.data))
+    const user = await client.users.fetch(parseInt(req.body.data) as any)
     const minecraftUser = await mcdata.playerStatus(req.body.payer, { renderSize: 2 })
 
     if (isValid) {
