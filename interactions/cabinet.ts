@@ -340,8 +340,24 @@ export = {
                 const response = await DBRequest(`SELECT * FROM \`users\` WHERE \`minecraft_username\` = '${username}'`) as any[]
                 const cardNumber = interaction.fields.getTextInputValue('card_number') ? interaction.fields.getTextInputValue('card_number') : response[0].card_number
                 if (response[0].balance - value >= 0) {
-                    console.log(cardNumber + " " + value)
-                    await bankCard.createTransaction(cardNumber, value, `Снятие средств со счета ${username}`)
+                    const options = {
+                        'method': 'POST',
+                        'url': 'https://spworlds.ru/api/public/transactions',
+                        'headers': {
+                            'Authorization': `Bearer ${CardsConfig.CARD_BASE64}`,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            "receiver": cardNumber,
+                            "amount": value,
+                            "comment": `Снятие средств со счета ${username}`
+                        })
+
+                    };
+                    await HTTPRequest(options)
+                        .catch(err => {
+                            console.log(err)
+                        })
 
                     const embed = new MessageEmbed()
                         .setColor(AppearanceConfig.Colors.Success as ColorResolvable)
