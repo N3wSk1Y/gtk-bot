@@ -214,7 +214,6 @@ export = {
             if (interaction.customId === 'topup_modal') {
                 const value = interaction.fields.getTextInputValue('topup_value')
                 const username = await sp.findUser(interaction.user.id);
-                const minecraftUser = await mcdata.playerStatus(username, { renderSize: 2 })
                 const options = {
                     'method': 'POST',
                     'url': 'https://spworlds.ru/api/public/payment',
@@ -292,18 +291,7 @@ export = {
                         { name: 'Процентная ставка', value: "Не определена" },
                     )
 
-                const row = new MessageActionRow()
-                    .addComponents(
-                        new MessageButton()
-                            .setCustomId('access_credit')
-                            .setLabel('Одобрить')
-                            .setStyle('SUCCESS'),
-                        new MessageButton()
-                            .setCustomId('delete')
-                            .setLabel('Удалить заявку')
-                            .setStyle('DANGER'),
-                    );
-                ( client.channels.cache.get(ChannelsConfig.CREDITS_APPLICATIONS_CHANNEL) as TextChannel ).send({ embeds: [requestEmbed], components: [row] });
+                await ( client.channels.cache.get(ChannelsConfig.CREDITS_APPLICATIONS_CHANNEL) as TextChannel ).send({ embeds: [requestEmbed] });
             }
         }
 
