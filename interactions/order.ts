@@ -255,7 +255,7 @@ export = {
                         .setColor(AppearanceConfig.Colors.Error as ColorResolvable)
                         .setTitle(`Недостаточно средств`)
                         .setDescription('**К сожалению, на вашем счету недостаточно средств для совершения операции.**')
-                        .addField("Текущий баланс:", `\`${balance}\` <:diamond_ore:990969911671136336>`)
+                        .addField("Текущий баланс:", `${balance} <:diamond_ore:990969911671136336>`)
                         .setFooter(AppearanceConfig.Tags.iMarket, AppearanceConfig.Images.MainLogo)
                     const row = new MessageActionRow()
                         .addComponents(
