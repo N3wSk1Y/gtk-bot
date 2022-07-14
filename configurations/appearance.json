@@ -4,7 +4,8 @@
         "iMarket": ["https://i.imgur.com/UPNlQbA.png", "https://i.imgur.com/hAX5CU8.png", "https://i.imgur.com/IT5ogsJ.png"],
         "Bank": ["https://i.imgur.com/vwQ5KVp.png", "https://i.imgur.com/hhLmK1i.png", "https://i.imgur.com/apOhPG9.png"],
         "Employment": "https://i.imgur.com/SHAxuwS.png",
-        "MayAds": "https://i.imgur.com/Twmm4cl.png"
+        "MayAds": "https://i.imgur.com/Twmm4cl.png",
+        "Banner": "https://cdn.discordapp.com/attachments/989596941870587955/992067314625290260/unknown.png?width=1247&height=702"
     },
     "Colors": {
         "Default": "#2f3136",

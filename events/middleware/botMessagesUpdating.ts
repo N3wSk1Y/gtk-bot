@@ -107,4 +107,16 @@ export async function UpdateMessages (client: Client) {
     await ( client.channels.cache.get(ChannelsConfig.EMPLOYMENT_REQUESTS_CHANNEL) as TextChannel ).messages.fetch(TemplatesConfig.MENUS.EMPLOYMENT_MENU).then((message) => {
         message.edit({ embeds: [embedJobMenu], components: [rowJobMenu] })
     })
+
+    const embedSupport = new MessageEmbed()
+        .setColor(AppearanceConfig.Colors.Default as ColorResolvable)
+        .setTitle("Служба поддержки")
+        .setDescription("**Для обращения в поддержку, напишите свою проблему/вопрос в этот канал")
+        .setImage(AppearanceConfig.Images.Banner)
+        .setFooter(AppearanceConfig.Tags.GTK, AppearanceConfig.Images.MainLogo)
+
+    await ( client.channels.cache.get(ChannelsConfig.SUPPORT_CHANNEL) as TextChannel ).send({ embeds: [embedSupport] })
+    // await ( client.channels.cache.get(ChannelsConfig.SUPPORT_CHANNEL) as TextChannel ).messages.fetch(TemplatesConfig.MENUS.MARKET_MENU).then((message) => {
+    //     message.edit({ embeds: [embedMarketMenu], components: [rowMarketMenu] })
+    // })
 }
