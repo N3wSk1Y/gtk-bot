@@ -25,7 +25,7 @@ client.login(BotConfig.BOT_TOKEN)
     })
 
 router.get('/success', function(req, res, next) {
-    res.send("Оплата успешно проведена!\nМожете вернуться в Discord");
+    res.render("./public/success.html");
 });
 
 router.post('/callback', async (req, res, next) => {
