@@ -64,6 +64,7 @@ export = {
                 const products = await DBRequest(`SELECT * FROM \`products\` WHERE \`category_name\` = '${interaction.values[0]}'`) as any[]
                 let row = new MessageActionRow()
                 for (const product of products) {
+                    console.log(product.name)
                     if (row.components.length < 5) {
                         row.addComponents(
                             new MessageButton()
