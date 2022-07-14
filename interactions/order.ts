@@ -95,12 +95,10 @@ export = {
                             new MessageButton()
                                 .setCustomId('submit')
                                 .setLabel('Оплатить заказ')
-                                .setEmoji('990969911671136336')
                                 .setStyle('SUCCESS'),
                             new MessageButton()
                                 .setCustomId('installment')
                                 .setLabel('Купить в рассрочку')
-                                .setEmoji('990969911671136336')
                                 .setDisabled(true)
                                 .setStyle('PRIMARY'),
                             new MessageButton()
@@ -160,12 +158,10 @@ export = {
                         new MessageButton()
                             .setCustomId('submit')
                             .setLabel('Оплатить заказ')
-                            .setEmoji('990969911671136336')
                             .setStyle('SUCCESS'),
                         new MessageButton()
                             .setCustomId('installment')
                             .setLabel('Купить в рассрочку')
-                            .setEmoji('990969911671136336')
                             .setDisabled(true)
                             .setStyle('PRIMARY'),
                         new MessageButton()
