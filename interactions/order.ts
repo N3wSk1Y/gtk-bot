@@ -62,12 +62,9 @@ export = {
             if (interaction.customId === 'select_category') {
                 interaction.message.components = [interaction.message.components[0] as any]
                 const products = await DBRequest(`SELECT * FROM \`products\` WHERE \`category_name\` = '${interaction.values[0]}'`) as any[]
-                const lines = Math.ceil(products.length / 5)
-                for (let x = 0; x < lines; x++) {
-                    console.log(x)
-                    const row = new MessageActionRow()
-                    for (const product of products) {
-                        console.log(product.id)
+                let row = new MessageActionRow()
+                for (const product of products) {
+                    if (row.components.length <= 5) {
                         row.addComponents(
                             new MessageButton()
                                 .setCustomId(`product_${product.id}`)
@@ -76,10 +73,20 @@ export = {
                                 .setStyle('SECONDARY')
                                 .setDisabled(product.enabled !== 1),
                         )
-                        products.shift()
+                    } else {
+                        interaction.message.components.splice(1, 0, row)
+                        row = new MessageActionRow()
+                        row.addComponents(
+                            new MessageButton()
+                                .setCustomId(`product_${product.id}`)
+                                .setLabel(`${product.name} - ${product.price} АР`)
+                                .setEmoji(product.emoji_id)
+                                .setStyle('SECONDARY')
+                                .setDisabled(product.enabled !== 1)
+                        )
                     }
-                    interaction.message.components.splice(1, 0, row)
                 }
+                interaction.message.components.splice(1, 0, row)
 
                 const total = parseInt(interaction.message.embeds[0].fields[0].value.slice(0, interaction.message.embeds[0].fields[0].value.indexOf("<")-1))
                 if(total !== 0) {
