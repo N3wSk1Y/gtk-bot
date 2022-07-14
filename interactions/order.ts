@@ -235,7 +235,7 @@ export = {
                             new MessageButton()
                                 .setLabel('Создать счет за 7 секунд')
                                 .setStyle('LINK')
-                                .setURL("https://discord.com/channels/990684607861116959/990684804716580985/991355633603452999"),
+                                .setURL("https://discord.com/channels/990684607861116959/992156724494618694/992164274115981393"),
                             new MessageButton()
                                 .setCustomId("submit_bank")
                                 .setLabel('У меня уже есть счет')
@@ -262,7 +262,7 @@ export = {
                             new MessageButton()
                                 .setLabel('Пополнить счет')
                                 .setStyle('LINK')
-                                .setURL("https://discord.com/channels/990684607861116959/990684804716580985/991355633603452999"),
+                                .setURL("https://discord.com/channels/990684607861116959/992156724494618694/992164274115981393"),
                             new MessageButton()
                                 .setCustomId("submit_bank")
                                 .setLabel('Счет уже пополнен')

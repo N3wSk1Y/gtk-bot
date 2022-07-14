@@ -37,12 +37,12 @@ export async function UpdateMessages (client: Client) {
     const rowMarketMenu = new MessageActionRow()
         .addComponents(
             new MessageButton()
-                .setCustomId('lk')
-                .setLabel('👨‍💼 Войти в Личный кабинет')
-                .setStyle('PRIMARY'),
-            new MessageButton()
                 .setCustomId('cart')
                 .setLabel('🛒 Создать заказ')
+                .setStyle('PRIMARY'),
+            new MessageButton()
+                .setCustomId('lk')
+                .setLabel('👨‍💼 Войти в Личный кабинет')
                 .setStyle('PRIMARY'),
         );
 
