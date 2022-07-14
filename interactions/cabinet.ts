@@ -123,7 +123,7 @@ export = {
                             .setDisabled(true),
                     );
 
-                await interaction.update({ components: [row] })
+                await interaction.reply({ components: [row] })
             }
 
             // Обработка историй (выбор по кнопке)
