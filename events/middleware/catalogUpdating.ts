@@ -25,7 +25,11 @@ export async function SendCatalog (client: Client) {
             .setDescription(category.description + "\n\n")
         const products = await DBRequest(`SELECT * FROM products WHERE category_name = '${category.id}'`) as any[]
         for (const product of products) {
-            embed.description += `${client.emojis.cache.find(emoji => emoji.id === product.emoji_id)} ${product.name} - ${product.price} АР\n`
+            if (product.enabled == 1)
+                embed.description += `${client.emojis.cache.find(emoji => emoji.id === product.emoji_id)} ${product.name} - ${product.price} АР\n`
+            else
+                embed.description += `~~${client.emojis.cache.find(emoji => emoji.id === product.emoji_id)} ${product.name} - ${product.price} АР~~\n`
+
         }
         embeds.push(embed)
     }
