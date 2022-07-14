@@ -1,4 +1,4 @@
-import Discord, {ColorResolvable, MessageEmbed, TextChannel} from "discord.js";
+import Discord, {ColorResolvable, MessageActionRow, MessageButton, MessageEmbed, TextChannel} from "discord.js";
 import { SPWorlds } from "spworlds";
 import mcdata from "mcdata";
 import CardsConfig from '../configurations/cards.json';
@@ -30,8 +30,9 @@ export = {
             const minecraftUser = await mcdata.playerStatus(username, { renderSize: 2 })
             const channel = await message.guild.channels.create(username)
                 .then( async (channel) => {
-                    // @ts-ignore
-                    const category = await message.guild.channels.cache.find(c => c.name == "поддержка" && c.type == "category");
+
+                    const category = await message.guild.channels.cache.find(c => c.name == "поддержка");
+                    console.log(category)
                     await channel.setParent(category.id);
                     await channel.permissionOverwrites.edit(message.author, {
                         SEND_MESSAGES: true
@@ -42,7 +43,15 @@ export = {
                         .setDescription("```" + message.content + "```")
                         .setThumbnail(minecraftUser.skin.avatar)
                         .setFooter(AppearanceConfig.Tags.GTK, AppearanceConfig.Images.MainLogo)
-                    await channel.send({content: "<@&992411016791076894>", embeds: [embed]})
+                    const row = new MessageActionRow()
+                        row.addComponents(
+                            new MessageButton()
+                            .setCustomId(`support_delete`)
+                            .setLabel(`Закрыть обращение`)
+                            .setStyle('DANGER')
+                        )
+
+                    await channel.send({content: `<@&992411016791076894><@${message.author.id}>`, embeds: [embed], components:[row]})
                 })
             await message.delete()
         }
