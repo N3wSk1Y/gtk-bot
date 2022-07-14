@@ -123,7 +123,7 @@ export = {
                             .setDisabled(true),
                     );
 
-                await interaction.reply({ components: [row] })
+                await interaction.reply({ ephemeral: true, components: [row] })
             }
 
             // Обработка историй (выбор по кнопке)
