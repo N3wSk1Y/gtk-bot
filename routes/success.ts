@@ -7,6 +7,7 @@ import BotConfig from '../configurations/bot.json'
 import mcdata from "mcdata";
 import {DBRequest} from "../database";
 import {topupBalance} from "../bank_handling";
+import fs from "fs";
 
 const router = express.Router();
 const sp = new SPWorlds(CardsConfig.CARD_ID, CardsConfig.CARD_TOKEN);
@@ -24,8 +25,8 @@ client.login(BotConfig.BOT_TOKEN)
         console.error("Ошибка при авторизации бота:\n" + error);
     })
 
-router.get('/success', function(req, res, next) {
-    res.render("./public/success.html");
+router.get('/success', async (req, res, next) => {
+    res.sendFile("./public/success.html")
 });
 
 router.post('/callback', async (req, res, next) => {
