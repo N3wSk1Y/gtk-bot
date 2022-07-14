@@ -29,13 +29,17 @@ export async function UpdateMessages (client: Client) {
         .setDescription('**Первый частный банк на СП!**');
 
     // TODO: Добавить шаблон сообщения для личного кабинета
-    ( client.channels.cache.get(ChannelsConfig.BANK_CHANNEL) as TextChannel ).messages.fetch(TemplatesConfig.MENUS.BANK_MENU).then((message) => {
-        message.edit({ embeds: [embedBankMenu], components: [rowBankMenu] })
-    })
+    // ( client.channels.cache.get(ChannelsConfig.BANK_CHANNEL) as TextChannel ).messages.fetch(TemplatesConfig.MENUS.BANK_MENU).then((message) => {
+    //     message.edit({ embeds: [embedBankMenu], components: [rowBankMenu] })
+    // })
 
     // Меню маркета
     const rowMarketMenu = new MessageActionRow()
         .addComponents(
+            new MessageButton()
+                .setCustomId('lk')
+                .setLabel('👨‍💼 Войти в Личный кабинет')
+                .setStyle('PRIMARY'),
             new MessageButton()
                 .setCustomId('cart')
                 .setLabel('🛒 Создать заказ')
@@ -111,7 +115,7 @@ export async function UpdateMessages (client: Client) {
     const embedSupport = new MessageEmbed()
         .setColor(AppearanceConfig.Colors.Default as ColorResolvable)
         .setTitle("Служба поддержки")
-        .setDescription("**Для обращения в поддержку, напишите свою проблему/вопрос в этот канал**")
+        .setDescription("**Для обращения в поддержку, напишите свою проблему или вопрос в этот канал**")
         .setImage(AppearanceConfig.Images.Banner)
         .setFooter(AppearanceConfig.Tags.GTK, AppearanceConfig.Images.MainLogo)
 

@@ -196,13 +196,13 @@ export = {
                 const embed = new MessageEmbed()
                     .setColor(AppearanceConfig.Colors.Default as ColorResolvable)
                     .setTitle(`Выберите способ оплаты`)
-                    .setDescription('**Оплачивая товары с помощью счета в ГлорианБанке, вы получите кешбек в размере 20%, а также бесплатную доставку от 32 АР :star_struck:**')
+                    .setDescription('**Оплачивая товары с помощью счета через Личный кабинет, вы получите кешбек в размере 10%, а также бесплатную доставку от 32 АР :star_struck:**')
 
                 const row = new MessageActionRow()
                     .addComponents(
                         new MessageButton()
                             .setCustomId('submit_bank')
-                            .setLabel('Оплатить через ГлорианБанк (-10%)')
+                            .setLabel('Оплатить через Личный кабинет (-10%)')
                             .setEmoji('990969911671136336')
                             .setStyle('SUCCESS'),
                         new MessageButton()
@@ -227,7 +227,7 @@ export = {
                 if((count as any[])[0].count === 0) {
                     const embed = new MessageEmbed()
                         .setColor(AppearanceConfig.Colors.HighWarning as ColorResolvable)
-                        .setTitle(`Зарегистрируйте аккаунт в ГлорианБанке`)
+                        .setTitle(`Зарегистрируйте аккаунт в ГТК`)
                         .setDescription('**Создайте свой счет за 7 секунд, перейдя по кнопке снизу :money_with_wings:**')
                         .setImage(AppearanceConfig.Images.Bank[crypto.randomInt(0, AppearanceConfig.Images.Bank.length)])
                     const row = new MessageActionRow()

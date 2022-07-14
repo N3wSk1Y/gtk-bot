@@ -58,7 +58,8 @@ export = {
                             new MessageButton()
                                 .setCustomId('takecredit')
                                 .setLabel('Взять кредит')
-                                .setStyle('PRIMARY'),
+                                .setStyle('PRIMARY')
+                                .setDisabled(true),
                             new MessageButton()
                                 .setCustomId('history')
                                 .setLabel('История операций')
@@ -68,16 +69,13 @@ export = {
                     const embed = new MessageEmbed()
                         .setColor(AppearanceConfig.Colors.Default as ColorResolvable)
                         .setTitle('Личный кабинет')
-                        .setDescription('Заработок с процентов присылается раз в неделю.')
+                        .setDescription('Кабинет клиента ГТК')
                         .setThumbnail(minecraftUser.skin.avatar)
                         .setFooter(AppearanceConfig.Tags.Bank, AppearanceConfig.Images.MainLogo)
                         .addFields(
                             { name: 'Никнейм', value: `\`${bank_account.minecraft_username}\``, inline: true },
                             { name: 'Баланс счета', value: `\`${bank_account.balance}\` <:diamond_ore:990969911671136336>`, inline: true },
-                            { name: 'Заработано с процентов', value: `\`${0}\` <:diamond_ore:990969911671136336>`, inline: true },
-                            { name: 'Текущий тариф', value: `\`${10}%\` годовых.`, inline: true },
                             { name: 'Карта spworlds.ru', value: `\`${bank_account.card_number}\` 💳`, inline: true },
-                            { name: 'Активные кредиты', value: `Нет.`},
                         )
                     await interaction.reply({ ephemeral: true, embeds: [embed], components: [row] });
                 }
