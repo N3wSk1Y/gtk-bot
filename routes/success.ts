@@ -26,7 +26,7 @@ client.login(BotConfig.BOT_TOKEN)
     })
 
 router.get('/success', async (req, res, next) => {
-    res.sendFile("./public/success.html")
+    res.sendFile(__dirname + "/public/success.html")
 });
 
 router.post('/callback', async (req, res, next) => {

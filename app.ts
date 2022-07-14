@@ -15,7 +15,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'routes/public')));
 app.set('view engine', 'html');
-app.engine('html', require('html').renderFile);
 
 app.use('/payment', paymentRouter);
 app.use('/categories', categoriesRouter);
