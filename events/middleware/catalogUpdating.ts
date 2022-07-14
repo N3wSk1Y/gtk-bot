@@ -22,14 +22,13 @@ export async function SendCatalog (client: Client) {
             .setTitle(category.name)
             .setColor(AppearanceConfig.Colors.Default as ColorResolvable)
             .setFooter(AppearanceConfig.Tags.iMarket, AppearanceConfig.Images.MainLogo)
-            .setDescription(category.description + "\n\n")
+            .setDescription(category.description + "\n-----------------------------------------\n\n")
         const products = await DBRequest(`SELECT * FROM products WHERE category_name = '${category.id}'`) as any[]
         for (const product of products) {
             if (product.enabled == 1)
                 embed.description += `${client.emojis.cache.find(emoji => emoji.id === product.emoji_id)} ${product.name} - ${product.price} АР\n`
             else
                 embed.description += `~~${client.emojis.cache.find(emoji => emoji.id === product.emoji_id)} ${product.name} - ${product.price} АР~~\n`
-
         }
         embeds.push(embed)
     }
