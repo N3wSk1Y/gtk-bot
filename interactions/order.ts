@@ -86,7 +86,8 @@ export = {
                         )
                     }
                 }
-                interaction.message.components.splice(1, 0, row)
+                if(products.length < 20)
+                    interaction.message.components.splice(1, 0, row)
 
                 const total = parseInt(interaction.message.embeds[0].fields[0].value.slice(0, interaction.message.embeds[0].fields[0].value.indexOf("<")-1))
                 if(total !== 0) {
@@ -213,10 +214,11 @@ export = {
                             .setDisabled(true),
                     )
                 let total = parseInt(interaction.message.embeds[0].fields[0].value.slice(0, interaction.message.embeds[0].fields[0].value.indexOf("<")-1))
+                total = Math.ceil(total*0.9)
                 if (total < 32)
                     total += 2
-                total = Math.ceil(total*0.9)
-                interaction.message.embeds[0].fields[0].value = `\`${total}\` <:diamond_ore:990969911671136336>`
+                console.log(total)
+                interaction.message.embeds[0].fields[0].value = `${total} <:diamond_ore:990969911671136336>`
 
                 interaction.message.embeds.push(embed as any)
                 await interaction.update({ embeds: interaction.message.embeds, components: [row] });
