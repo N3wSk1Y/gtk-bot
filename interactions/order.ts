@@ -64,8 +64,10 @@ export = {
                 const products = await DBRequest(`SELECT * FROM \`products\` WHERE \`category_name\` = '${interaction.values[0]}'`) as any[]
                 const lines = Math.ceil(products.length / 5)
                 for (let x = 0; x < lines; x++) {
+                    console.log(x)
                     const row = new MessageActionRow()
                     for (const product of products) {
+                        console.log(product.id)
                         row.addComponents(
                             new MessageButton()
                                 .setCustomId(`product_${product.id}`)
