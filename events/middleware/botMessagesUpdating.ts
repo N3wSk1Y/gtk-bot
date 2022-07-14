@@ -111,12 +111,11 @@ export async function UpdateMessages (client: Client) {
     const embedSupport = new MessageEmbed()
         .setColor(AppearanceConfig.Colors.Default as ColorResolvable)
         .setTitle("Служба поддержки")
-        .setDescription("**Для обращения в поддержку, напишите свою проблему/вопрос в этот канал")
+        .setDescription("**Для обращения в поддержку, напишите свою проблему/вопрос в этот канал**")
         .setImage(AppearanceConfig.Images.Banner)
         .setFooter(AppearanceConfig.Tags.GTK, AppearanceConfig.Images.MainLogo)
 
-    await ( client.channels.cache.get(ChannelsConfig.SUPPORT_CHANNEL) as TextChannel ).send({ embeds: [embedSupport] })
-    // await ( client.channels.cache.get(ChannelsConfig.SUPPORT_CHANNEL) as TextChannel ).messages.fetch(TemplatesConfig.MENUS.MARKET_MENU).then((message) => {
-    //     message.edit({ embeds: [embedMarketMenu], components: [rowMarketMenu] })
-    // })
+    await ( client.channels.cache.get(ChannelsConfig.SUPPORT_CHANNEL) as TextChannel ).messages.fetch(TemplatesConfig.MENUS.SUPPORT_MENU).then((message) => {
+        message.edit({ embeds: [embedSupport] })
+    })
 }
