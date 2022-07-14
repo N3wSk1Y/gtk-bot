@@ -12,11 +12,11 @@ import ChannelsConfig from '../configurations/channels.json'
 import mcdata from "mcdata";
 import {DBRequest, HTTPRequest} from "../database";
 
-const sp = new SPWorlds(CardsConfig.CARD_ID, CardsConfig.CARD_TOKEN);
+const bankCard = new SPWorlds(CardsConfig.CARD_ID, CardsConfig.CARD_TOKEN);
 
 export = {
     async execute (client: Discord.Client, interaction: Discord.Interaction): Promise<void> {
-        const username = await sp.findUser(interaction.user.id);
+        const username = await bankCard.findUser(interaction.user.id);
         const minecraftUser = await mcdata.playerStatus(username, { renderSize: 2 })
 
         if (interaction.isButton()) {
@@ -187,6 +187,37 @@ export = {
                 modal.addComponents(firstActionRow as any, secondActionRow as any, thirdActionRow as any);
                 await interaction.showModal(modal);
             }
+
+            // Обработка снятие со счета
+            if (interaction.customId === 'withdraw') {
+                const username = await bankCard.findUser(interaction.user.id);
+                const response = await DBRequest(`SELECT * FROM \`users\` WHERE \`minecraft_username\` = '${username}'`) as any[]
+                const modal = new Modal()
+                    .setCustomId('withdraw_modal')
+                    .setTitle(`Снятие средств (Баланс: ${response[0].balance} АР)`)
+
+                const value = new TextInputComponent()
+                    .setCustomId('withdraw_value')
+                    .setLabel(`Введите сумму снятия средств (АР)`)
+                    .setStyle('SHORT')
+                    .setRequired(true)
+                    .setMinLength(1)
+                    .setMaxLength(6)
+
+                const cardNumber = new TextInputComponent()
+                    .setCustomId('card_number')
+                    .setLabel(`Введите карту SPWorlds для снятия средств`)
+                    .setStyle('SHORT')
+                    .setRequired(false)
+                    .setPlaceholder(`По умолчанию: ${response[0].card_number}`)
+                    .setMinLength(5)
+                    .setMaxLength(5)
+
+                const firstActionRow = new MessageActionRow().addComponents(value);
+                const secondActionRow = new MessageActionRow().addComponents(cardNumber);
+                modal.addComponents(firstActionRow as any, secondActionRow as any);
+                await interaction.showModal(modal);
+            }
         }
 
         if (interaction.isModalSubmit()) {
@@ -213,7 +244,7 @@ export = {
             // Форма пополнения счета
             if (interaction.customId === 'topup_modal') {
                 const value = interaction.fields.getTextInputValue('topup_value')
-                const username = await sp.findUser(interaction.user.id);
+                const username = await bankCard.findUser(interaction.user.id);
                 const options = {
                     'method': 'POST',
                     'url': 'https://spworlds.ru/api/public/payment',
@@ -259,7 +290,7 @@ export = {
                 const value = interaction.fields.getTextInputValue('takecredit_value')
                 const time = interaction.fields.getTextInputValue('takecredit_time')
                 const target = interaction.fields.getTextInputValue('takecredit_target')
-                const username = await sp.findUser(interaction.user.id);
+                const username = await bankCard.findUser(interaction.user.id);
                 const minecraftUser = await mcdata.playerStatus(username, { renderSize: 2 })
                 const notifyEmbed = new MessageEmbed()
                     .setColor(AppearanceConfig.Colors.Success as ColorResolvable)
@@ -292,6 +323,44 @@ export = {
                     )
 
                 await ( client.channels.cache.get(ChannelsConfig.CREDITS_APPLICATIONS_CHANNEL) as TextChannel ).send({ embeds: [requestEmbed] });
+            }
+
+            // Форма снятия средств
+            if (interaction.customId === 'withdraw_modal') {
+                const row = new MessageActionRow()
+                    .addComponents(
+                        new MessageButton()
+                            .setCustomId('lk')
+                            .setLabel('🛒 Вернуться в Личный кабинет')
+                            .setStyle('PRIMARY')
+                    )
+
+                const username = await bankCard.findUser(interaction.user.id);
+                const value = parseInt(interaction.fields.getTextInputValue('withdraw_value'))
+                const response = await DBRequest(`SELECT * FROM \`users\` WHERE \`minecraft_username\` = '${username}'`) as any[]
+                const cardNumber = interaction.fields.getTextInputValue('card_number') ? interaction.fields.getTextInputValue('card_number') : response[0].card_number
+                if (response[0].balance - value >= 0) {
+                    await bankCard.createTransaction(cardNumber, value, `Снятие средств со счета ${username} | «ГлорианБанк»`)
+
+                    const embed = new MessageEmbed()
+                        .setColor(AppearanceConfig.Colors.Success as ColorResolvable)
+                        .setTitle(`Оплата успешно проведена (-${value} <:diamond_ore:990969911671136336>)`)
+                        .setFooter(AppearanceConfig.Tags.Bank, AppearanceConfig.Images.MainLogo)
+                        .addFields(
+                            { name: 'Сумма списания', value: `\`${value}\` <:diamond_ore:990969911671136336>`, inline: true },
+                            { name: 'Текущий баланс', value: `\`${response[0].balance - value}\` <:diamond_ore:990969911671136336>`, inline: true },
+                            { name: 'Карта spworlds.ru', value: `\`${cardNumber}\` 💳`, inline: true },
+                        )
+
+                    await interaction.reply({ ephemeral: true, embeds: [embed], components: [row] });
+                } else {
+                    const embed = new MessageEmbed()
+                        .setColor(AppearanceConfig.Colors.Error as ColorResolvable)
+                        .setTitle(`Ошибка списания`)
+                        .setFooter(AppearanceConfig.Tags.Bank, AppearanceConfig.Images.MainLogo)
+                        .setDescription(`Недостаточно средств.\nНа вашем счету \`${response[0].balance}\` <:diamond_ore:990969911671136336>`)
+                    await interaction.reply({ ephemeral: true, embeds: [embed], components: [row] });
+                }
             }
         }
 
