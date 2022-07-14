@@ -331,7 +331,7 @@ export = {
                     .addComponents(
                         new MessageButton()
                             .setCustomId('lk')
-                            .setLabel('🛒 Вернуться в Личный кабинет')
+                            .setLabel('👨‍💼 Вернуться в Личный кабинет')
                             .setStyle('PRIMARY')
                     )
 
@@ -340,7 +340,8 @@ export = {
                 const response = await DBRequest(`SELECT * FROM \`users\` WHERE \`minecraft_username\` = '${username}'`) as any[]
                 const cardNumber = interaction.fields.getTextInputValue('card_number') ? interaction.fields.getTextInputValue('card_number') : response[0].card_number
                 if (response[0].balance - value >= 0) {
-                    await bankCard.createTransaction(cardNumber, value, `Снятие средств со счета ${username} | «ГлорианБанк»`)
+                    console.log(cardNumber + " " + value)
+                    await bankCard.createTransaction(cardNumber, value, `Снятие средств со счета ${username}`)
 
                     const embed = new MessageEmbed()
                         .setColor(AppearanceConfig.Colors.Success as ColorResolvable)
