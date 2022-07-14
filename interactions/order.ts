@@ -53,7 +53,7 @@ export = {
                 )
 
                 // Отправка уведомления о заказе в канал #заказы
-                await (client.channels.cache.get(ChannelsConfig.NEW_ORDERS_CHANNEL) as TextChannel).send({ content: `<@&992410294167011359>`,embeds: interaction.message.embeds, components: [row as any]});
+                await (client.channels.cache.get(ChannelsConfig.NEW_ORDERS_CHANNEL) as TextChannel).send({ content: `<@&992410294167011359>`, embeds: interaction.message.embeds, components: [row as any]});
             }
         }
 
@@ -212,6 +212,12 @@ export = {
                             .setStyle('PRIMARY')
                             .setDisabled(true),
                     )
+                let total = parseInt(interaction.message.embeds[0].fields[0].value.slice(0, interaction.message.embeds[0].fields[0].value.indexOf("<")-1))
+                if (total < 32)
+                    total += 2
+                total = Math.ceil(total*0.9)
+                interaction.message.embeds[0].fields[0].value = `\`${total}\` <:diamond_ore:990969911671136336>`
+
                 interaction.message.embeds.push(embed as any)
                 await interaction.update({ embeds: interaction.message.embeds, components: [row] });
             }

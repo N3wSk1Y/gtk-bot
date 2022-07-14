@@ -43,7 +43,7 @@ export async function UpdateMessages (client: Client) {
             new MessageButton()
                 .setCustomId('lk')
                 .setLabel('👨‍💼 Войти в Личный кабинет')
-                .setStyle('PRIMARY'),
+                .setStyle('SUCCESS'),
         );
 
     const embedMarketMenu = new MessageEmbed()
@@ -78,12 +78,12 @@ export async function UpdateMessages (client: Client) {
                         description: 'Создание предметов для iMarket',
                         value: 'production',
                     },
-                    {
-                        emoji: '993118590934986774',
-                        label: 'Сотрудник отдела финансов',
-                        description: 'Работа в ГлорианБанке',
-                        value: 'finance',
-                    },
+                    // {
+                    //     emoji: '993118590934986774',
+                    //     label: 'Сотрудник отдела финансов',
+                    //     description: 'Работа в ГлорианБанке',
+                    //     value: 'finance',
+                    // },
                     // {
                     // 	emoji: '993119853210775662',
                     // 	label: 'Менеджер персонала',
