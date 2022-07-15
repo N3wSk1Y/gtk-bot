@@ -51,7 +51,7 @@ export = {
                             .setStyle('DANGER')
                         )
 
-                    await channel.send({content: `<@&992411016791076894><@${message.author.id}>`, embeds: [embed], components:[row]})
+                    await channel.send({content: `<@&992411016791076894> <@${message.author.id}>`, embeds: [embed], components:[row]})
                 })
             await message.delete()
         }
