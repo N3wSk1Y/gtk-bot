@@ -1,6 +1,6 @@
 {
-    "HOST": "185.225.35.95",
-    "USER": "bot",
+    "HOST": "127.0. 0.1",
+    "USER": "root",
     "PASSWORD": "DimonBlock21!",
     "DATABASE": "gtk"
 }
