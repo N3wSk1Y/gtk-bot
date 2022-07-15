@@ -16,8 +16,6 @@ import {getBalance, OperationTypes, postTransferHistory, transferBalance} from '
 
 const sp = new SPWorlds(CardsConfig.CARD_ID, CardsConfig.CARD_TOKEN);
 
-// TODO: Сделать выбор способа оплаты и бесплатную доставку от 32 АР
-
 export = {
     async execute(client: Discord.Client, interaction: Discord.Interaction): Promise<void> {
         const username = await sp.findUser(interaction.user.id);
