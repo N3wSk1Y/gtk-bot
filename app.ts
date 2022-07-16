@@ -6,6 +6,7 @@ import logger from 'morgan';
 const paymentRouter = require('./routes/success');
 const categoriesRouter = require('./routes/categories');
 const productsRouter = require('./routes/products');
+const authRouter = require('./routes/auth');
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.use((req, res, next) => {
 });
 app.set('view engine', 'html');
 
+app.use('/auth', authRouter);
 app.use('/payment', paymentRouter);
 app.use('/categories', categoriesRouter);
 app.use('/products', productsRouter);
