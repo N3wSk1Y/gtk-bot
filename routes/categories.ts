@@ -43,7 +43,7 @@ router.post('/', async (req, res, next) => {
 
 router.put('/', async (req, res, next) => {
     if (req.query.id && (req.query.name || req.query.description || req.query.emoji_id)) {
-        const category = await DBRequest(`SELECT * FROM categories WHERE categories.id = '${req.query.userid}'`) as object[]
+        const category = await DBRequest(`SELECT * FROM categories WHERE categories.id = '${req.query.id}'`) as object[]
         if (category.length === 0) {
             res.send({
                 error: "Такой категории не существует"
