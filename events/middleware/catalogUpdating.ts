@@ -28,11 +28,11 @@ export async function SendCatalog (client: Client) {
             if (product.enabled == 1) {
                 embed.description += `${client.emojis.cache.find(emoji => emoji.id === product.emoji_id)} ${product.name} - ${product.price} АР\n`
                 if (product.description)
-                    embed.description += `*${product.description}*\n`
+                    embed.description += `*${product.description}*\n\n`
             } else {
                 embed.description += `~~${client.emojis.cache.find(emoji => emoji.id === product.emoji_id)} ${product.name} - ${product.price} АР~~\n`
                 if (product.description)
-                    embed.description += `~~*${product.description}*~~\n`
+                    embed.description += `~~*${product.description}*~~\n\n`
             }
         }
         embeds.push(embed)
