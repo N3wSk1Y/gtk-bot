@@ -15,7 +15,7 @@ router.delete('/', async (req, res, next) => {
         })
         return;
     }
-    const category = await DBRequest(`SELECT * FROM products WHERE products.id = '${req.query.userid}'`) as object[]
+    const category = await DBRequest(`SELECT * FROM products WHERE products.id = '${req.query.id}'`) as object[]
     if (category.length === 0) {
         res.send({
             error: "Такой категории не существует"
