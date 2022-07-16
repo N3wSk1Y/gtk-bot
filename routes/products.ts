@@ -1,60 +1,76 @@
 import express from "express";
-import {SPWorlds} from "spworlds";
-import CardsConfig from "../configurations/cards.json";
-import Discord, {Client, ColorResolvable, Intents, MessageEmbed, UserResolvable} from "discord.js";
-import AppearanceConfig from "../configurations/appearance.json";
-import BotConfig from '../configurations/bot.json'
-import mcdata from "mcdata";
 import {DBRequest} from "../database";
-import {topupBalance} from "../bank_handling";
 
 const router = express.Router();
-const sp = new SPWorlds(CardsConfig.CARD_ID, CardsConfig.CARD_TOKEN);
-const client = new Client({
-    intents: [
-        Intents.FLAGS.GUILDS,
-        Intents.FLAGS.GUILD_MESSAGES,
-        Intents.FLAGS.GUILD_INVITES,
-        Intents.FLAGS.GUILD_BANS,
-        Intents.FLAGS.GUILD_MEMBERS
-    ]
-});
-client.login(BotConfig.BOT_TOKEN)
-    .catch((error) => {
-        console.error("Ошибка при авторизации бота:\n" + error);
-    })
 
-router.get('/success', function(req, res, next) {
-    res.send("Оплата успешно проведена!\nМожете вернуться в Discord");
+router.get('/', async (req, res, next) => {
+    const products = await DBRequest("SELECT * FROM `products`")
+    res.send(products)
 });
 
-router.post('/callback', async (req, res, next) => {
-    if (req.hostname === 'gtk-sp.ru') {
-        return next();
+router.delete('/', async (req, res, next) => {
+    if (!req.query.id) {
+        res.send({
+            error: "Параметр id указан некорректно"
+        })
+        return;
     }
+    const products = await DBRequest(`SELECT * FROM products WHERE products.id = '${req.query.id}'`) as object[]
+    if (products.length === 0) {
+        res.send({
+            error: "Такого товара не существует"
+        })
+        return;
+    }
+    await DBRequest(`DELETE FROM products WHERE id = '${req.query.id}'`)
+    res.send({
+        notification: "Товар удалена"
+    })
+});
 
-    const user = await client.users.fetch(req.body.data)
-    const minecraftUser = await mcdata.playerStatus(req.body.payer, { renderSize: 2 })
+router.post('/', async (req, res, next) => {
+    if (!req.query.id && !req.query.name && !req.query.description && !req.query.emoji_id && !req.query.category_id && !req.query.price && !req.query.enabled) {
+        res.send({
+            error: "Параметр id указан некорректно"
+        })
+        return;
+    }
+    await DBRequest(`INSERT INTO products (id, name, description, emoji_id, category_id, price, enabled) VALUES ('${req.query.id}', '${req.query.name}', '${req.query.description}', '${req.query.emoji_id}', '${req.query.category_id}', ${req.query.price}, '${req.query.enabled}')`)
+    res.send({
+        notification: "Товар добавлен"
+    })
+});
 
-    const account = (await DBRequest(`SELECT * FROM users WHERE minecraft_username = '${req.body.payer}'`) as any[])[0]
-    const balance = await topupBalance(account.id, req.body.amount, "Пополнение счет в ГлорианБанке")
+router.put('/', async (req, res, next) => {
+    if (req.query.id && (req.query.name || req.query.description || req.query.emoji_id)) {
+        const products = await DBRequest(`SELECT * FROM products WHERE products.id = '${req.query.id}'`) as object[]
+        if (products.length === 0) {
+            res.send({
+                error: "Такого товара не существует"
+            })
+            return;
+        }
+        if (req.query.name)
+            await DBRequest(`UPDATE products SET name = '${req.query.name}' WHERE  products.id = '${req.query.id}'`)
+        if (req.query.description)
+            await DBRequest(`UPDATE products SET description = '${req.query.description}' WHERE  products.id = '${req.query.id}'`)
+        if (req.query.emoji_id)
+            await DBRequest(`UPDATE products SET emoji_id = '${req.query.emoji_id}' WHERE  products.id = '${req.query.id}'`)
+        if (req.query.category_id)
+            await DBRequest(`UPDATE products SET category_id = '${req.query.category_id}' WHERE  products.id = '${req.query.id}'`)
+        if (req.query.price)
+            await DBRequest(`UPDATE products SET price = ${req.query.price} WHERE  products.id = '${req.query.id}'`)
+        if (req.query.enabled)
+            await DBRequest(`UPDATE products SET enabled = '${req.query.enabled}' WHERE  products.id = '${req.query.id}'`)
 
-    const embed = new MessageEmbed()
-        .setColor(AppearanceConfig.Colors.Success as ColorResolvable)
-        .setTitle(`Пополнение счета`)
-        .setDescription(`**Ваш счет успешно пополнен на \`${req.body.amount}\` <:diamond_ore:990969911671136336>**`)
-        .setThumbnail(minecraftUser.skin.avatar)
-        .addField("**Текущий баланс:**", `**\`${balance}\`** <:diamond_ore:990969911671136336>`)
-        .setFooter(AppearanceConfig.Tags.Bank, AppearanceConfig.Images.MainLogo)
-    await user.send({embeds:[embed]})
-
-    // const embed = new MessageEmbed()
-    //     .setColor(AppearanceConfig.Colors.Error as ColorResolvable)
-    //     .setTitle(`Ошибка пополнения счета`)
-    //     .setDescription(`**Произошла ошибка при пополнении счета. Если вы считаете, что все сделали правильно, обратитесь в #поддержка и приложите этот скриншот.**`)
-    //     .setFooter(AppearanceConfig.Tags.Bank, AppearanceConfig.Images.MainLogo)
-    // await user.send({embeds:[embed]})
-
+        res.send({
+            notification: "Товар обновлен"
+        })
+    } else {
+        res.send({
+            error: "Параметр id указан некорректно"
+        })
+    }
 });
 
 module.exports = router;
