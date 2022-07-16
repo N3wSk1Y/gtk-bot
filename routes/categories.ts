@@ -15,7 +15,7 @@ router.delete('/', async (req, res, next) => {
         })
         return;
     }
-    const category = await DBRequest(`SELECT * FROM products WHERE products.id = '${req.query.id}'`) as object[]
+    const category = await DBRequest(`SELECT * FROM categories WHERE categories.id = '${req.query.id}'`) as object[]
     if (category.length === 0) {
         res.send({
             error: "Такой категории не существует"
@@ -43,7 +43,7 @@ router.post('/', async (req, res, next) => {
 
 router.put('/', async (req, res, next) => {
     if (req.query.id && (req.query.name || req.query.description || req.query.emoji_id)) {
-        const category = await DBRequest(`SELECT * FROM products WHERE products.id = '${req.query.userid}'`) as object[]
+        const category = await DBRequest(`SELECT * FROM categories WHERE categories.id = '${req.query.userid}'`) as object[]
         if (category.length === 0) {
             res.send({
                 error: "Такой категории не существует"
@@ -51,11 +51,11 @@ router.put('/', async (req, res, next) => {
             return;
         }
         if (req.query.name)
-            await DBRequest(`UPDATE products SET name = '${req.query.name}' WHERE  products.id = '${req.query.id}'`)
+            await DBRequest(`UPDATE categories SET name = '${req.query.name}' WHERE  categories.id = '${req.query.id}'`)
         if (req.query.description)
-            await DBRequest(`UPDATE products SET id = '${req.query.id}' WHERE  products.id = '${req.query.id}'`)
+            await DBRequest(`UPDATE categories SET id = '${req.query.id}' WHERE  categories.id = '${req.query.id}'`)
         if (req.query.emoji_id)
-            await DBRequest(`UPDATE products SET emoji_id = '${req.query.emoji_id}' WHERE  products.id = '${req.query.id}'`)
+            await DBRequest(`UPDATE categories SET emoji_id = '${req.query.emoji_id}' WHERE  categories.id = '${req.query.id}'`)
 
         res.send({
             notification: "Категория обновлена"
