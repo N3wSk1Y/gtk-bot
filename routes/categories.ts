@@ -53,7 +53,7 @@ router.put('/', async (req, res, next) => {
         if (req.query.name)
             await DBRequest(`UPDATE categories SET name = '${req.query.name}' WHERE  categories.id = '${req.query.id}'`)
         if (req.query.description)
-            await DBRequest(`UPDATE categories SET id = '${req.query.id}' WHERE  categories.id = '${req.query.id}'`)
+            await DBRequest(`UPDATE categories SET description = '${req.query.description}' WHERE  categories.id = '${req.query.id}'`)
         if (req.query.emoji_id)
             await DBRequest(`UPDATE categories SET emoji_id = '${req.query.emoji_id}' WHERE  categories.id = '${req.query.id}'`)
 
