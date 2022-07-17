@@ -34,6 +34,7 @@ router.get('/callback', async (req, res, next) => {
         }
     }) as any
     const data = JSON.parse(dataResponse)
+    console.log(data.access_token)
     const authResult = await HTTPRequest(`https://gtk-sp.ru/auth/login?access_token=${data.access_token}`)
     res.send(authResult)
 });
