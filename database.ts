@@ -22,8 +22,8 @@ export async function HTTPRequest(options: any) {
     return new Promise((resolve, reject) => {
         request(options, function (error: any, response: any) {
             if (error) reject(error)
-            console.log(response.body)
-            resolve(response.body)
+            const body = response.body
+            resolve(body)
         })
     })
 }
