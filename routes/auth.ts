@@ -2,8 +2,11 @@ import express from "express";
 import {SPWorlds} from "spworlds";
 import BotConfig from '../configurations/bot.json'
 import {HTTPRequest} from "../database";
+import mcdata from "mcdata";
+import CardsConfig from "../configurations/cards.json";
 
 const router = express.Router();
+const sp = new SPWorlds(CardsConfig.CARD_ID, CardsConfig.CARD_TOKEN);
 
 router.get('/callback', async (req, res, next) => {
     const { code } = req.query;
@@ -23,8 +26,22 @@ router.get('/callback', async (req, res, next) => {
             redirect_uri: "https://gtk-sp.ru/auth/callback"
         }
     }) as any
-    const tokenData = JSON.parse(tokenResponse)
-    res.send(tokenData)
+    const dataResponse = await HTTPRequest({
+        'method': 'GET',
+        'url': 'https://discord.com/api/users/@me',
+        'headers': {
+            authorization: `Bearer ${JSON.parse(tokenResponse).access_token}`
+        }
+    }) as any
+    let data = JSON.parse(dataResponse)
+    const username = await sp.findUser(data.id);
+    if (username) {
+        data = { ...data, permissions: 0}
+    } else {
+        const avatar = await mcdata.playerStatus(username, {renderSize: 2}).avatar
+        data = { ...data, permissions: 0, avatar}
+    }
+    res.send(data)
 });
 
 router.get('/login', async (req, res, next) => {
@@ -36,7 +53,15 @@ router.get('/login', async (req, res, next) => {
             authorization: `Bearer ${access_token}`
         }
     }) as any
-    res.send(JSON.parse(dataResponse))
+    let data = JSON.parse(dataResponse)
+    const username = await sp.findUser(data.id);
+    if (username) {
+        data = { ...data, permissions: 0}
+    } else {
+        const avatar = await mcdata.playerStatus(username, {renderSize: 2}).avatar
+        data = { ...data, permissions: 0, avatar}
+    }
+    res.send(data)
 });
 
 router.post('/refresh', async (req, res, next) => {
@@ -60,7 +85,7 @@ router.post('/refresh', async (req, res, next) => {
         'url': 'https://discord.com/api/users/@me',
         'headers': {
             authorization: `${tokenData.token_type} ${tokenData.access_token}`
-        }
+    }
     }) as any
     res.send(JSON.parse(dataResponse))
 });

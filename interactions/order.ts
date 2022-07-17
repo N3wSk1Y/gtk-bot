@@ -144,7 +144,6 @@ export = {
                     .setDescription('**Список товаров:**\n')
                     .setThumbnail(minecraftUser.skin.avatar)
                     .addField("**Сумма:**", `${0} <:diamond_ore:990969911671136336>`)
-                    // .addField('\u200B', '\u200B')
                     .addField("<:emerald:993118590934986774> **Бесплатная доставка от 32 АР**", '<:emerald:993118590934986774> **Кешбек 10% при оплате через ЛК**')
                     .setFooter(AppearanceConfig.Tags.iMarket, AppearanceConfig.Images.MainLogo)
                 await interaction.reply({ephemeral: true, embeds: [embed], components: [row]});
