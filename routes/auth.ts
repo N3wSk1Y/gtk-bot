@@ -32,7 +32,7 @@ router.get('/callback', async (req, res, next) => {
             authorization: `${tokenData.token_type} ${tokenData.access_token}\n${tokenData.refresh_token}`
         }
     }) as any
-    console.log(`${tokenData.token_type} ${tokenData.access_token}\n${tokenData.ref}`)
+    console.log(`${tokenData.token_type} ${tokenData.access_token}\n${tokenData.refresh_token}`)
     res.send(JSON.parse(dataResponse))
 });
 
