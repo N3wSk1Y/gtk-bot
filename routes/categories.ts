@@ -35,7 +35,8 @@ router.post('/', async (req, res, next) => {
         })
         return;
     }
-    await DBRequest(`INSERT INTO categories (id, name, description, emoji_id) VALUES ('${req.query.id}', '${req.query.name}', '${req.query.description}', '${req.query.emoji_id}')`)
+    const categories = await DBRequest("SELECT * FROM `categories` ORDER BY order_id") as any[]
+    await DBRequest(`INSERT INTO categories (id, name, description, emoji_id, order_id) VALUES ('${req.query.id}', '${req.query.name}', '${req.query.description}', '${req.query.emoji_id}', ${categories.length})`)
     res.send({
         notification: "Категория добавлена"
     })
@@ -79,7 +80,6 @@ router.put('/order', async (req, res, next) => {
 
         const currentOrder = category[0].order_id
         await DBRequest(`UPDATE categories SET order_id = '${currentOrder+parseInt(req.query.direction as string)}' WHERE  categories.id = '${req.query.id}'`)
-
 
         res.send({
             notification: "Порядок обновлен"
