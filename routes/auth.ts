@@ -24,16 +24,7 @@ router.get('/callback', async (req, res, next) => {
         }
     }) as any
     const tokenData = JSON.parse(tokenResponse)
-    console.log(tokenData)
-    const dataResponse = await HTTPRequest({
-        'method': 'GET',
-        'url': 'https://discord.com/api/users/@me',
-        'headers': {
-            authorization: `${tokenData.token_type} ${tokenData.access_token}\n${tokenData.refresh_token}`
-        }
-    }) as any
-    console.log(`${tokenData.token_type} ${tokenData.access_token}\n${tokenData.refresh_token}`)
-    res.send(JSON.parse(dataResponse))
+    res.send(tokenData)
 });
 
 router.get('/login', async (req, res, next) => {
