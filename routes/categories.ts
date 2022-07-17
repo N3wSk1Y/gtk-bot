@@ -1,7 +1,13 @@
 import express from "express";
 import {DBRequest} from "../database";
+import {client} from "../index";
+import {SendCatalog} from "../events/middleware/catalogUpdating";
 
 const router = express.Router();
+
+setInterval(async () => {
+    await SendCatalog(client)
+}, 300000)
 
 router.get('/', async (req, res, next) => {
     const categories = await DBRequest("SELECT * FROM `categories` ORDER BY order_id")
