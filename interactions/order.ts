@@ -116,7 +116,7 @@ export = {
             if (interaction.customId === 'cart') {
                 const username = await sp.findUser(interaction.user.id);
                 const minecraftUser = await mcdata.playerStatus(username, {renderSize: 2})
-                const categories = await DBRequest("SELECT * FROM `categories`") as any[]
+                const categories = await DBRequest("SELECT * FROM `categories` ORDER BY order_id") as any[]
                 const options = () => {
                     const optionsArray = []
                     for (let x = 0; x < categories.length; x++) {
