@@ -19,11 +19,10 @@ export async function DBRequest(request: string) {
 }
 
 export async function HTTPRequest(options: any) {
-    return new Promise((resolve, reject) => {
-        request(options, function (error: any, response: any) {
+    return new Promise(async (resolve, reject) => {
+        await request(options, function (error: any, response: any) {
             if (error) reject(error)
-            const body = response.body
-            resolve(body)
+            resolve(response.body)
         })
     })
 }
