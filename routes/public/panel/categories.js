@@ -46,10 +46,10 @@ async function createTable() {
 				disDown = "disabled"
 				break
 		}
-		let buttons = `<button class="arrow" id="up" onclick="replaceData('${data[i]["id"]}', 1)" ${disUp}>
+		let buttons = `<button class="arrow" id="up" onclick="replaceData('${data[i]["id"]}', -1)" ${disUp}>
 		<span class="material-symbols-outlined">
 		expand_less
-		</span></button><h4>${data[i]["order_id"]}</h4><button class="arrow" id="down" onclick="replaceData('${data[i]["id"]}',-1)" ${disDown}>
+		</span></button><h4>${data[i]["order_id"]}</h4><button class="arrow" id="down" onclick="replaceData('${data[i]["id"]}', 1)" ${disDown}>
 		<span class="material-symbols-outlined">
 		expand_more
 		</span></button>`;
