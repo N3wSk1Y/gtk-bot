@@ -7,6 +7,8 @@ const router = express.Router();
 
 router.get('/callback', async (req, res, next) => {
     const { code } = req.query;
+    if (!code)
+        return
     const tokenResponse = await HTTPRequest({
         'method': 'POST',
         'url': 'https://discord.com/api/v10/oauth2/token',
@@ -22,6 +24,7 @@ router.get('/callback', async (req, res, next) => {
         }
     }) as any
     const tokenData = JSON.parse(tokenResponse)
+    console.log(tokenData)
     const dataResponse = await HTTPRequest({
         'method': 'GET',
         'url': 'https://discord.com/api/users/@me',
