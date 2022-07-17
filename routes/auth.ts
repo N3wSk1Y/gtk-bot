@@ -21,14 +21,15 @@ router.get('/callback', async (req, res, next) => {
             redirect_uri: "https://gtk-sp.ru/auth/callback"
         }
     }) as any
+    const tokenData = tokenResponse.json()
     const dataResponse = await HTTPRequest({
         'method': 'GET',
-        'url': 'https://discord.com/api/v10/users/@me',
+        'url': 'https://discord.com/api/users/@me',
         'headers': {
-            authorization: `${tokenResponse.token_type} ${tokenResponse.access_token}`
+            authorization: `${tokenData.token_type} ${tokenData.access_token}`
         }
     }) as any
-    res.send(dataResponse)
+    res.send(dataResponse.json())
 });
 
 
