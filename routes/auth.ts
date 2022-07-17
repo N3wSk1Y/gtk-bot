@@ -2,7 +2,6 @@ import express from "express";
 import {SPWorlds} from "spworlds";
 import BotConfig from '../configurations/bot.json'
 import {HTTPRequest} from "../database";
-import {token} from "morgan";
 
 const router = express.Router();
 
