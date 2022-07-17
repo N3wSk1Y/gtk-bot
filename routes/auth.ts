@@ -49,6 +49,7 @@ router.get('/login', async (req, res, next) => {
     }) as any
     let data = JSON.parse(dataResponse)
     const username = await sp.findUser(data.id);
+    console.log(data.id + " " + username)
     if (!username) {
         data = { exists: false }
     } else {
