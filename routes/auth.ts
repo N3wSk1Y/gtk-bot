@@ -39,6 +39,7 @@ router.get('/callback', async (req, res, next) => {
         data = { ...data, localdata: { permissions: 0 }}
     } else {
         const minecraftUser = await mcdata.playerStatus(username, {renderSize: 2})
+        console.log(minecraftUser)
         data = { ...data, localdata: { permissions: 1, avatar: minecraftUser.skin.avatar, minecraft_username: username }}
     }
     res.send(data)
