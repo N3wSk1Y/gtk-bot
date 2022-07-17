@@ -13,8 +13,8 @@
                 background-color: #16141c;
                 overflow: hidden;
             }
-            button {
-                border-radius: 7px;
+            /* .btn { */
+                /* border-radius: 7px;
                 padding-right: 10px;
                 padding-left: 10px;
                 padding-top: 5px;
@@ -26,7 +26,7 @@
                 border: none;
                 margin: auto;
                 width: 100px;
-            }
+            } */
 
             #logo {
                 margin-top: 5px;
@@ -54,12 +54,8 @@
             #auth {
                 margin-right: 100px;
             }
-            button {
+            .btn {
                 border-radius: 7px;
-                padding-right: 10px;
-                padding-left: 10px;
-                padding-top: 5px;
-                padding-bottom: 5px;
                 color: #FFFFFF;
                 font-size: 12pt;
                 font-family: 'Montserrat', sans-serif;
@@ -70,13 +66,19 @@
                 width:100px;
                 height: 35px;
                 background-color: #6563EE;
+                text-align: center;
+            }
+            a {
+                text-decoration: none;
             }
             #auth {
                 position: fixed;
                 right: -50px;
                 top: 45px;
+                height: 30px;
+                padding-top: 10px;
             }
-            #auth:hover {
+            .btn:hover {
                 background-color: #5050BF;
             }
             #poster {
@@ -91,9 +93,13 @@
             }
             #order {
                 width: 200px;
-                height: 50px;
                 margin-top: 50px;
                 margin-left: 70px;
+                padding-right: 10px;
+                padding-left: 10px;
+                padding-top: 10px;
+                padding-bottom: 10px;
+                height: 40px;
             }
             #description {
                 color: #5f5f66;
@@ -121,13 +127,13 @@
             <h3 id="name">ГТК</h3>
         </div>
         <div id="content">
-            <a href="/panel/categories"></a><button id="auth">Войти</button></a>
+            <a href="/panel/categories" class="btn" id="auth">Войти</button></a>
             <div id="imarket">
             <h1>iMarket</h1>
             <div id="description-div">
                 <p id="description">Здесь скоро появится описание проекта. Оно появится, когда ленивый программист придумает незамысловатый текст и нежно пнёт ленивого веб-верстальщика, чтобы он загрузил его. Спасибо за ваше безусловное понимание</p>
             </div>
-            <a href="https://discord.gg/AhTkpJXbQ4"><button id="order">Сделать заказ</button></a>
+            <a class="btn" href="https://discord.gg/AhTkpJXbQ4" id="order">Сделать заказ</a>
             </div>
             <div id="poster"><img href="https://i.imgur.com/hAX5CU8.png"></div>
         </div>
