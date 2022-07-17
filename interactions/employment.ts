@@ -92,7 +92,7 @@ export = {
                         { name: 'Discord', value: `<@${interaction.user.id}>` },
                     )
 
-                await ( client.channels.cache.get(ChannelsConfig.EMPLOYMENT_APPLICATIONS_CHANNEL) as TextChannel).send({ content: "<@&990687295667568720>", embeds: [requestEmbed] });
+                await ( client.channels.cache.get(ChannelsConfig.EMPLOYMENT_APPLICATIONS_CHANNEL) as TextChannel).send({ content: "<@&992411016791076894>", embeds: [requestEmbed] });
             }
         }
 
