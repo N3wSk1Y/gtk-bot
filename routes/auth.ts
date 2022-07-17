@@ -21,7 +21,7 @@ router.get('/callback', async (req, res, next) => {
             redirect_uri: "https://gtk-sp.ru/auth/callback"
         }
     }) as any
-    res.send(response.body)
+    res.send(response)
 });
 
 
