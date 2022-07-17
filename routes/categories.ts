@@ -78,10 +78,7 @@ router.put('/order', async (req, res, next) => {
         }
 
         const currentOrder = category[0].order_id
-        if (req.query.direction === 'up')
-            await DBRequest(`UPDATE categories SET order_id = '${currentOrder+1}' WHERE  categories.id = '${req.query.id}'`)
-        if (req.query.direction === 'down')
-            await DBRequest(`UPDATE categories SET order_id = '${currentOrder-1}' WHERE  categories.id = '${req.query.id}'`)
+        await DBRequest(`UPDATE categories SET order_id = '${currentOrder+parseInt(req.query.direction as string)}' WHERE  categories.id = '${req.query.id}'`)
 
 
         res.send({
