@@ -59,7 +59,7 @@ export = {
             // Обработка категории
             if (interaction.customId === 'select_category') {
                 interaction.message.components = [interaction.message.components[0] as any]
-                const products = await DBRequest(`SELECT * FROM \`products\` WHERE \`category.id\` = '${interaction.values[0]}'`) as any[]
+                const products = await DBRequest(`SELECT * FROM \`products\` WHERE \`category_id\` = '${interaction.values[0]}'`) as any[]
                 let row = new MessageActionRow()
                 for (const product of products) {
                     if (row.components.length < 5) {
