@@ -2,6 +2,7 @@ import express from "express";
 import {SPWorlds} from "spworlds";
 import BotConfig from '../configurations/bot.json'
 import {HTTPRequest} from "../database";
+import {token} from "morgan";
 
 const router = express.Router();
 
@@ -21,7 +22,7 @@ router.get('/callback', async (req, res, next) => {
             redirect_uri: "https://gtk-sp.ru/auth/callback"
         }
     }) as any
-    const tokenData = tokenResponse.json()
+    const tokenData = JSON.parse(tokenResponse)
     const dataResponse = await HTTPRequest({
         'method': 'GET',
         'url': 'https://discord.com/api/users/@me',
@@ -29,7 +30,7 @@ router.get('/callback', async (req, res, next) => {
             authorization: `${tokenData.token_type} ${tokenData.access_token}`
         }
     }) as any
-    res.send(dataResponse.json())
+    res.send(JSON.parse(dataResponse))
 });
 
 
