@@ -30,7 +30,7 @@ app.use('/categories', categoriesRouter);
 app.use('/products', productsRouter);
 app.use('/panel', panelRouter);
 app.get('*', function(req, res){
-    res.sendFile(__dirname + "/routes/public/success.html")
+    res.sendFile(__dirname + "/routes/public/not_found.html")
 });
 
 app.listen(3000, () => {
