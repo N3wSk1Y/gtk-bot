@@ -22,7 +22,7 @@ export async function HTTPRequest(options: any) {
     return new Promise((resolve, reject) => {
         request(options, function (error: any, response: { body: unknown; }) {
             if (error) reject(error)
-            console.log(response)
+            console.log(response.body)
             resolve(response.body)
         })
     })
