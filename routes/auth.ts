@@ -26,15 +26,7 @@ router.get('/callback', async (req, res, next) => {
             redirect_uri: "https://gtk-sp.ru/auth/callback"
         }
     }) as any
-    const dataResponse = await HTTPRequest({
-        'method': 'GET',
-        'url': 'https://discord.com/api/users/@me',
-        'headers': {
-            authorization: `Bearer ${JSON.parse(tokenResponse).access_token}`
-        }
-    }) as any
-    const data = JSON.parse(dataResponse)
-    console.log(data.access_token)
+    const data = JSON.parse(tokenResponse)
     const authResult = await HTTPRequest(`https://gtk-sp.ru/auth/login?access_token=${data.access_token}`)
     res.send(authResult)
 });
@@ -50,7 +42,6 @@ router.get('/login', async (req, res, next) => {
     }) as any
     let data = JSON.parse(dataResponse)
     const username = await sp.findUser(data.id);
-    console.log(data.id + " " + username)
     if (!username) {
         data = { exists: false }
     } else {
