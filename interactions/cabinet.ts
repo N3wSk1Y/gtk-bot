@@ -199,6 +199,7 @@ export = {
                     .setLabel(`Введите сумму снятия средств (АР)`)
                     .setStyle('SHORT')
                     .setRequired(true)
+                    .setPlaceholder(`Баланс: ${response[0].balance} АР`)
                     .setMinLength(1)
                     .setMaxLength(6)
 
