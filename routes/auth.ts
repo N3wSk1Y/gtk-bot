@@ -58,7 +58,7 @@ router.get('/login', async (req, res, next) => {
     if (!username) {
         data = { ...data, permissions: 0}
     } else {
-        const avatar = await mcdata.playerStatus(username, {renderSize: 2}).avatar
+        const avatar = await mcdata.playerStatus(username, {renderSize: 2}).skin.avatar
         data = { ...data, localdata: { permissions: 1, avatar: avatar, minecraft_username: username }}
     }
     res.send(data)
