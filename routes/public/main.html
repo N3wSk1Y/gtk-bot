@@ -13,20 +13,6 @@
                 background-color: #16141c;
                 overflow: hidden;
             }
-            /* .btn { */
-                /* border-radius: 7px;
-                padding-right: 10px;
-                padding-left: 10px;
-                padding-top: 5px;
-                padding-bottom: 5px;
-                color: #FFFFFF;
-                font-size: 12pt;
-                font-family: 'Montserrat', sans-serif;
-                margin-top: 10px;
-                border: none;
-                margin: auto;
-                width: 100px;
-            } */
 
             #logo {
                 margin-top: 5px;
@@ -82,14 +68,27 @@
                 background-color: #5050BF;
             }
             #poster {
-                background: url(https://i.imgur.com/hAX5CU8.png);
-                background-size: 90%;
+                background-size: 100%;
                 border: none;
                 border-radius: 50px;
-                width: 860px;
-                height: 420px;
-                position: fixed;
-                right:-115px;
+                width: 555px;
+                height: 310px;
+                margin-top: -300px;
+                position: absolute;
+                right: 50px;
+            }
+            #poster2 {
+                background: url(https://cdn.discordapp.com/attachments/917327560084422716/998309931327430656/unknown.png);
+                background-size: 150%;
+                border: none;
+                border-radius: 15px;
+                width: 150px;
+                height: 90px;
+                margin-top: -70px;
+                position: absolute;
+                right: 500px;
+                background-position-x: -37px;
+                background-position-y: -18px;
             }
             #order {
                 width: 200px;
@@ -112,13 +111,16 @@
                 margin-right: 70px;
             }
             #imarket {
-                position: fixed;
                 margin-right: 775px;
                 height: 300px;
                 margin-left: 30px;
             }
             #content{
-                margin-top: 200px;
+                position: absolute;               /* 2 */
+                top: 50%;                         /* 3 */
+                transform: translate(0, -50%);
+                height: 320px;
+                width: 100%;
             }
         </style>
     </head>
@@ -127,8 +129,8 @@
             <a href="https://gtk-sp.ru/"><img src="https://cdn.discordapp.com/attachments/917327560084422716/997097620197625926/logoClear.png" id="logo" alt="&#9773;"></a>
             <h3 id="name">ГТК</h3>
         </div>
+        <a href="https://discord.com/api/oauth2/authorize?client_id=990681507490312222&redirect_uri=https%3A%2F%2Fgtk-sp.ru%2Fauth%2Fcallback&response_type=code&scope=identify" class="btn" id="auth">Войти</button></a>
         <div id="content">
-            <a href="/panel/categories" class="btn" id="auth">Войти</button></a>
             <div id="imarket">
             <h1>iMarket</h1>
             <div id="description-div">
@@ -136,7 +138,26 @@
             </div>
             <a class="btn" href="https://discord.gg/AhTkpJXbQ4" id="order">Сделать заказ</a>
             </div>
-            <div id="poster"><img href="https://i.imgur.com/hAX5CU8.png"></div>
+            <div id="poster"></div>
+            <div id="poster2"></div>
         </div>
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+        <script>
+            const iMarketPics = ["https://i.imgur.com/UPNlQbA.png", "https://i.imgur.com/hAX5CU8.png", "https://i.imgur.com/IT5ogsJ.png"]
+
+            let r = Math.floor(Math.random()*10)
+            let randomPicture;
+
+            if (r < 3) {
+                randomPicture = iMarketPics[0]
+            } else if (r < 7) {
+                randomPicture = iMarketPics[1]
+            } else {
+                randomPicture = iMarketPics[2]
+            }
+
+            $('#poster').css('background-image', `url(${randomPicture})`);
+        </script>
     </body>
 </html>
