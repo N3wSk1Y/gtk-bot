@@ -216,7 +216,6 @@ export = {
                 total = Math.ceil(total*0.9)
                 if (total < 32)
                     total += 2
-                console.log(total)
                 interaction.message.embeds[0].fields[0].value = `${total} <:diamond_ore:990969911671136336>`
 
                 interaction.message.embeds.push(embed as any)
