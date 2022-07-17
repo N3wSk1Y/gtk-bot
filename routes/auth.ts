@@ -38,8 +38,8 @@ router.get('/callback', async (req, res, next) => {
     if (!username) {
         data = { ...data, localdata: { permissions: 0 }}
     } else {
-        const avatar = await mcdata.playerStatus(username, {renderSize: 2}).skin.avatar
-        data = { ...data, localdata: { permissions: 1, avatar: avatar, minecraft_username: username }}
+        const minecraftUser = await mcdata.playerStatus(username, {renderSize: 2})
+        data = { ...data, localdata: { permissions: 1, avatar: minecraftUser.skin.avatar, minecraft_username: username }}
     }
     res.send(data)
 });
@@ -58,8 +58,8 @@ router.get('/login', async (req, res, next) => {
     if (!username) {
         data = { ...data, permissions: 0}
     } else {
-        const avatar = await mcdata.playerStatus(username, {renderSize: 2}).skin.avatar
-        data = { ...data, localdata: { permissions: 1, avatar: avatar, minecraft_username: username }}
+        const minecraftUser = await mcdata.playerStatus(username, {renderSize: 2})
+        data = { ...data, localdata: { permissions: 1, avatar: minecraftUser.skin.avatar, minecraft_username: username }}
     }
     res.send(data)
 });
