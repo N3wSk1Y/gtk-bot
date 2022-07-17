@@ -13,13 +13,13 @@ router.get('/callback', async (req, res, next) => {
         'headers': {
             'Content-Type': ' application/x-www-form-urlencoded'
         },
-        body: JSON.stringify({
+        formData: {
             client_id: BotConfig.CLIENT_ID,
             client_secret: BotConfig.CLIENT_SECRET,
             grant_type: "authorization_code",
             code: code,
             redirect_uri: "https://gtk-sp.ru/auth/callback"
-        })
+        }
     }) as any
     res.send(response.body)
 });
