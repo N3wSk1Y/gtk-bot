@@ -33,16 +33,9 @@ router.get('/callback', async (req, res, next) => {
             authorization: `Bearer ${JSON.parse(tokenResponse).access_token}`
         }
     }) as any
-    let data = JSON.parse(dataResponse)
-    const username = await sp.findUser(data.id);
-    if (!username) {
-        data = { ...data, localdata: { permissions: 0 }}
-    } else {
-        const minecraftUser = await mcdata.playerStatus(username, {renderSize: 2})
-        console.log(minecraftUser)
-        data = { ...data, localdata: { permissions: 1, avatar: minecraftUser.skin.avatar, minecraft_username: username }}
-    }
-    res.send(data)
+    const data = JSON.parse(dataResponse)
+    const authResult = await HTTPRequest(`https://gtk-sp.ru/auth/login?access_token=${data.access_token}`)
+    res.send(authResult)
 });
 
 router.get('/login', async (req, res, next) => {
@@ -57,10 +50,10 @@ router.get('/login', async (req, res, next) => {
     let data = JSON.parse(dataResponse)
     const username = await sp.findUser(data.id);
     if (!username) {
-        data = { ...data, permissions: 0}
+        data = { exists: false }
     } else {
         const minecraftUser = await mcdata.playerStatus(username, {renderSize: 2})
-        data = { ...data, localdata: { permissions: 1, avatar: minecraftUser.skin.avatar, minecraft_username: username }}
+        data = { exists: true, avatar: minecraftUser.skin.avatar, minecraft_username: username }
     }
     res.send(data)
 });
