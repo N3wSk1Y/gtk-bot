@@ -24,6 +24,9 @@ app.use('/categories', require('./routes/categories'));
 app.use('/products', require('./routes/products'));
 app.use('/panel', require('./routes/panel'));
 
+app.get('/', function(req, res){
+    res.status(200).sendFile(__dirname + "/routes/public/main.html")
+});
 app.get('*', function(req, res){
     res.status(404).sendFile(__dirname + "/routes/public/not_found.html")
 });
