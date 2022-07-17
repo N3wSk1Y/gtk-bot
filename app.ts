@@ -29,6 +29,9 @@ app.use('/payment', paymentRouter);
 app.use('/categories', categoriesRouter);
 app.use('/products', productsRouter);
 app.use('/panel', panelRouter);
+app.get('*', function(req, res){
+    res.sendFile(__dirname + "/routes/public/success.html")
+});
 
 app.listen(3000, () => {
     console.log(`Сервер запущен на порте ${3000}`)
