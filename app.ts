@@ -7,6 +7,7 @@ const paymentRouter = require('./routes/success');
 const categoriesRouter = require('./routes/categories');
 const productsRouter = require('./routes/products');
 const authRouter = require('./routes/auth');
+const panelRouter = require('./routes/panel');
 
 const app = express();
 
@@ -27,6 +28,7 @@ app.use('/auth', authRouter);
 app.use('/payment', paymentRouter);
 app.use('/categories', categoriesRouter);
 app.use('/products', productsRouter);
+app.use('/panel', panelRouter);
 
 app.listen(3000, () => {
     console.log(`Сервер запущен на порте ${3000}`)
