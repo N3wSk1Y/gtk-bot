@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.get('/callback', async (req, res, next) => {
     const { code } = req.query;
-    const response = await HTTPRequest({
+    const tokenResponse = await HTTPRequest({
         'method': 'POST',
         'url': 'https://discord.com/api/v10/oauth2/token',
         'headers': {
@@ -21,7 +21,14 @@ router.get('/callback', async (req, res, next) => {
             redirect_uri: "https://gtk-sp.ru/auth/callback"
         }
     }) as any
-    res.send(response)
+    const dataResponse = await HTTPRequest({
+        'method': 'GET',
+        'url': 'https://discord.com/api/v10/users/@me',
+        'headers': {
+            authorization: `${tokenResponse.token_type} ${tokenResponse.access_token}`
+        }
+    }) as any
+    res.send(dataResponse)
 });
 
 
