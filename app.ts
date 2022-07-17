@@ -3,12 +3,6 @@ import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 
-const paymentRouter = require('./routes/success');
-const categoriesRouter = require('./routes/categories');
-const productsRouter = require('./routes/products');
-const authRouter = require('./routes/auth');
-const panelRouter = require('./routes/panel');
-
 const app = express();
 
 app.use(logger('dev'));
@@ -24,11 +18,12 @@ app.use((req, res, next) => {
 });
 app.set('view engine', 'html');
 
-app.use('/auth', authRouter);
-app.use('/payment', paymentRouter);
-app.use('/categories', categoriesRouter);
-app.use('/products', productsRouter);
-app.use('/panel', panelRouter);
+app.use('/auth', require('./routes/auth'));
+app.use('/payment', require('./routes/success'));
+app.use('/categories', require('./routes/categories'));
+app.use('/products', require('./routes/products'));
+app.use('/panel', require('./routes/panel'));
+
 app.get('*', function(req, res){
     res.status(404).sendFile(__dirname + "/routes/public/not_found.html")
 });
