@@ -4,7 +4,7 @@ import {DBRequest} from "../database";
 const router = express.Router();
 
 router.get('/', async (req, res, next) => {
-    const categories = await DBRequest("SELECT * FROM `categories`")
+    const categories = await DBRequest("SELECT * FROM `categories` ORDER BY order_id")
     res.send(categories)
 });
 
@@ -59,6 +59,33 @@ router.put('/', async (req, res, next) => {
 
         res.send({
             notification: "Категория обновлена"
+        })
+    } else {
+        res.send({
+            error: "Параметр id указан некорректно"
+        })
+    }
+});
+
+router.put('/order', async (req, res, next) => {
+    if (req.query.id && req.query.direction) {
+        const category = await DBRequest(`SELECT * FROM categories WHERE categories.id = '${req.query.id}'`) as any[]
+        if (category.length === 0) {
+            res.send({
+                error: "Такой категории не существует"
+            })
+            return;
+        }
+
+        const currentOrder = category[0].order_id
+        if (req.query.direction === 'up')
+            await DBRequest(`UPDATE categories SET order_id = '${currentOrder+1}' WHERE  categories.id = '${req.query.id}'`)
+        if (req.query.direction === 'down')
+            await DBRequest(`UPDATE categories SET order_id = '${currentOrder-1}' WHERE  categories.id = '${req.query.id}'`)
+
+
+        res.send({
+            notification: "Порядок обновлен"
         })
     } else {
         res.send({

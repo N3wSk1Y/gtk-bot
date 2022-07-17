@@ -8,7 +8,7 @@ import crypto from 'crypto';
 
 
 export async function SendCatalog (client: Client) {
-    const categories = await DBRequest("SELECT * FROM categories") as any[]
+    const categories = await DBRequest("SELECT * FROM categories ORDER BY order_id") as any[]
     let embeds = []
 
     const embedMarketMenu = new MessageEmbed()
