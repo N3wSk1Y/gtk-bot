@@ -36,10 +36,10 @@ router.get('/callback', async (req, res, next) => {
     let data = JSON.parse(dataResponse)
     const username = await sp.findUser(data.id);
     if (username) {
-        data = { ...data, permissions: 0}
+        data = { ...data, localdata: { permissions: 0 }}
     } else {
         const avatar = await mcdata.playerStatus(username, {renderSize: 2}).avatar
-        data = { ...data, permissions: 0, avatar}
+        data = { ...data, localdata: { permissions: 1, avatar }}
     }
     res.send(data)
 });
@@ -59,7 +59,7 @@ router.get('/login', async (req, res, next) => {
         data = { ...data, permissions: 0}
     } else {
         const avatar = await mcdata.playerStatus(username, {renderSize: 2}).avatar
-        data = { ...data, permissions: 0, avatar}
+        data = { ...data, localdata: { permissions: 1, avatar }}
     }
     res.send(data)
 });
