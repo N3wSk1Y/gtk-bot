@@ -149,7 +149,7 @@ export = {
                         embed.setDescription(withdrawLog)
                         break
                     case 'topup_history':
-                        const topupHistory = await DBRequest(`SELECT * FROM withdraw_history WHERE userid = ${users[0].id}`) as any[]
+                        const topupHistory = await DBRequest(`SELECT * FROM topup_history WHERE userid = ${users[0].id}`) as any[]
                         let topupLog = ""
                         for (const responseElement of topupHistory) {
                             topupLog += `**${responseElement.date}** | **${responseElement.value}**  <:diamond_ore:990969911671136336>\n\n`
