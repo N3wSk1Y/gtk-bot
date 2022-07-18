@@ -22,7 +22,8 @@
     "mysql": "^2.18.1",
     "pg": "^8.7.3",
     "request": "^2.88.2",
-    "spworlds": "^1.0.0"
+    "spworlds": "^1.0.0",
+    "typescript": "^4.7.4"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.3",

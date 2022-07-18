@@ -128,6 +128,7 @@ export = {
                 const embed = new MessageEmbed()
                     .setFooter(AppearanceConfig.Tags.Bank, AppearanceConfig.Images.MainLogo)
                     .setThumbnail(minecraftUser.skin.avatar)
+                    .setColor(AppearanceConfig.Colors.Default as ColorResolvable)
                 const users = await DBRequest(`SELECT * FROM users WHERE uuid = '${minecraftUser.uuid}'`) as any[]
                 switch (interaction.customId) {
                     case 'transfer_history':
