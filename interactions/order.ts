@@ -12,7 +12,7 @@ import ChannelsConfig from '../configurations/channels.json'
 import mcdata from "mcdata"
 import { DBRequest } from "../database";
 import crypto from "crypto";
-import {getBalance, OperationTypes, postTransferHistory, transferBalance} from '../bank_handling'
+import {getBalance, OperationTypes, postTopupHistory, transferBalance} from '../bank_handling'
 
 const sp = new SPWorlds(CardsConfig.CARD_ID, CardsConfig.CARD_TOKEN);
 

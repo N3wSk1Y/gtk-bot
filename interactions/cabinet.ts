@@ -11,6 +11,7 @@ import AppearanceConfig from '../configurations/appearance.json'
 import ChannelsConfig from '../configurations/channels.json'
 import mcdata from "mcdata";
 import {DBRequest, HTTPRequest} from "../database";
+import {withdrawBalance} from "../bank_handling";
 
 const bankCard = new SPWorlds(CardsConfig.CARD_ID, CardsConfig.CARD_TOKEN);
 
@@ -112,13 +113,11 @@ export = {
                         new MessageButton()
                             .setCustomId('topup_history')
                             .setLabel('История пополнений')
-                            .setStyle('SECONDARY')
-                            .setDisabled(true),
+                            .setStyle('SECONDARY'),
                         new MessageButton()
                             .setCustomId('withdraw_history')
                             .setLabel('История снятия средств')
                             .setStyle('SECONDARY')
-                            .setDisabled(true),
                     );
 
                 await interaction.reply({ ephemeral: true, components: [row] })
@@ -129,22 +128,34 @@ export = {
                 const embed = new MessageEmbed()
                     .setFooter(AppearanceConfig.Tags.Bank, AppearanceConfig.Images.MainLogo)
                     .setThumbnail(minecraftUser.skin.avatar)
+                const users = await DBRequest(`SELECT * FROM users WHERE uuid = '${minecraftUser.uuid}'`) as any[]
                 switch (interaction.customId) {
                     case 'transfer_history':
-                        const users = await DBRequest(`SELECT * FROM users WHERE uuid = '${minecraftUser.uuid}'`) as any[]
-                        const response = await DBRequest(`SELECT * FROM transfer_history WHERE userid = ${users[0].id}`) as any[]
-                        let log = ""
-                        for (const responseElement of response) {
-                            log += `**${responseElement.date}** | **${responseElement.value}**  <:diamond_ore:990969911671136336> | **${responseElement.reason}**\n\n`
+                        const transferHistory = await DBRequest(`SELECT * FROM transfer_history WHERE userid = ${users[0].id}`) as any[]
+                        let transferLog = ""
+                        for (const responseElement of transferHistory) {
+                            transferLog += `**${responseElement.date}** | **${responseElement.value}**  <:diamond_ore:990969911671136336> | **${responseElement.reason}**\n\n`
                         }
                         embed.setTitle("История покупок")
-                        embed.setDescription(log)
+                        embed.setDescription(transferLog)
                         break
                     case 'withdraw_history':
-
+                        const withdrawHistory = await DBRequest(`SELECT * FROM withdraw_history WHERE userid = ${users[0].id}`) as any[]
+                        let withdrawLog = ""
+                        for (const responseElement of withdrawHistory) {
+                            withdrawLog += `**${responseElement.date}** | **${responseElement.value}**  <:diamond_ore:990969911671136336>\n\n`
+                        }
+                        embed.setTitle("История снятия средств")
+                        embed.setDescription(withdrawLog)
                         break
                     case 'topup_history':
-
+                        const topupHistory = await DBRequest(`SELECT * FROM withdraw_history WHERE userid = ${users[0].id}`) as any[]
+                        let topupLog = ""
+                        for (const responseElement of topupHistory) {
+                            topupLog += `**${responseElement.date}** | **${responseElement.value}**  <:diamond_ore:990969911671136336>\n\n`
+                        }
+                        embed.setTitle("История пополнений")
+                        embed.setDescription(topupLog)
                         break
                 }
                 interaction.message.embeds.splice(1, 0, embed)
@@ -339,24 +350,7 @@ export = {
                 const response = await DBRequest(`SELECT * FROM \`users\` WHERE \`minecraft_username\` = '${username}'`) as any[]
                 const cardNumber = interaction.fields.getTextInputValue('card_number') ? interaction.fields.getTextInputValue('card_number') : response[0].card_number
                 if (response[0].balance - value >= 0) {
-                    const options = {
-                        'method': 'POST',
-                        'url': 'https://spworlds.ru/api/public/transactions',
-                        'headers': {
-                            'Authorization': `Bearer ${CardsConfig.CARD_BASE64}`,
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            "receiver": cardNumber,
-                            "amount": value,
-                            "comment": `Снятие средств со счета ${username}`
-                        })
-
-                    };
-                    await HTTPRequest(options)
-                        .catch(err => {
-                            console.log(err)
-                        })
+                    await withdrawBalance(response[0].id, username, value, cardNumber)
 
                     const embed = new MessageEmbed()
                         .setColor(AppearanceConfig.Colors.Success as ColorResolvable)

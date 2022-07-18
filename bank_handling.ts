@@ -1,4 +1,7 @@
-import { DBRequest } from "./database";
+import {DBRequest, HTTPRequest} from "./database";
+import CardsConfig from "./configurations/cards.json";
+import {SPWorlds} from "spworlds";
+const sp = new SPWorlds(CardsConfig.CARD_ID, CardsConfig.CARD_TOKEN);
 
 export enum OperationTypes {
     iMarket = 'imarket_balance',
@@ -26,13 +29,43 @@ export async function getBalance(userid: number): Promise<number> {
     return response[0].balance;
 }
 
-export async function topupBalance (userid: number, value: number, reason: string): Promise<number> {
+export async function topupBalance (userid: number, value: number): Promise<number> {
     if (!await accountExists(userid))
         return
     const balance = (await DBRequest(`SELECT * FROM users WHERE id = ${userid}`) as any[])[0].balance as number
 
     await DBRequest(`UPDATE \`users\` SET balance = ${balance+value} WHERE \`users\`.\`id\` = ${userid}`)
     const response = await DBRequest(`SELECT * FROM \`users\` WHERE id = ${userid}`) as any[]
+    await postTopupHistory(userid, value)
+    return response[0].balance;
+}
+
+export async function withdrawBalance (userid: number, username: string, value: number, cardnumber: number): Promise<number> {
+    if (!await accountExists(userid))
+        return
+    const options = {
+        'method': 'POST',
+        'url': 'https://spworlds.ru/api/public/transactions',
+        'headers': {
+            'Authorization': `Bearer ${CardsConfig.CARD_BASE64}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            "receiver": cardnumber,
+            "amount": value,
+            "comment": `Снятие средств со счета ${username}`
+        })
+
+    };
+    await HTTPRequest(options)
+        .catch(err => {
+            console.log(err)
+        })
+    const balance = (await DBRequest(`SELECT * FROM users WHERE id = ${userid}`) as any[])[0].balance as number
+
+    await DBRequest(`UPDATE \`users\` SET balance = ${balance-value} WHERE \`users\`.\`id\` = ${userid}`)
+    const response = await DBRequest(`SELECT * FROM \`users\` WHERE id = ${userid}`) as any[]
+    await postWithdrawHistory(userid, value)
     return response[0].balance;
 }
 
@@ -55,4 +88,12 @@ export async function getHistory(userid: number, historyType: HistoryTypes) {
 
 export async function postTransferHistory(userid: number, value: number, target: number, reason: string) {
     return await DBRequest(`INSERT INTO transfer_history (userid, value, target, reason) VALUES (${userid}, ${value}, ${target}, '${reason}')`)
+}
+
+export async function postTopupHistory(userid: number, value: number) {
+    return await DBRequest(`INSERT INTO topup_history (userid, value) VALUES (${userid}, ${value})`)
+}
+
+export async function postWithdrawHistory(userid: number, value: number) {
+    return await DBRequest(`INSERT INTO withdraw_history (userid, value) VALUES (${userid}, ${value})`)
 }
