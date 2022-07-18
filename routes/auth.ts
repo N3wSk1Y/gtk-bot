@@ -46,7 +46,7 @@ router.get('/login', async (req, res, next) => {
         data = { exists: false }
     } else {
         const minecraftUser = await mcdata.playerStatus(username, {renderSize: 2})
-        data = { exists: true, avatar: minecraftUser.skin.avatar, minecraft_username: username }
+        data = { exists: true, minecraft_username: username, avatar: minecraftUser.skin.avatar }
     }
     res.send(data)
 });

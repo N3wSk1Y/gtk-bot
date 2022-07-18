@@ -215,7 +215,7 @@ export = {
                 let total = parseInt(interaction.message.embeds[0].fields[0].value.slice(0, interaction.message.embeds[0].fields[0].value.indexOf("<")-1))
                 total = Math.ceil(total*0.9)
                 if (total < 32)
-                    total += 2
+                    total += 3
                 interaction.message.embeds[0].fields[0].value = `${total} <:diamond_ore:990969911671136336>`
 
                 interaction.message.embeds.push(embed as any)

@@ -36,7 +36,7 @@ export = {
                 .setColor(AppearanceConfig.Colors.Default as ColorResolvable)
                 .setThumbnail(minecraftUser.avatar)
                 .setImage(AppearanceConfig.Images.Banner)
-                .setDescription("Добро пожаловать в Глорианскую торговую компанию.\nВы можете воспользоваться нашим сервисом `iMarket` для заказа товаров с доставкой по самым лучшим ценам!\nПо всем вопросам обращайтесь в канал <#997181105109213244>")
+                .setDescription("Добро пожаловать в Глорианскую торговую компанию.\nВы можете воспользоваться нашим сервисом `iMarket` для заказа товаров с доставкой по самым лучшим ценам!\n\nПо всем вопросам обращайтесь в канал <#997181105109213244>")
                 .setFooter(AppearanceConfig.Tags.GTK, AppearanceConfig.Images.MainLogo)
             await member.send({ embeds: [embed], components: [row] })
         }

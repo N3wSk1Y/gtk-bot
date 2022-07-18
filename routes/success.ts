@@ -7,7 +7,6 @@ import BotConfig from '../configurations/bot.json'
 import mcdata from "mcdata";
 import {DBRequest} from "../database";
 import {topupBalance} from "../bank_handling";
-import fs from "fs";
 
 const router = express.Router();
 const sp = new SPWorlds(CardsConfig.CARD_ID, CardsConfig.CARD_TOKEN);
