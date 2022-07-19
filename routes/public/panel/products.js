@@ -55,14 +55,14 @@ async function createTable() {
 				disDown = "disabled"
 				break
 		}
-		let buttons = `<button class="arrow" id="up" onclick="replaceData('${data[i]["id"]}', -1)" ${disUp}>
-		<span class="material-symbols-outlined">
-		expand_less
-		</span></button><h4>${data[i]["order_id"]}</h4><button class="arrow" id="down" onclick="replaceData('${data[i]["id"]}', 1)" ${disDown}>
-		<span class="material-symbols-outlined">
-		expand_more
-		</span></button>`;
-		newRowData_0.innerHTML = buttons
+		// let buttons = `<button class="arrow" id="up" onclick="replaceData('${data[i]["id"]}', -1)" ${disUp}>
+		// <span class="material-symbols-outlined">
+		// expand_less
+		// </span></button><h4>${data[i]["order_id"]}</h4><button class="arrow" id="down" onclick="replaceData('${data[i]["id"]}', 1)" ${disDown}>
+		// <span class="material-symbols-outlined">
+		// expand_more
+		// </span></button>`;
+		// newRowData_0.innerHTML = buttons
 		let newRowData_1 = document.createElement('td');
 		newRowData_1.classList.add("id");
 		newRowData_1.innerHTML = data[i]["id"];
