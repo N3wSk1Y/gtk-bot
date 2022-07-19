@@ -4,7 +4,7 @@ import {DBRequest} from "../database";
 const router = express.Router();
 
 router.get('/', async (req, res, next) => {
-    const products = await DBRequest("SELECT * FROM `products`")
+    const products = await DBRequest("SELECT * FROM `products` ORDER BY category_id")
     res.send(products)
 });
 
@@ -24,7 +24,7 @@ router.delete('/', async (req, res, next) => {
     }
     await DBRequest(`DELETE FROM products WHERE id = '${req.query.id}'`)
     res.send({
-        notification: "Товар удалена"
+        notification: "Товар удален"
     })
 });
 
@@ -42,7 +42,7 @@ router.post('/', async (req, res, next) => {
 });
 
 router.put('/', async (req, res, next) => {
-    if (req.query.id && (req.query.name || req.query.description || req.query.emoji_id)) {
+    if (req.query.id && (req.query.name || req.query.description || req.query.emoji_id || req.query.category_id || req.query.price || req.query.enabled)) {
         const products = await DBRequest(`SELECT * FROM products WHERE products.id = '${req.query.id}'`) as object[]
         if (products.length === 0) {
             res.send({
