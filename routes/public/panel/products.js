@@ -1,5 +1,3 @@
-const { default: getAnchorElement } = require("swup/lib/modules/getAnchorElement");
-
 async function createTable() {
 	async function makeRequest(url) {  
 	    const resp = await fetch(url)
