@@ -96,6 +96,7 @@ let priceForm = document.getElementById("price-form");
 
 	
 function init() {
+	await createTable()
 	for (const cat in data_cat) {
 		let newOption = document.createElement('option');
 		newOption.innerHTML = cat;
@@ -103,7 +104,6 @@ function init() {
 		console.log(categoryForm, cat, newOption)
 	}
 	// console.log(data_cat)
-	createTable()
 }
 window.onload = function(){
 	const cont = document.getElementById('content')
