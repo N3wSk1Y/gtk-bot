@@ -91,7 +91,7 @@ let	idForm = document.getElementById("id-form");
 let	nameForm = document.getElementById("name-form");
 let	descriptionForm = document.getElementById("description-form");
 let	emojiIdForm = document.getElementById("emoji_id-form");
-let	categoryForm = document.getElementById("category-form");
+var	categoryForm = document.getElementById("category-form");
 let priceForm = document.getElementById("price-form");
 
 	
