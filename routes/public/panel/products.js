@@ -78,18 +78,6 @@ async function createTable() {
 	
 	document.getElementById('content').appendChild(table);
 }
-window.onload = function(){
-   const cont = document.getElementById('content')
-   createTable()
-};
-
-function getId(name) {
-	for (let i = 0; i < data_cat.length; i++) {
-		if (data_cat[i]["name"] == name) {
-			return data_cat[i]["id"]
-		}
-	}
-}
 
 let modal = document.getElementById("myModal");
 let span =  document.getElementsByClassName("close")[0];
@@ -98,18 +86,33 @@ let textForm = document.getElementById("addText");
 let buttonForm = document.getElementById("submit-form");
 let isEdit = true;
 var data_cat;
-const idForm = document.getElementById("id-form");
-const nameForm = document.getElementById("name-form");
-const descriptionForm = document.getElementById("description-form");
-const emojiIdForm = document.getElementById("emoji_id-form");
-const categoryForm = document.getElementById("category-form");
+let	idForm = document.getElementById("id-form");
+let	nameForm = document.getElementById("name-form");
+let	descriptionForm = document.getElementById("description-form");
+let	emojiIdForm = document.getElementById("emoji_id-form");
+let	categoryForm = document.getElementById("category-form");
+let priceForm = document.getElementById("price-form");
 for (const cat in data_cat) {
 	let newOption = document.createElement('option');
 	newOption.innerHTML = cat;
 	categoryForm.appendChild(newOption);
 	console.log(categoryForm, cat, newOption)
 }
-const priceForm = document.getElementById("price-form");
+	
+
+window.onload = function(){
+	const cont = document.getElementById('content')
+	createTable()
+};
+
+
+function getId(name) {
+	for (let i = 0; i < data_cat.length; i++) {
+		if (data_cat[i]["name"] == name) {
+			return data_cat[i]["id"]
+		}
+	}
+}
 
 
 function addRow(){
