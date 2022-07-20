@@ -102,6 +102,7 @@ const idForm = document.getElementById("id-form");
 const nameForm = document.getElementById("name-form");
 const descriptionForm = document.getElementById("description-form");
 const emojiIdForm = document.getElementById("emoji_id-form");
+const categoryForm = document.getElementById("category-form");
 for (const cat in data_cat) {
 	let newOption = document.createElement('option');
 	newOption.innerHTML = cat;
