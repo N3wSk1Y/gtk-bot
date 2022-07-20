@@ -113,7 +113,8 @@ async function init() {
 		newOption.innerHTML = data_cat[i]["name"];
 		categoryForm.appendChild(newOption);
 	}});
-	// console.log(data_cat)
+	const applicantForm = document.getElementById('form')
+	applicantForm.addEventListener('submit', handleFormSubmit)
 }
 window.onload = function(){
 	const cont = document.getElementById('content')
@@ -193,8 +194,6 @@ function handleFormSubmit(event) {
 	serializeForm(applicantForm)
 }
 
-const applicantForm = document.getElementById('form')
-applicantForm.addEventListener('submit', handleFormSubmit)
 
 function delData(id) {
 	var requestOptions = {
