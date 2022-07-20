@@ -4,7 +4,7 @@ import {DBRequest} from "../database";
 const router = express.Router();
 
 router.get('/', async (req, res, next) => {
-    const products = await DBRequest("SELECT * FROM `products` ORDER BY category_id")
+    const products = await DBRequest("SELECT * from products inner join categories on products.category_id = categories.id order by category_id;")
     res.send(products)
 });
 
