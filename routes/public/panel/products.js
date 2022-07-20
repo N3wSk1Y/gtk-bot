@@ -99,7 +99,10 @@ var data_cat;
 async function init() {
 	await createTable().then(() => {
 	modal = document.getElementById("myModal");
-	span =  $('close');
+	span =  document.getElementById('close');
+	span.onclick = function() {
+		modal.style.display = "none";
+	}
 	warning = document.getElementById('warning');
 	textForm = document.getElementById("addText");
 	buttonForm = document.getElementById("submit-form");
@@ -149,9 +152,6 @@ window.onclick = function(event) {
 	}
   }
 
-span.onclick = function() {
-	modal.style.display = "none";
-}
 
 function serializeForm(formNode) {
 	const { elements } = formNode
