@@ -220,7 +220,11 @@ function editData(num) {
 	nameForm.value = dataForEdit["name"]
 	descriptionForm.value = dataForEdit["description"]
 	emojiIdForm.value = dataForEdit["emoji_id"]
-	categoryForm.value = dataForEdit["category_id"]
+	for (const cat in categoryForm.options) {
+		if (cat.value == dataForEdit["category_id"]) {
+			cat.selected = true;
+		}
+	}
 	priceForm.value = dataForEdit["price"]
 	textForm.innerHTML = "Изменение товара"
 	buttonForm.innerHTML = "Изменить"
