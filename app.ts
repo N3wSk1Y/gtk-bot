@@ -24,6 +24,8 @@ app.use('/auth', require('./routes/auth'));
 app.use('/payment', require('./routes/success'));
 app.use('/categories', require('./routes/categories'));
 app.use('/products', require('./routes/products'));
+app.use('/stats', require('./routes/stats'));
+
 app.use('/panel', require('./routes/panel'));
 app.use('/stock', require('./routes/stock'));
 
