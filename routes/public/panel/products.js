@@ -4,13 +4,20 @@ async function createTable() {
 		return await resp.json();
 	}
 
-	const data = await makeRequest('https://gtk-sp.ru/products')
+	var data = await makeRequest('https://gtk-sp.ru/products')
 	var data_cat = await makeRequest('https://gtk-sp.ru/categories')
 
 	function getName(id) {
 		for (let i = 0; i < data_cat.length; i++) {
 			if (data_cat[i]["id"] == id) {
 				return data_cat[i]["name"]
+			}
+		}
+	}
+	function getId(name) {
+		for (let i = 0; i < data_cat.length; i++) {
+			if (data_cat[i]["name"] == name) {
+				return data_cat[i]["id"]
 			}
 		}
 	}
@@ -138,12 +145,12 @@ function serializeForm(formNode) {
 	};
 	
 	fetch(`https://gtk-sp.ru/products?
-		id=${respData[0]}&
-		name=${respData[1]}&
-		description=${respData[2]}&
-		emoji_id=${respData[3].toString()}&
-		category=${respData[4]}&
-		price=${respData[5].toString()}`, requestOptions)
+			id=${respData[0]}&
+			name=${respData[1]}&
+			description=${respData[2]}&
+			emoji_id=${respData[3].toString()}&
+			category=${getId(respData[4])}&
+			price=${respData[5].toString()}`, requestOptions)
 		.then(() => location.reload())
 		.catch(error => console.log('error', error));
 	
