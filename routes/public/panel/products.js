@@ -108,9 +108,9 @@ async function init() {
 	categoryForm = document.getElementById("category-form");
 	console.log(categoryForm)
 	priceForm = document.getElementById("price-form");
-	for (const cat in data_cat) {
+	for (let i = 0; i < data_cat.length; i++) {
 		let newOption = document.createElement('option');
-		newOption.innerHTML = cat["name"];
+		newOption.innerHTML = data_cat[i]["name"];
 		categoryForm.appendChild(newOption);
 	}});
 	// console.log(data_cat)
