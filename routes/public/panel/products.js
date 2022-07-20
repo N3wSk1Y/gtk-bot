@@ -1,3 +1,12 @@
+
+function getName(id) {
+	for (let i = 0; i < data_cat.length; i++) {
+		if (data_cat[i]["id"] == id) {
+			return data_cat[i]["name"]
+		}
+	}
+}
+
 async function createTable() {
 	async function makeRequest(url) {  
 	    const resp = await fetch(url)
@@ -7,13 +16,7 @@ async function createTable() {
 	data = await makeRequest('https://gtk-sp.ru/products')
 	data_cat = await makeRequest('https://gtk-sp.ru/categories')
 	console.log(data_cat)
-	function getName(id) {
-		for (let i = 0; i < data_cat.length; i++) {
-			if (data_cat[i]["id"] == id) {
-				return data_cat[i]["name"]
-			}
-		}
-	}
+
 
 	let table = document.createElement('table');
 	let thead = document.createElement('thead');
@@ -100,6 +103,9 @@ async function init() {
 	await createTable().then(() => {
 	modal = document.getElementById("myModal");
 	span =  document.getElementById('close');
+	span.onclick = function() {
+		modal.style.display = "none";
+	}
 	warning = document.getElementById('warning');
 	textForm = document.getElementById("addText");
 	buttonForm = document.getElementById("submit-form");
@@ -136,7 +142,7 @@ function getId(name) {
 
 function addRow(){
 	modal.style.display = "block";
-	textForm.innerHTML = "Добавление категории"
+	textForm.innerHTML = "Добавление товара"
 	buttonForm.innerHTML = "Добавить"
 	$("#id-form").attr("disabled", false)
 	document.getElementById('form').reset();
@@ -149,9 +155,6 @@ window.onclick = function(event) {
 	}
   }
 
-span.onclick = function() {
-	modal.style.display = "none";
-}
 
 function serializeForm(formNode) {
 	const { elements } = formNode
@@ -186,7 +189,7 @@ function serializeForm(formNode) {
 			name=${respData[1]}&
 			description=${respData[2]}&
 			emoji_id=${respData[3]}&
-			category=${getId(respData[4])}&
+			category_id=${getId(respData[4])}&
 			price=${respData[5]}`, requestOptions)
 		.then(() => location.reload())
 		.catch(error => console.log('error', error));
@@ -220,9 +223,17 @@ function editData(num) {
 	nameForm.value = dataForEdit["name"]
 	descriptionForm.value = dataForEdit["description"]
 	emojiIdForm.value = dataForEdit["emoji_id"]
-	categoryForm.value = dataForEdit["category"]
+	for (let i = 0; i < categoryForm.options.length; i++) {
+
+		if (categoryForm.options[i].value == getName(dataForEdit['category_id'])) {
+			categoryForm.options[i].selected = true;
+			break
+		} else {
+			categoryForm.options[i].selected = false;
+		}
+	}
 	priceForm.value = dataForEdit["price"]
-	textForm.innerHTML = "Изменение категории"
+	textForm.innerHTML = "Изменение товара"
 	buttonForm.innerHTML = "Изменить"
 	isEdit = true;
 }
