@@ -9,7 +9,7 @@ export = {
     async execute(client: Discord.Client, interaction: Discord.Interaction): Promise<void> {
         if (interaction.isButton()) {
             if (interaction.customId === 'accept_order') {
-                const orderAuthor = await client.users.fetch(interaction.message.embeds[0].fields[3].value.replace('**`', '').replace('`**', ''))
+                const orderAuthor = await client.users.fetch(interaction.message.embeds[0].fields[1].value.replace('**`', '').replace('`**', ''))
                 interaction.message.embeds[0].color = AppearanceConfig.Colors.Warning as any
                 (interaction.message.embeds[0] as MessageEmbed).addFields(
                     { name: "**Курьер**:", value: `<@${interaction.user.id}>` },
