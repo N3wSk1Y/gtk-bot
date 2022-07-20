@@ -25,7 +25,7 @@ async function createTable() {
 	let heading_1 = document.createElement('th');
 	heading_1.innerHTML = "Идентификатор";
 	let heading_2 = document.createElement('th');
-	heading_2.innerHTML = "Название категории";
+	heading_2.innerHTML = "Товар";
 	let heading_3 = document.createElement('th');
 	heading_3.innerHTML = "Описание";
 	let heading_4 = document.createElement('th');
@@ -35,9 +35,8 @@ async function createTable() {
 	let heading_6 = document.createElement('th');
 	heading_6.innerHTML = "Цена";
 	let heading_7 = document.createElement('th');
-	heading_7.innerHTML = "Enabled";
-	let heading_8 = document.createElement('th');
-	heading_8.innerHTML = "";
+	heading_7.innerHTML = "<button class='add' onclick='addRow()'>Добавить</button>";
+
 	row_1.appendChild(heading_1);
 	row_1.appendChild(heading_2);
 	row_1.appendChild(heading_3);
@@ -83,6 +82,7 @@ window.onload = function(){
    const cont = document.getElementById('content')
    createTable()
 };
+
 
 let modal = document.getElementById("myModal");
 let span =  document.getElementsByClassName("close")[0];
@@ -137,7 +137,8 @@ function serializeForm(formNode) {
 		redirect: 'follow'
 	};
 	
-	fetch(`https://gtk-sp.ru/categories?id=${respData[0]}&name=${respData[1]}&description=${respData[2]}&emoji_id=${respData[3].toString()}`, requestOptions)
+	fetch(`https://gtk-sp.ru/products?id=${
+		respData[0]}&name=${respData[1]}&description=${respData[2]}&emoji_id=${respData[3].toString()}`, requestOptions)
 		.then(() => location.reload())
 		.catch(error => console.log('error', error));
 	
@@ -157,7 +158,7 @@ function delData(id) {
 	};
 	let conf = confirm("Вы точно хотите это удалить?");
 	if (conf) {
-		fetch(`https://gtk-sp.ru/categories?id=${id}`, requestOptions)
+		fetch(`https://gtk-sp.ru/products?id=${id}`, requestOptions)
 			.then(() => location.reload())
 			.catch(error => console.log('error', error));
 	}
@@ -171,23 +172,17 @@ function editData(num) {
 	let nameForm = document.getElementById("name-form");
 	let descriptionForm = document.getElementById("description-form");
 	let emojiIdForm = document.getElementById("emoji_id-form");
+	let categoryForm = document.getElementById("category-form");
+	let priceForm = document.getElementById("price-form");
+
 	$("#id-form").attr("disabled", true)
 	idForm.value = dataForEdit["id"]
 	nameForm.value = dataForEdit["name"]
 	descriptionForm.value = dataForEdit["description"]
 	emojiIdForm.value = dataForEdit["emoji_id"]
+	categoryForm.value = dataForEdit["category"]
+	priceForm.value = dataForEdit["price"]
 	textForm.innerHTML = "Изменение категории"
 	buttonForm.innerHTML = "Изменить"
 	isEdit = true;
-}
-
-function replaceData(id, pos) {
-	const requestOptions = {
-		method: 'PUT',
-		redirect: 'follow'
-	};
-	
-	fetch(`https://gtk-sp.ru/categories/order?id=${id}&direction=${pos}}`, requestOptions)
-	.then(() => location.reload())
-	.catch(error => console.log('error', error));
 }
