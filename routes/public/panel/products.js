@@ -78,15 +78,29 @@ async function createTable() {
 	
 	document.getElementById('content').appendChild(table);
 }
+
+let modal = document.getElementById("myModal");
+let span =  document.getElementsByClassName("close")[0];
+let warning = document.getElementById('warning')
+let textForm = document.getElementById("addText");
+let buttonForm = document.getElementById("submit-form");
+let isEdit = true;
+let idForm = "";
+let nameForm = "";
+let descriptionForm = "";
+let emojiIdForm = "";
+let categoryForm = "";
+let priceForm = "";
+
 window.onload = function(){
 	const cont = document.getElementById('content')
 	createTable()
 	var data_cat;
-	const idForm = document.getElementById("id-form");
-	const nameForm = document.getElementById("name-form");
-	const descriptionForm = document.getElementById("description-form");
-	const emojiIdForm = document.getElementById("emoji_id-form");
-	const categoryForm = document.getElementById("category-form");
+	idForm = document.getElementById("id-form");
+	nameForm = document.getElementById("name-form");
+	descriptionForm = document.getElementById("description-form");
+	emojiIdForm = document.getElementById("emoji_id-form");
+	categoryForm = document.getElementById("category-form");
 	for (const cat in data_cat) {
 		let newOption = document.createElement('option');
 		newOption.innerHTML = cat;
@@ -96,6 +110,7 @@ window.onload = function(){
 	const priceForm = document.getElementById("price-form");
 };
 
+
 function getId(name) {
 	for (let i = 0; i < data_cat.length; i++) {
 		if (data_cat[i]["name"] == name) {
@@ -103,13 +118,6 @@ function getId(name) {
 		}
 	}
 }
-
-let modal = document.getElementById("myModal");
-let span =  document.getElementsByClassName("close")[0];
-let warning = document.getElementById('warning')
-let textForm = document.getElementById("addText");
-let buttonForm = document.getElementById("submit-form");
-let isEdit = true;
 
 
 function addRow(){
