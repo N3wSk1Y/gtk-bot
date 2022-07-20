@@ -4,8 +4,8 @@ async function createTable() {
 		return await resp.json();
 	}
 
-	const data = await makeRequest('https://gtk-sp.ru/products')
-	var data_cat = await makeRequest('https://gtk-sp.ru/categories')
+	var data = await makeRequest('https://gtk-sp.ru/products')
+	data_cat = await makeRequest('https://gtk-sp.ru/categories')
 
 	function getName(id) {
 		for (let i = 0; i < data_cat.length; i++) {
@@ -83,6 +83,13 @@ window.onload = function(){
    createTable()
 };
 
+function getId(name) {
+	for (let i = 0; i < data_cat.length; i++) {
+		if (data_cat[i]["name"] == name) {
+			return data_cat[i]["id"]
+		}
+	}
+}
 
 let modal = document.getElementById("myModal");
 let span =  document.getElementsByClassName("close")[0];
@@ -90,6 +97,20 @@ let warning = document.getElementById('warning')
 let textForm = document.getElementById("addText");
 let buttonForm = document.getElementById("submit-form");
 let isEdit = true;
+var data_cat;
+const idForm = document.getElementById("id-form");
+const nameForm = document.getElementById("name-form");
+const descriptionForm = document.getElementById("description-form");
+const emojiIdForm = document.getElementById("emoji_id-form");
+const categoryForm = document.getElementById("category-form");
+for (const cat in data_cat) {
+	let newOption = document.createElement('option');
+	newOption.innerHTML = cat;
+	categoryForm.appendChild(newOption);
+	console.log(categoryForm, cat, newOption)
+}
+const priceForm = document.getElementById("price-form");
+
 
 function addRow(){
 	modal.style.display = "block";
@@ -137,8 +158,13 @@ function serializeForm(formNode) {
 		redirect: 'follow'
 	};
 	
-	fetch(`https://gtk-sp.ru/products?id=${
-		respData[0]}&name=${respData[1]}&description=${respData[2]}&emoji_id=${respData[3].toString()}`, requestOptions)
+	fetch(`https://gtk-sp.ru/products?
+			id=${respData[0]}&
+			name=${respData[1]}&
+			description=${respData[2]}&
+			emoji_id=${respData[3].toString()}&
+			category=${getId(respData[4])}&
+			price=${respData[5].toString()}`, requestOptions)
 		.then(() => location.reload())
 		.catch(error => console.log('error', error));
 	
@@ -167,13 +193,6 @@ function delData(id) {
 function editData(num) {
 	modal.style.display = "block";
 	dataForEdit = data[num];
-
-	let idForm = document.getElementById("id-form");
-	let nameForm = document.getElementById("name-form");
-	let descriptionForm = document.getElementById("description-form");
-	let emojiIdForm = document.getElementById("emoji_id-form");
-	let categoryForm = document.getElementById("category-form");
-	let priceForm = document.getElementById("price-form");
 
 	$("#id-form").attr("disabled", true)
 	idForm.value = dataForEdit["id"]
