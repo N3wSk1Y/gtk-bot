@@ -3,7 +3,7 @@ async function createTable() {
 	    const resp = await fetch(url)
 		return await resp.json();
 	}
-
+	console.log("!")
 	var data = await makeRequest('https://gtk-sp.ru/products')
 	data_cat = await makeRequest('https://gtk-sp.ru/categories')
 
@@ -78,7 +78,7 @@ async function createTable() {
 	
 	document.getElementById('content').appendChild(table);
 }
-
+console.log("!!!")
 let modal = document.getElementById("myModal");
 let span =  document.getElementsByClassName("close")[0];
 let warning = document.getElementById('warning')
@@ -101,6 +101,7 @@ for (const cat in data_cat) {
 	
 
 window.onload = function(){
+	console("!!")
 	const cont = document.getElementById('content')
 	createTable()
 };
