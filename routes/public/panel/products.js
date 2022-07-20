@@ -6,7 +6,7 @@ async function createTable() {
 	console.log("!")
 	data = await makeRequest('https://gtk-sp.ru/products')
 	data_cat = await makeRequest('https://gtk-sp.ru/categories')
-
+	console.log(data_cat)
 	function getName(id) {
 		for (let i = 0; i < data_cat.length; i++) {
 			if (data_cat[i]["id"] == id) {
@@ -185,10 +185,10 @@ function serializeForm(formNode) {
 			id=${respData[0]}&
 			name=${respData[1]}&
 			description=${respData[2]}&
-			emoji_id=${respData[3].toString()}&
+			emoji_id=${respData[3]}&
 			category=${getId(respData[4])}&
-			price=${respData[5].toString()}`, requestOptions)
-		// .then(() => location.reload())
+			price=${respData[5]}`, requestOptions)
+		.then(() => location.reload())
 		.catch(error => console.log('error', error));
 	
 }
