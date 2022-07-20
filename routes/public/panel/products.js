@@ -8,11 +8,8 @@ async function createTable() {
 	var data_cat = await makeRequest('https://gtk-sp.ru/categories')
 
 	function getName(id) {
-		console.log(data_cat, id)
 		for (let i = 0; i < data_cat.length; i++) {
-			console.log(data_cat[i]["id"])
 			if (data_cat[i]["id"] == id) {
-				console.log(data_cat[i]["name"])
 				return data_cat[i]["name"]
 			}
 		}
