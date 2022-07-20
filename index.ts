@@ -14,8 +14,6 @@ export const client = new Client({
 });
 
 // TODO: Пройтись по всем варнингам во всех файлах
-// TODO: Добавить историю пополнения и снятие денег
-// TODO: ДОБАВИТЬ СНЯТИЕ СЧЕТА (деньги переводяться, а истории и снятия с Гбанка нету)
 
 const botEvents = fs.readdirSync('./events/').filter(f => f.endsWith('.js'))
 const botRoutes = fs.readdirSync('./interactions/').filter(f => f.endsWith('.js'))
