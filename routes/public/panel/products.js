@@ -220,7 +220,7 @@ function editData(num) {
 	nameForm.value = dataForEdit["name"]
 	descriptionForm.value = dataForEdit["description"]
 	emojiIdForm.value = dataForEdit["emoji_id"]
-	categoryForm.value = dataForEdit["category"]
+	categoryForm.value = dataForEdit["category_id"]
 	priceForm.value = dataForEdit["price"]
 	textForm.innerHTML = "Изменение категории"
 	buttonForm.innerHTML = "Изменить"
