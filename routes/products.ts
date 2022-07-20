@@ -29,20 +29,48 @@ router.delete('/', async (req, res, next) => {
 });
 
 router.post('/', async (req, res, next) => {
-    if (!req.query.id && !req.query.name && !req.query.description && !req.query.emoji_id && !req.query.category_id && !req.query.price && !req.query.enabled) {
+    if (!req.query.id && !req.query.name && !req.query.description && !req.query.emoji_id && !req.query.category_id && !req.query.price) {
         res.send({
             error: "Параметр id указан некорректно"
         })
         return;
     }
-    await DBRequest(`INSERT INTO products (id, name, description, emoji_id, category_id, price, enabled) VALUES ('${req.query.id}', '${req.query.name}', '${req.query.description}', '${req.query.emoji_id}', '${req.query.category_id}', ${req.query.price}, '${req.query.enabled}')`)
+    await DBRequest(`INSERT INTO products (id, name, description, emoji_id, category_id, price) VALUES ('${req.query.id}', '${req.query.name}', '${req.query.description}', '${req.query.emoji_id}', '${req.query.category_id}', ${req.query.price})`)
     res.send({
         notification: "Товар добавлен"
     })
 });
 
+router.put('/stock', async (req, res, next) => {
+    if (req.query.id && req.query.amount) {
+        const products = await DBRequest(`SELECT * FROM products WHERE products.id = '${req.query.id}'`) as any[]
+        if (products.length === 0) {
+            res.send({
+                error: "Такого товара не существует"
+            })
+            return;
+        }
+        const currentStock = products[0].stock as number
+        if (req.query.name)
+            await DBRequest(`UPDATE products SET stock = ${currentStock + parseInt(req.query.amount as string)} WHERE  products.id = '${req.query.id}'`)
+
+        if (currentStock + parseInt(req.query.amount as string) < 1)
+            await DBRequest("UPDATE products SET enabled = 0 WHERE  products.id = '${req.query.id}' ")
+        else
+            await DBRequest("UPDATE products SET enabled = 1 WHERE  products.id = '${req.query.id}' ")
+
+        res.send({
+            notification: "Склад обновлен"
+        })
+    } else {
+        res.send({
+            error: "Параметры id и amount указаны некорректно"
+        })
+    }
+});
+
 router.put('/', async (req, res, next) => {
-    if (req.query.id && (req.query.name || req.query.description || req.query.emoji_id || req.query.category_id || req.query.price || req.query.enabled)) {
+    if (req.query.id && (req.query.name || req.query.description || req.query.emoji_id || req.query.category_id || req.query.price)) {
         const products = await DBRequest(`SELECT * FROM products WHERE products.id = '${req.query.id}'`) as object[]
         if (products.length === 0) {
             res.send({
@@ -60,8 +88,6 @@ router.put('/', async (req, res, next) => {
             await DBRequest(`UPDATE products SET category_id = '${req.query.category_id}' WHERE  products.id = '${req.query.id}'`)
         if (req.query.price)
             await DBRequest(`UPDATE products SET price = ${req.query.price} WHERE  products.id = '${req.query.id}'`)
-        if (req.query.enabled)
-            await DBRequest(`UPDATE products SET enabled = '${req.query.enabled}' WHERE  products.id = '${req.query.id}'`)
 
         res.send({
             notification: "Товар обновлен"

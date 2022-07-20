@@ -25,6 +25,7 @@ app.use('/payment', require('./routes/success'));
 app.use('/categories', require('./routes/categories'));
 app.use('/products', require('./routes/products'));
 app.use('/panel', require('./routes/panel'));
+app.use('/stock', require('./routes/stock'));
 
 app.get('/', function(req, res){
     res.status(200).sendFile(__dirname + "/routes/public/main.html")
