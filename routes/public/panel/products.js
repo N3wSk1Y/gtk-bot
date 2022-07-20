@@ -8,7 +8,7 @@ async function createTable() {
 	var data_cat = await makeRequest('https://gtk-sp.ru/categories')
 
 	function getName(id) {
-		console.log(data_cat)
+		console.log(data_cat, id)
 		for (let i; i < data_cat.length; i++) {
 			if (data_cat[i]["id"] == id) {
 				console.log(data_cat[i]["name"])
