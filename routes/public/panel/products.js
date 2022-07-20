@@ -153,7 +153,7 @@ function serializeForm(formNode) {
 			emoji_id=${respData[3].toString()}&
 			category=${getId(respData[4])}&
 			price=${respData[5].toString()}`, requestOptions)
-		.then(() => location.reload())
+		// .then(() => location.reload())
 		.catch(error => console.log('error', error));
 	
 }
