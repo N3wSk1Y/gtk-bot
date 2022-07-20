@@ -227,6 +227,8 @@ function editData(num) {
 		if (categoryForm.options[i].value == getName(dataForEdit['category_id'])) {
 			categoryForm.options[i].selected = true;
 			break
+		} else {
+			categoryForm.options[i].selected = false;
 		}
 	}
 	priceForm.value = dataForEdit["price"]
