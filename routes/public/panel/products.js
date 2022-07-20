@@ -139,7 +139,7 @@ function getId(name) {
 
 function addRow(){
 	modal.style.display = "block";
-	textForm.innerHTML = "Добавление категории"
+	textForm.innerHTML = "Добавление товара"
 	buttonForm.innerHTML = "Добавить"
 	$("#id-form").attr("disabled", false)
 	document.getElementById('form').reset();
@@ -222,7 +222,7 @@ function editData(num) {
 	emojiIdForm.value = dataForEdit["emoji_id"]
 	categoryForm.value = dataForEdit["category_id"]
 	priceForm.value = dataForEdit["price"]
-	textForm.innerHTML = "Изменение категории"
+	textForm.innerHTML = "Изменение товара"
 	buttonForm.innerHTML = "Изменить"
 	isEdit = true;
 }
