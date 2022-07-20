@@ -3,6 +3,9 @@ async function createTable() {
 	    const resp = await fetch(url)
 		return await resp.json();
 	}
+	console.log("!")
+	data = await makeRequest('https://gtk-sp.ru/products')
+	data_cat = await makeRequest('https://gtk-sp.ru/categories')
 
 	function getName(id) {
 		for (let i = 0; i < data_cat.length; i++) {
@@ -82,26 +85,28 @@ let warning = document.getElementById('warning')
 let textForm = document.getElementById("addText");
 let buttonForm = document.getElementById("submit-form");
 let isEdit = true;
-var data = await makeRequest('https://gtk-sp.ru/products')
-var data_cat = await makeRequest('https://gtk-sp.ru/categories')
+var data;
+var data_cat;
 let	idForm = document.getElementById("id-form");
 let	nameForm = document.getElementById("name-form");
 let	descriptionForm = document.getElementById("description-form");
 let	emojiIdForm = document.getElementById("emoji_id-form");
 let	categoryForm = document.getElementById("category-form");
 let priceForm = document.getElementById("price-form");
-for (const cat in data_cat) {
-	let newOption = document.createElement('option');
-	newOption.innerHTML = cat;
-	categoryForm.appendChild(newOption);
-	console.log(categoryForm, cat, newOption)
-}
-	
 
-window.onload = function(){
-	console.log("!!")
-	const cont = document.getElementById('content')
+	
+function init() {
 	createTable()
+	for (const cat in data_cat) {
+		let newOption = document.createElement('option');
+		newOption.innerHTML = cat;
+		categoryForm.appendChild(newOption);
+		console.log(categoryForm, cat, newOption)
+	}
+}
+window.onload = function(){
+	const cont = document.getElementById('content')
+	init()
 };
 
 
