@@ -44,17 +44,7 @@ async function createTable() {
 
 	for (let i = 0; i < data.length; i++) {
 		let newRow = document.createElement('tr');
-		let newRowData_0 = document.createElement('td');
-		let disUp = ' ';
-		let disDown = ' ';
-		switch (i){
-			case 0:
-				disUp = "disabled"
-				break
-			case data.length-1:
-				disDown = "disabled"
-				break
-		}
+		// let newRowData_0 = document.createElement('td');
 		// let buttons = `<button class="arrow" id="up" onclick="replaceData('${data[i]["id"]}', -1)" ${disUp}>
 		// <span class="material-symbols-outlined">
 		// expand_less
@@ -83,7 +73,7 @@ async function createTable() {
 		newRowData_8.innerHTML = `<button class='edit' onclick='editData(${i})'>Изменить</button><button class='delete' onclick='delData("${data[i]["id"]}")'>Удалить</button>`
 		newRowData_8.classList.add("no-border");
 
-		newRow.appendChild(newRowData_0);
+		// newRow.appendChild(newRowData_0);
 		newRow.appendChild(newRowData_1);
 		newRow.appendChild(newRowData_2);
 		newRow.appendChild(newRowData_3);
