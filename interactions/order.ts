@@ -36,8 +36,6 @@ export = {
                 interaction.message.embeds[0].title = interaction.message.embeds[0].title.replace("Корзина", "Заказ")
                 interaction.message.embeds[0].color = AppearanceConfig.Colors.Default as any
                 interaction.message.embeds = [interaction.message.embeds[0] as MessageEmbed] as MessageEmbed[]
-                // @ts-ignore
-                interaction.message.embeds[0].fields.splice(1, 1)
                 (interaction.message.embeds[0] as MessageEmbed).addFields(
                     { name: "**Адрес**:", value: `**\`${address}\`**` },
                     { name: "**Покупатель:**", value: `**<@${interaction.user.id}>**` },
@@ -48,7 +46,7 @@ export = {
                 // Отправка уведомления о заказе в ЛС пользователю
                 const privateMessage = await interaction.user.send({embeds: interaction.message.embeds});
 
-                (interaction.message.embeds[0] as MessageEmbed).addFields(
+                (interaction.message.embeds[0] as MessageEmbed).spliceFields(1, 1,
                     { name: "**ID покупателя:**", value: `**\`${interaction.user.id}\`**` }
                 )
 
