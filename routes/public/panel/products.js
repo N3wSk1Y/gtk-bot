@@ -1,10 +1,21 @@
+const { default: getAnchorElement } = require("swup/lib/modules/getAnchorElement");
+
 async function createTable() {
 	async function makeRequest(url) {  
 	    const resp = await fetch(url)
 		return await resp.json();
 	}
-	data = await makeRequest('https://gtk-sp.ru/products')
-	console.log(data)
+
+	const data = await makeRequest('https://gtk-sp.ru/products')
+	var data_cat = await makeRequest('https://gtk-sp.ru/categories')
+
+	function getName(id) {
+		for (let i; i < data_cat.length; i++) {
+			if (data_cat[i]["id"] == id) {
+				return data_cat[i]["name"]
+			}
+		}
+	}
 
 	let table = document.createElement('table');
 	let thead = document.createElement('thead');
@@ -64,7 +75,7 @@ async function createTable() {
 		let newRowData_4 = document.createElement('td');
 		newRowData_4.innerHTML = data[i]["emoji_id"];
 		let newRowData_5 = document.createElement('td');
-		newRowData_5.innerHTML = data[i]["category_id"]
+		newRowData_5.innerHTML = getName(data[i]["category_id"]);
 		let newRowData_6 = document.createElement('td');
 		newRowData_6.innerHTML = data[i]["price"];
 		let newRowData_7 = document.createElement('td');
