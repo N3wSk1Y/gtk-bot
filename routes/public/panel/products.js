@@ -101,7 +101,7 @@ for (const cat in data_cat) {
 	
 
 window.onload = function(){
-	console("!!")
+	console.log("!!")
 	const cont = document.getElementById('content')
 	createTable()
 };
