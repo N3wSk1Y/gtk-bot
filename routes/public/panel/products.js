@@ -125,7 +125,9 @@ window.onload = function(){
 
 function getId(name) {
 	for (let i = 0; i < data_cat.length; i++) {
+		console.log(data_cat[i])
 		if (data_cat[i]["name"] == name) {
+			console.log(data_cat[i]["id"])
 			return data_cat[i]["id"]
 		}
 	}
