@@ -180,7 +180,7 @@ function serializeForm(formNode) {
 		method: reqMethod,
 		redirect: 'follow'
 	};
-	
+	console.log(respData)
 	fetch(`https://gtk-sp.ru/products?
 			id=${respData[0]}&
 			name=${respData[1]}&
