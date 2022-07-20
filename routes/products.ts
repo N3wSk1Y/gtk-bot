@@ -36,6 +36,7 @@ router.post('/', async (req, res, next) => {
         return;
     }
     await DBRequest(`INSERT INTO products (id, name, description, emoji_id, category_id, price) VALUES ('${req.query.id}', '${req.query.name}', '${req.query.description}', '${req.query.emoji_id}', '${req.query.category_id}', ${req.query.price})`)
+    console.log(req.query)
     res.send({
         notification: "Товар добавлен"
     })
