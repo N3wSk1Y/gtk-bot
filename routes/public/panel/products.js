@@ -1,3 +1,12 @@
+
+function getName(id) {
+	for (let i = 0; i < data_cat.length; i++) {
+		if (data_cat[i]["id"] == id) {
+			return data_cat[i]["name"]
+		}
+	}
+}
+
 async function createTable() {
 	async function makeRequest(url) {  
 	    const resp = await fetch(url)
@@ -7,13 +16,7 @@ async function createTable() {
 	data = await makeRequest('https://gtk-sp.ru/products')
 	data_cat = await makeRequest('https://gtk-sp.ru/categories')
 	console.log(data_cat)
-	function getName(id) {
-		for (let i = 0; i < data_cat.length; i++) {
-			if (data_cat[i]["id"] == id) {
-				return data_cat[i]["name"]
-			}
-		}
-	}
+
 
 	let table = document.createElement('table');
 	let thead = document.createElement('thead');
