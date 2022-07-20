@@ -111,7 +111,7 @@ async function init() {
 	for (const cat in data_cat) {
 		let newOption = document.createElement('option');
 		newOption.innerHTML = cat;
-		console.log(categoryForm, cat, newOption)
+		console.log(categoryForm, cat["name"], newOption)
 		categoryForm.appendChild(newOption);
 	}});
 	// console.log(data_cat)
