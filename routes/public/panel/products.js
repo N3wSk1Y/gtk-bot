@@ -85,29 +85,24 @@ let warning = document.getElementById('warning')
 let textForm = document.getElementById("addText");
 let buttonForm = document.getElementById("submit-form");
 let isEdit = true;
-let idForm = "";
-let nameForm = "";
-let descriptionForm = "";
-let emojiIdForm = "";
-let categoryForm = "";
-let priceForm = "";
+var data_cat;
+let	idForm = document.getElementById("id-form");
+let	nameForm = document.getElementById("name-form");
+let	descriptionForm = document.getElementById("description-form");
+let	emojiIdForm = document.getElementById("emoji_id-form");
+let	categoryForm = document.getElementById("category-form");
+let priceForm = document.getElementById("price-form");
+for (const cat in data_cat) {
+	let newOption = document.createElement('option');
+	newOption.innerHTML = cat;
+	categoryForm.appendChild(newOption);
+	console.log(categoryForm, cat, newOption)
+}
+	
 
 window.onload = function(){
 	const cont = document.getElementById('content')
 	createTable()
-	var data_cat;
-	idForm = document.getElementById("id-form");
-	nameForm = document.getElementById("name-form");
-	descriptionForm = document.getElementById("description-form");
-	emojiIdForm = document.getElementById("emoji_id-form");
-	categoryForm = document.getElementById("category-form");
-	for (const cat in data_cat) {
-		let newOption = document.createElement('option');
-		newOption.innerHTML = cat;
-		categoryForm.appendChild(newOption);
-		console.log(categoryForm, cat, newOption)
-	}
-	const priceForm = document.getElementById("price-form");
 };
 
 
