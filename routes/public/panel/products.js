@@ -95,14 +95,14 @@ let	categoryForm = document.getElementById("category-form");
 let priceForm = document.getElementById("price-form");
 
 	
-function init() {
-	await createTable()
+async function init() {
+	await createTable().then(() => {
 	for (const cat in data_cat) {
 		let newOption = document.createElement('option');
 		newOption.innerHTML = cat;
 		categoryForm.appendChild(newOption);
 		console.log(categoryForm, cat, newOption)
-	}
+	}});
 	// console.log(data_cat)
 }
 window.onload = function(){
