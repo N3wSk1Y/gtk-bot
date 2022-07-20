@@ -226,7 +226,7 @@ function editData(num) {
 	for (const cat in categoryForm.options) {
 		if (cat.value == getName(dataForEdit["category_id"])) {
 			cat.selected = true;
-			return
+			break
 		}
 	}
 	priceForm.value = dataForEdit["price"]
