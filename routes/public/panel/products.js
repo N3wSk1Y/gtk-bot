@@ -179,15 +179,15 @@ function serializeForm(formNode) {
 		redirect: 'follow'
 	};
 	
-	// fetch(`https://gtk-sp.ru/products?
-	// 		id=${respData[0]}&
-	// 		name=${respData[1]}&
-	// 		description=${respData[2]}&
-	// 		emoji_id=${respData[3].toString()}&
-	// 		category=${getId(respData[4])}&
-	// 		price=${respData[5].toString()}`, requestOptions)
-	// 	.then(() => location.reload())
-	// 	.catch(error => console.log('error', error));
+	fetch(`https://gtk-sp.ru/products?
+			id=${respData[0]}&
+			name=${respData[1]}&
+			description=${respData[2]}&
+			emoji_id=${respData[3].toString()}&
+			category=${getId(respData[4])}&
+			price=${respData[5].toString()}`, requestOptions)
+		.then(() => location.reload())
+		.catch(error => console.log('error', error));
 	
 }
 function handleFormSubmit(event) {
