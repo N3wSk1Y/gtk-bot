@@ -3,9 +3,6 @@ async function createTable() {
 	    const resp = await fetch(url)
 		return await resp.json();
 	}
-	console.log("!")
-	var data = await makeRequest('https://gtk-sp.ru/products')
-	data_cat = await makeRequest('https://gtk-sp.ru/categories')
 
 	function getName(id) {
 		for (let i = 0; i < data_cat.length; i++) {
@@ -85,7 +82,8 @@ let warning = document.getElementById('warning')
 let textForm = document.getElementById("addText");
 let buttonForm = document.getElementById("submit-form");
 let isEdit = true;
-var data_cat;
+var data = await makeRequest('https://gtk-sp.ru/products')
+var data_cat = await makeRequest('https://gtk-sp.ru/categories')
 let	idForm = document.getElementById("id-form");
 let	nameForm = document.getElementById("name-form");
 let	descriptionForm = document.getElementById("description-form");
