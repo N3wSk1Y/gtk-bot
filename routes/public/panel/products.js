@@ -137,8 +137,13 @@ function serializeForm(formNode) {
 		redirect: 'follow'
 	};
 	
-	fetch(`https://gtk-sp.ru/products?id=${
-		respData[0]}&name=${respData[1]}&description=${respData[2]}&emoji_id=${respData[3].toString()}`, requestOptions)
+	fetch(`https://gtk-sp.ru/products?
+		id=${respData[0]}&
+		name=${respData[1]}&
+		description=${respData[2]}&
+		emoji_id=${respData[3].toString()}&
+		category=${respData[4]}&
+		price=${respData[5].toString()}`, requestOptions)
 		.then(() => location.reload())
 		.catch(error => console.log('error', error));
 	
