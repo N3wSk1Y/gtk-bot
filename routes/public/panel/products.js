@@ -87,6 +87,12 @@ let isEdit = true;
 let	categoryForm;
 let	emojiIdForm;
 let	descriptionForm;
+let	nameForm;
+let	idForm;
+let priceForm;
+var data;
+var data_cat;
+
 
 async function init() {
 	await createTable().then(() => {
@@ -95,15 +101,13 @@ async function init() {
 	warning = document.getElementById('warning')
 	textForm = document.getElementById("addText");
 	buttonForm = document.getElementById("submit-form");
-	var data;
-	var data_cat;
-	let	idForm = document.getElementById("id-form");
-	let	nameForm = document.getElementById("name-form");
+	idForm = document.getElementById("id-form");
+	nameForm = document.getElementById("name-form");
 	descriptionForm = document.getElementById("description-form");
 	emojiIdForm = document.getElementById("emoji_id-form");
 	categoryForm = document.getElementById("category-form");
 	console.log(categoryForm)
-	let priceForm = document.getElementById("price-form");
+	priceForm = document.getElementById("price-form");
 	for (const cat in data_cat) {
 		let newOption = document.createElement('option');
 		newOption.innerHTML = cat;
