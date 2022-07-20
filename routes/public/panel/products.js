@@ -96,13 +96,14 @@ let priceForm = document.getElementById("price-form");
 
 	
 function init() {
-	createTable()
 	for (const cat in data_cat) {
 		let newOption = document.createElement('option');
 		newOption.innerHTML = cat;
 		categoryForm.appendChild(newOption);
 		console.log(categoryForm, cat, newOption)
 	}
+	// console.log(data_cat)
+	createTable()
 }
 window.onload = function(){
 	const cont = document.getElementById('content')
