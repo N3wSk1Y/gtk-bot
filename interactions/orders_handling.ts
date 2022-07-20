@@ -45,7 +45,7 @@ export = {
                     return;
                 }
 
-                const orderAuthor = await client.users.fetch(interaction.message.embeds[0].fields[3].value.replace('**`', '').replace('`**', ''))
+                const orderAuthor = await client.users.fetch(interaction.message.embeds[0].fields[1].value.replace('**`', '').replace('`**', ''))
                 interaction.message.embeds[0].color = AppearanceConfig.Colors.Success as any
 
                 const embed = new MessageEmbed()
