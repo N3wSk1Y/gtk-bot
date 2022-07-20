@@ -91,7 +91,7 @@ let	idForm = document.getElementById("id-form");
 let	nameForm = document.getElementById("name-form");
 let	descriptionForm = document.getElementById("description-form");
 let	emojiIdForm = document.getElementById("emoji_id-form");
-var	categoryForm = document.getElementById("category-form");
+let	categoryForm = document.getElementById("category-form");
 let priceForm = document.getElementById("price-form");
 
 	
@@ -100,8 +100,8 @@ async function init() {
 	for (const cat in data_cat) {
 		let newOption = document.createElement('option');
 		newOption.innerHTML = cat;
-		categoryForm.appendChild(newOption);
 		console.log(categoryForm, cat, newOption)
+		categoryForm.appendChild(newOption);
 	}});
 	// console.log(data_cat)
 }
