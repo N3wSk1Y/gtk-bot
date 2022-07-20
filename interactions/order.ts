@@ -36,6 +36,8 @@ export = {
                 interaction.message.embeds[0].title = interaction.message.embeds[0].title.replace("Корзина", "Заказ")
                 interaction.message.embeds[0].color = AppearanceConfig.Colors.Default as any
                 interaction.message.embeds = [interaction.message.embeds[0] as MessageEmbed] as MessageEmbed[]
+                // @ts-ignore
+                interaction.message.embeds[0].fields.splice(1, 1)
                 (interaction.message.embeds[0] as MessageEmbed).addFields(
                     { name: "**Адрес**:", value: `**\`${address}\`**` },
                     { name: "**Покупатель:**", value: `**<@${interaction.user.id}>**` },
