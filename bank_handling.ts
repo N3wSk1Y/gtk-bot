@@ -73,27 +73,29 @@ export async function transferBalance (userid: number, value: number, target: Op
     if (!await accountExists(userid))
         return
     const balance = (await DBRequest(`SELECT * FROM users WHERE id = ${userid}`) as any[])[0].balance as number
-    const imarketBalance = (await DBRequest(`SELECT * FROM stats WHERE config_id = 1`) as any[])[0].imarket_balance as number
 
     await DBRequest(`UPDATE \`users\` SET balance = ${balance-value} WHERE \`users\`.\`id\` = ${userid}`)
-    await DBRequest(`UPDATE \`stats\` SET imarket_balance = ${imarketBalance+value} WHERE \`stats\`.\`config_id\` = 1`)
     const response = await DBRequest(`SELECT * FROM \`users\` WHERE id = ${userid}`) as any[]
     await postTransferHistory(userid, value, Math.abs(Object.keys(OperationTypes).indexOf(target)), reason)
     return response[0].balance;
 }
 
-export async function getHistory(userid: number, historyType: HistoryTypes) {
-    return await DBRequest(`SELECT * FROM ${historyType} WHERE userid = ${userid}`)
-}
-
 export async function postTransferHistory(userid: number, value: number, target: number, reason: string) {
-    return await DBRequest(`INSERT INTO transfer_history (userid, value, target, reason) VALUES (${userid}, ${value}, ${target}, '${reason}')`)
+    await DBRequest(`INSERT INTO transfer_history (userid, value, target, reason) VALUES (${userid}, ${value}, ${target}, '${reason}')`)
+    const imarketBalance = (await DBRequest(`SELECT * FROM stats WHERE config_id = 1`) as any[])[0].imarket_balance as number
+    const freeBalance = (await DBRequest(`SELECT * FROM stats WHERE config_id = 1`) as any[])[0].free_money as number
+    await DBRequest(`UPDATE \`stats\` SET imarket_balance = ${imarketBalance-value} WHERE \`stats\`.\`config_id\` = 1`)
+    await DBRequest(`UPDATE \`stats\` SET free_money = ${freeBalance+value} WHERE \`stats\`.\`config_id\` = 1`)
 }
 
 export async function postTopupHistory(userid: number, value: number) {
-    return await DBRequest(`INSERT INTO topup_history (userid, value) VALUES (${userid}, ${value})`)
+    await DBRequest(`INSERT INTO topup_history (userid, value) VALUES (${userid}, ${value})`)
+    const imarketBalance = (await DBRequest(`SELECT * FROM stats WHERE config_id = 1`) as any[])[0].imarket_balance as number
+    await DBRequest(`UPDATE \`stats\` SET imarket_balance = ${imarketBalance+value} WHERE \`stats\`.\`config_id\` = 1`)
 }
 
 export async function postWithdrawHistory(userid: number, value: number) {
-    return await DBRequest(`INSERT INTO withdraw_history (userid, value) VALUES (${userid}, ${value})`)
+    await DBRequest(`INSERT INTO withdraw_history (userid, value) VALUES (${userid}, ${value})`)
+    const imarketBalance = (await DBRequest(`SELECT * FROM stats WHERE config_id = 1`) as any[])[0].imarket_balance as number
+    await DBRequest(`UPDATE \`stats\` SET imarket_balance = ${imarketBalance-value} WHERE \`stats\`.\`config_id\` = 1`)
 }
