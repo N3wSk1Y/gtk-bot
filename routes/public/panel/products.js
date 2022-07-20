@@ -79,25 +79,26 @@ async function createTable() {
 	document.getElementById('content').appendChild(table);
 }
 console.log("!!!")
-let modal = document.getElementById("myModal");
-let span =  document.getElementsByClassName("close")[0];
-let warning = document.getElementById('warning')
-let textForm = document.getElementById("addText");
-let buttonForm = document.getElementById("submit-form");
-let isEdit = true;
-var data;
-var data_cat;
-let	idForm = document.getElementById("id-form");
-let	nameForm = document.getElementById("name-form");
-let	descriptionForm = document.getElementById("description-form");
-let	emojiIdForm = document.getElementById("emoji_id-form");
-let	categoryForm = document.getElementById("category-form");
-console.log(categoryForm)
-let priceForm = document.getElementById("price-form");
+
 
 	
 async function init() {
 	await createTable().then(() => {
+	let modal = document.getElementById("myModal");
+	let span =  document.getElementsByClassName("close")[0];
+	let warning = document.getElementById('warning')
+	let textForm = document.getElementById("addText");
+	let buttonForm = document.getElementById("submit-form");
+	let isEdit = true;
+	var data;
+	var data_cat;
+	let	idForm = document.getElementById("id-form");
+	let	nameForm = document.getElementById("name-form");
+	let	descriptionForm = document.getElementById("description-form");
+	let	emojiIdForm = document.getElementById("emoji_id-form");
+	let	categoryForm = document.getElementById("category-form");
+	console.log(categoryForm)
+	let priceForm = document.getElementById("price-form");
 	for (const cat in data_cat) {
 		let newOption = document.createElement('option');
 		newOption.innerHTML = cat;
