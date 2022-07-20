@@ -1,3 +1,5 @@
+var data_cat;
+
 async function createTable() {
 	async function makeRequest(url) {  
 	    const resp = await fetch(url)
@@ -5,7 +7,7 @@ async function createTable() {
 	}
 
 	var data = await makeRequest('https://gtk-sp.ru/products')
-	var data_cat = await makeRequest('https://gtk-sp.ru/categories')
+	data_cat = await makeRequest('https://gtk-sp.ru/categories')
 
 	function getName(id) {
 		for (let i = 0; i < data_cat.length; i++) {
