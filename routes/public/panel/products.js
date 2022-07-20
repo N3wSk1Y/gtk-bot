@@ -223,7 +223,8 @@ function editData(num) {
 	nameForm.value = dataForEdit["name"]
 	descriptionForm.value = dataForEdit["description"]
 	emojiIdForm.value = dataForEdit["emoji_id"]
-	for (let i = 0; i < categoryForm.options; i++) {
+	for (let i = 0; i < categoryForm.options.length; i++) {
+
 		if (categoryForm.options[i].value == getName(dataForEdit['category_id'])) {
 			categoryForm.options[i].selected = true;
 			break
