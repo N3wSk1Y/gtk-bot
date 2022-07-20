@@ -1,5 +1,3 @@
-var data_cat;
-
 async function createTable() {
 	async function makeRequest(url) {  
 	    const resp = await fetch(url)
@@ -99,6 +97,18 @@ let warning = document.getElementById('warning')
 let textForm = document.getElementById("addText");
 let buttonForm = document.getElementById("submit-form");
 let isEdit = true;
+var data_cat;
+const idForm = document.getElementById("id-form");
+const nameForm = document.getElementById("name-form");
+const descriptionForm = document.getElementById("description-form");
+const emojiIdForm = document.getElementById("emoji_id-form");
+for (const cat in data_cat) {
+	let newOption = document.createElement('option');
+	newOption.innerHTML = cat;
+	categoryForm.appendChild(newOption);
+}
+const priceForm = document.getElementById("price-form");
+
 
 function addRow(){
 	modal.style.display = "block";
@@ -153,7 +163,7 @@ function serializeForm(formNode) {
 			emoji_id=${respData[3].toString()}&
 			category=${getId(respData[4])}&
 			price=${respData[5].toString()}`, requestOptions)
-		// .then(() => location.reload())
+		.then(() => location.reload())
 		.catch(error => console.log('error', error));
 	
 }
@@ -181,13 +191,6 @@ function delData(id) {
 function editData(num) {
 	modal.style.display = "block";
 	dataForEdit = data[num];
-
-	let idForm = document.getElementById("id-form");
-	let nameForm = document.getElementById("name-form");
-	let descriptionForm = document.getElementById("description-form");
-	let emojiIdForm = document.getElementById("emoji_id-form");
-	let categoryForm = document.getElementById("category-form");
-	let priceForm = document.getElementById("price-form");
 
 	$("#id-form").attr("disabled", true)
 	idForm.value = dataForEdit["id"]
