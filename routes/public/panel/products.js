@@ -3,10 +3,10 @@ async function createTable() {
 	    const resp = await fetch(url)
 		return await resp.json();
 	}
-
-	var data = await makeRequest('https://gtk-sp.ru/products')
+	console.log("!")
+	data = await makeRequest('https://gtk-sp.ru/products')
 	data_cat = await makeRequest('https://gtk-sp.ru/categories')
-
+	console.log(data_cat)
 	function getName(id) {
 		for (let i = 0; i < data_cat.length; i++) {
 			if (data_cat[i]["id"] == id) {
@@ -79,36 +79,55 @@ async function createTable() {
 	document.getElementById('content').appendChild(table);
 }
 
-let modal = document.getElementById("myModal");
-let span =  document.getElementsByClassName("close")[0];
-let warning = document.getElementById('warning')
-let textForm = document.getElementById("addText");
-let buttonForm = document.getElementById("submit-form");
+let modal;
+let span;
+let warning;
+let textForm;
+let buttonForm;
 let isEdit = true;
+let	categoryForm;
+let	emojiIdForm;
+let	descriptionForm;
+let	nameForm;
+let	idForm;
+let priceForm;
+let applicantForm;
+var data;
 var data_cat;
-let	idForm = document.getElementById("id-form");
-let	nameForm = document.getElementById("name-form");
-let	descriptionForm = document.getElementById("description-form");
-let	emojiIdForm = document.getElementById("emoji_id-form");
-let	categoryForm = document.getElementById("category-form");
-let priceForm = document.getElementById("price-form");
-for (const cat in data_cat) {
-	let newOption = document.createElement('option');
-	newOption.innerHTML = cat;
-	categoryForm.appendChild(newOption);
-	console.log(categoryForm, cat, newOption)
-}
-	
 
+
+async function init() {
+	await createTable().then(() => {
+	modal = document.getElementById("myModal");
+	span =  document.getElementById('close');
+	warning = document.getElementById('warning');
+	textForm = document.getElementById("addText");
+	buttonForm = document.getElementById("submit-form");
+	idForm = document.getElementById("id-form");
+	nameForm = document.getElementById("name-form");
+	descriptionForm = document.getElementById("description-form");
+	emojiIdForm = document.getElementById("emoji_id-form");
+	categoryForm = document.getElementById("category-form");
+	priceForm = document.getElementById("price-form");
+	applicantForm = document.getElementById('form')
+	applicantForm.addEventListener('submit', handleFormSubmit);
+	for (let i = 0; i < data_cat.length; i++) {
+		let newOption = document.createElement('option');
+		newOption.innerHTML = data_cat[i]["name"];
+		categoryForm.appendChild(newOption);
+	}});
+}
 window.onload = function(){
 	const cont = document.getElementById('content')
-	createTable()
+	init()
 };
 
 
 function getId(name) {
 	for (let i = 0; i < data_cat.length; i++) {
+		console.log(data_cat[i])
 		if (data_cat[i]["name"] == name) {
+			console.log(data_cat[i]["id"])
 			return data_cat[i]["id"]
 		}
 	}
@@ -148,6 +167,7 @@ function serializeForm(formNode) {
 	  } else {
 		warning.style.display = "none"
 	  }
+	  console.log(element, value, name)
       respData.push(value)
     }
 	let reqMethod = ""
@@ -160,14 +180,14 @@ function serializeForm(formNode) {
 		method: reqMethod,
 		redirect: 'follow'
 	};
-	
+	console.log(respData)
 	fetch(`https://gtk-sp.ru/products?
 			id=${respData[0]}&
 			name=${respData[1]}&
 			description=${respData[2]}&
-			emoji_id=${respData[3].toString()}&
+			emoji_id=${respData[3]}&
 			category=${getId(respData[4])}&
-			price=${respData[5].toString()}`, requestOptions)
+			price=${respData[5]}`, requestOptions)
 		.then(() => location.reload())
 		.catch(error => console.log('error', error));
 	
@@ -177,8 +197,6 @@ function handleFormSubmit(event) {
 	serializeForm(applicantForm)
 }
 
-const applicantForm = document.getElementById('form')
-applicantForm.addEventListener('submit', handleFormSubmit)
 
 function delData(id) {
 	var requestOptions = {
