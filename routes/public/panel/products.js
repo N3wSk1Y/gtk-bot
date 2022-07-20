@@ -97,8 +97,8 @@ var data_cat;
 async function init() {
 	await createTable().then(() => {
 	modal = document.getElementById("myModal");
-	span =  document.getElementsByClassName("close")[0];
-	warning = document.getElementById('warning')
+	span =  document.getElementById('close');
+	warning = document.getElementById('warning');
 	textForm = document.getElementById("addText");
 	buttonForm = document.getElementById("submit-form");
 	idForm = document.getElementById("id-form");
@@ -184,7 +184,7 @@ function serializeForm(formNode) {
 			emoji_id=${respData[3].toString()}&
 			category=${getId(respData[4])}&
 			price=${respData[5].toString()}`, requestOptions)
-		.then(() => location.reload())
+		// .then(() => location.reload())
 		.catch(error => console.log('error', error));
 	
 }

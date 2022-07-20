@@ -205,7 +205,7 @@
             input[type=number]:focus {
                 border: 2px solid #B73A2C;
             }
-            input[type=text], input[type=number]{
+            input[type=text], input[type=number], select{
                 margin-top: 15px;
                 margin-left: 25px;
             }
@@ -242,7 +242,6 @@
             .arrow:disabled {
                 filter: brightness(30%);
             }
-
         </style>
     </head>
     <body>
@@ -301,7 +300,7 @@
             <h1>Товары</h1>
             <div id="myModal" class="modal">
                 <form class="modal-content" id="form" name="form">
-                    <span class="close">&#10006;</span>
+                    <span id="close" class="close">&#10006;</span>
                     <h2 id="addText">Добавление категории</h2>
                     <p id="warning">Длина строки должна быть меньше 38 символов!</p>
                     <input id="id-form" name="id" type='text' placeholder='Введите идентификатор' class="form-input">
