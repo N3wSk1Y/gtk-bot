@@ -14,13 +14,6 @@ async function createTable() {
 			}
 		}
 	}
-	function getId(name) {
-		for (let i = 0; i < data_cat.length; i++) {
-			if (data_cat[i]["name"] == name) {
-				return data_cat[i]["id"]
-			}
-		}
-	}
 
 	let table = document.createElement('table');
 	let thead = document.createElement('thead');
@@ -90,6 +83,13 @@ window.onload = function(){
    createTable()
 };
 
+function getId(name) {
+	for (let i = 0; i < data_cat.length; i++) {
+		if (data_cat[i]["name"] == name) {
+			return data_cat[i]["id"]
+		}
+	}
+}
 
 let modal = document.getElementById("myModal");
 let span =  document.getElementsByClassName("close")[0];
