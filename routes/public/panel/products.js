@@ -221,8 +221,9 @@ function editData(num) {
 	descriptionForm.value = dataForEdit["description"]
 	emojiIdForm.value = dataForEdit["emoji_id"]
 	for (const cat in categoryForm.options) {
-		if (cat.value == dataForEdit["category_id"]) {
+		if (cat.value == getName(dataForEdit["category_id"])) {
 			cat.selected = true;
+			return
 		}
 	}
 	priceForm.value = dataForEdit["price"]
