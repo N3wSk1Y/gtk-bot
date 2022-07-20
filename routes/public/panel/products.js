@@ -99,7 +99,7 @@ var data_cat;
 async function init() {
 	await createTable().then(() => {
 	modal = document.getElementById("myModal");
-	span =  document.getElementById('close');
+	span =  $('close');
 	warning = document.getElementById('warning');
 	textForm = document.getElementById("addText");
 	buttonForm = document.getElementById("submit-form");
@@ -186,7 +186,7 @@ function serializeForm(formNode) {
 			name=${respData[1]}&
 			description=${respData[2]}&
 			emoji_id=${respData[3]}&
-			category=${getId(respData[4])}&
+			category_id=${getId(respData[4])}&
 			price=${respData[5]}`, requestOptions)
 		.then(() => location.reload())
 		.catch(error => console.log('error', error));
