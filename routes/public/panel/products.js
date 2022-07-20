@@ -107,6 +107,7 @@ for (const cat in data_cat) {
 	let newOption = document.createElement('option');
 	newOption.innerHTML = cat;
 	categoryForm.appendChild(newOption);
+	console.log(categoryForm, cat, newOption)
 }
 const priceForm = document.getElementById("price-form");
 
