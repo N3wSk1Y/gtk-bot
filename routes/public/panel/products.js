@@ -78,6 +78,7 @@ async function createTable() {
 	
 	document.getElementById('content').appendChild(table);
 }
+
 let modal;
 let span;
 let warning;
@@ -90,6 +91,7 @@ let	descriptionForm;
 let	nameForm;
 let	idForm;
 let priceForm;
+let applicantForm;
 var data;
 var data_cat;
 
@@ -106,15 +108,14 @@ async function init() {
 	descriptionForm = document.getElementById("description-form");
 	emojiIdForm = document.getElementById("emoji_id-form");
 	categoryForm = document.getElementById("category-form");
-	console.log(categoryForm)
 	priceForm = document.getElementById("price-form");
+	applicantForm = document.getElementById('form')
+	applicantForm.addEventListener('submit', handleFormSubmit);
 	for (let i = 0; i < data_cat.length; i++) {
 		let newOption = document.createElement('option');
 		newOption.innerHTML = data_cat[i]["name"];
 		categoryForm.appendChild(newOption);
 	}});
-	const applicantForm = document.getElementById('form')
-	applicantForm.addEventListener('submit', handleFormSubmit)
 }
 window.onload = function(){
 	const cont = document.getElementById('content')
