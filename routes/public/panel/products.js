@@ -163,6 +163,7 @@ function serializeForm(formNode) {
 	  } else {
 		warning.style.display = "none"
 	  }
+	  console.log(element, value, name)
       respData.push(value)
     }
 	let reqMethod = ""
