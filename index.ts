@@ -35,5 +35,9 @@ for (const file of botEvents) {
 // Инициализация interactions
 for (const file of botRoutes) {
     const route = require(`./interactions/${file}`)
-    client.on('interactionCreate', async (...args) => route.execute(client, ...args))
+    client.on('interactionCreate', async (interaction) => {
+        if (interaction.isButton())
+            await interaction.deferReply()
+        route.execute(client, interaction)
+    })
 }
