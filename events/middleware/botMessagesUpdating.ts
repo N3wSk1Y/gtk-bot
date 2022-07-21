@@ -17,6 +17,7 @@ import {SPWorlds} from "spworlds";
 const sp = new SPWorlds(CardsConfig.CARD_ID, CardsConfig.CARD_TOKEN);
 
 setInterval(async () => {
+    console.log("Проверка работы SPWorlds")
     await ( client.channels.cache.get(ChannelsConfig.IMARKET_CHANNEL) as TextChannel ).messages.fetch(TemplatesConfig.MENUS.MARKET_MENU).then((message) => {
         for (let x = 0; x < message.components[0].components.length; x++) {
             message.components[0].components[x].setDisabled(false)
