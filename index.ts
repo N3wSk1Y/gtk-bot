@@ -1,7 +1,12 @@
-import { Client, Intents } from 'discord.js';
+import {Client, ColorResolvable, Intents, MessageEmbed, TextChannel} from 'discord.js';
 import fs from 'fs'
 import './app'
 import BotConfig from './configurations/bot.json';
+import {SPWorlds} from "spworlds";
+import CardsConfig from "./configurations/cards.json";
+import ChannelsConfig from "./configurations/channels.json";
+import TemplatesConfig from "./configurations/templates.json";
+import AppearanceConfig from "./configurations/appearance.json";
 
 export const client = new Client({
     intents: [
@@ -41,3 +46,30 @@ for (const file of botRoutes) {
         route.execute(client, interaction)
     })
 }
+
+const sp = new SPWorlds(CardsConfig.CARD_ID, CardsConfig.CARD_TOKEN);
+
+setInterval(async () => {
+    console.log("Проверка работы SPWorlds")
+    await ( client.channels.cache.get(ChannelsConfig.IMARKET_CHANNEL) as TextChannel ).messages.fetch(TemplatesConfig.MENUS.MARKET_MENU).then((message) => {
+        for (let x = 0; x < message.components[0].components.length; x++) {
+            message.components[0].components[x].setDisabled(false)
+        }
+        message.edit({ embeds: [message.embeds[0]], components: message.components })
+    })
+    await sp.findUser("332149563831877632")
+        .catch(async () => {
+            await ( client.channels.cache.get(ChannelsConfig.IMARKET_CHANNEL) as TextChannel ).messages.fetch(TemplatesConfig.MENUS.MARKET_MENU).then((message) => {
+                for (let x = 0; x < message.components[0].components.length; x++) {
+                    message.components[0].components[x].setDisabled(true)
+                }
+                const errorEmbed = new MessageEmbed()
+                    .setColor(AppearanceConfig.Colors.Error as ColorResolvable)
+                    .setTitle("К сожалению, iMarket временно недоступен из-за ошибки на серверах SPWorlds.")
+                    .setFooter("С глубочайшими извинениями, команда ГТК", AppearanceConfig.Images.MainLogo)
+                message.embeds.push(errorEmbed)
+                message.edit({ embeds: message.embeds, components: message.components })
+            })
+            console.log("Ошибка в работе SPWorlds")
+        })
+}, 600000)
