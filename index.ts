@@ -70,7 +70,7 @@ export async function CheckSPWorldsAvaliability() {
                 }
                 const errorEmbed = new MessageEmbed()
                     .setColor(AppearanceConfig.Colors.Error as ColorResolvable)
-                    .setTitle("К сожалению, iMarket временно недоступен из-за ошибки на серверах SPWorlds.")
+                    .setTitle("К сожалению, iMarket временно недоступен из-за ошибок на серверах SPWorlds.")
                     .setFooter("С глубочайшими извинениями, команда ГТК", AppearanceConfig.Images.MainLogo)
                 message.embeds.push(errorEmbed)
                 message.embeds[0].setColor(AppearanceConfig.Colors.Error as ColorResolvable)
