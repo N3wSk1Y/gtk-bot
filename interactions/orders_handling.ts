@@ -102,7 +102,7 @@ export = {
                     .setColor(AppearanceConfig.Colors.HighWarning as ColorResolvable)
                     .setFooter(AppearanceConfig.Tags.iMarket, AppearanceConfig.Images.MainLogo)
                 const username = await bankCard.findUser(orderAuthor.id.toString())
-                const users = await DBRequest(`SELECT * FROM users WHERE minecraft_username = ${username}`) as any[]
+                const users = await DBRequest(`SELECT * FROM users WHERE minecraft_username = '${username}'`) as any[]
                 await returnTotal(users[0].id , total)
                 await orderAuthor.send({ embeds: [embed], components: [] })
                 await interaction.update({ content: null, embeds: interaction.message.embeds, components: [] })
