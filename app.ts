@@ -21,7 +21,7 @@ app.use((req, res, next) => {
 app.set('view engine', 'html');
 
 app.use('/auth', require('./routes/auth'));
-app.use('/payment', require('./routes/success'));
+app.use('/payment', require('./routes/payment'));
 app.use('/categories', require('./routes/categories'));
 app.use('/products', require('./routes/products'));
 app.use('/stats', require('./routes/stats'));
