@@ -166,7 +166,7 @@ function serializeForm(formNode) {
 	  console.log(value.length)
 	  if ((value.length > 38 || value.length < 1) && name != "submit") {
 		warning.style.display = "none"
-		return 
+	  	// return
 	  } else {
 		warning.style.display = "none"
 	  }
