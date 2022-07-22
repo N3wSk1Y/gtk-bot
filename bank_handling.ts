@@ -103,6 +103,6 @@ export async function returnTotal(userid: number, value: number) {
     const imarketBalance = (await DBRequest(`SELECT * FROM stats WHERE config_id = 1`) as any[])[0].imarket_balance as number
 
     await DBRequest(`UPDATE \`stats\` SET imarket_balance = ${imarketBalance-value} WHERE \`stats\`.\`config_id\` = 1`)
-    await DBRequest(`UPDATE \`users\` SET balance = ${balance+value} WHERE \`user\`.\`id\` = ${userid}`)
+    await DBRequest(`UPDATE \`users\` SET balance = ${balance+value} WHERE \`users\`.\`id\` = ${userid}`)
     await postTopupHistory(userid, value)
 }
