@@ -32,7 +32,7 @@ router.post('/callback', async (req, res, next) => {
     if (req.hostname === 'gtk-sp.ru') {
         return next();
     }
-    console.log(req.headers['X-Body-Hash'])
+    console.log(req.headers)
     const isValid = sp.verifyHash(JSON.stringify(req.body), req.headers['X-Body-Hash'].toString());
     console.log(isValid)
 
