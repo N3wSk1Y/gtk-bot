@@ -30,6 +30,10 @@ export = {
                             .setCustomId('accept_order')
                             .setLabel('Принять заказ')
                             .setStyle('PRIMARY'),
+                        new MessageButton()
+                            .setCustomId('outofstock_order')
+                            .setLabel('Нет на складе')
+                            .setStyle('DANGER'),
                     )
 
                 const address = interaction.fields.getTextInputValue('submit_address')

@@ -66,6 +66,10 @@ export = {
                 await orderAuthor.send({ embeds: [embed], components: [row] })
                 await interaction.update({ content: null, embeds: interaction.message.embeds, components: [] })
             }
+
+            if (interaction.customId === 'outofstock_order') {
+
+            }
         }
     }
 }
