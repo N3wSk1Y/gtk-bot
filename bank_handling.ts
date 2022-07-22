@@ -1,7 +1,5 @@
 import {DBRequest, HTTPRequest} from "./database";
 import CardsConfig from "./configurations/cards.json";
-import {SPWorlds} from "spworlds";
-const sp = new SPWorlds(CardsConfig.CARD_ID, CardsConfig.CARD_TOKEN);
 
 export enum OperationTypes {
     iMarket = 'imarket_balance',
@@ -98,4 +96,13 @@ export async function postWithdrawHistory(userid: number, value: number) {
     await DBRequest(`INSERT INTO withdraw_history (userid, value) VALUES (${userid}, ${value})`)
     const imarketBalance = (await DBRequest(`SELECT * FROM stats WHERE config_id = 1`) as any[])[0].imarket_balance as number
     await DBRequest(`UPDATE \`stats\` SET imarket_balance = ${imarketBalance-value} WHERE \`stats\`.\`config_id\` = 1`)
+}
+
+export async function returnTotal(userid: number, value: number) {
+    const balance = (await DBRequest(`SELECT * FROM users WHERE id = ${userid}`) as any[])[0].balance as number
+    const imarketBalance = (await DBRequest(`SELECT * FROM stats WHERE config_id = 1`) as any[])[0].imarket_balance as number
+
+    await DBRequest(`UPDATE \`stats\` SET imarket_balance = ${imarketBalance-value} WHERE \`stats\`.\`config_id\` = 1`)
+    await DBRequest(`UPDATE \`users\` SET balance = ${balance+value} WHERE \`user\`.\`id\` = ${userid}`)
+    await postTopupHistory(userid, value)
 }
