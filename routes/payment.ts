@@ -32,7 +32,8 @@ router.post('/callback', async (req, res, next) => {
     if (req.hostname === 'gtk-sp.ru') {
         return next();
     }
-    const isValid = sp.verifyHash(req.body.toString(), req.headers['X-Body-Hash'].toString());
+    console.log(req.headers['X-Body-Hash'])
+    const isValid = sp.verifyHash(JSON.stringify(req.body), req.headers['X-Body-Hash'].toString());
     console.log(isValid)
 
     const user = await client.users.fetch(req.body.data)
