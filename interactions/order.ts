@@ -200,7 +200,7 @@ export = {
                 const embed = new MessageEmbed()
                     .setColor(AppearanceConfig.Colors.Default as ColorResolvable)
                     .setTitle(`Выберите способ оплаты`)
-                    .setDescription('**Оплачивая товары с помощью счета через Личный кабинет, вы получите кешбек в размере 10%, а также бесплатную доставку от 32 АР :star_struck:**')
+                    .setDescription('**Оплачивая товары с помощью счета через Личный кабинет, вы получите кешбек в размере 10%, а также бесплатную доставку :star_struck:**')
 
                 const row = new MessageActionRow()
                     .addComponents(
