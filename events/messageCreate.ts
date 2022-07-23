@@ -35,7 +35,8 @@ export = {
                     console.log(category)
                     await channel.setParent(category.id);
                     await channel.permissionOverwrites.edit(message.author, {
-                        SEND_MESSAGES: true
+                        SEND_MESSAGES: true,
+                        VIEW_CHANNEL: true
                     })
                     const embed = new MessageEmbed()
                         .setTitle(`Обращение клиента ${username}`)

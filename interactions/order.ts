@@ -148,7 +148,7 @@ export = {
                     .setDescription('**Список товаров:**\n')
                     .setThumbnail(minecraftUser.skin.avatar)
                     .addField("**Сумма:**", `${0} <:diamond_ore:990969911671136336>`)
-                    .addField("<:emerald:993118590934986774> **Бесплатная доставка от 32 АР**", '<:emerald:993118590934986774> **Кешбек 10% при оплате через ЛК**')
+                    .addField("<:emerald:993118590934986774> **Бесплатная доставка**", '<:emerald:993118590934986774> **Кешбек 10% при оплате через ЛК**')
                     .setFooter(AppearanceConfig.Tags.iMarket, AppearanceConfig.Images.MainLogo)
                 await interaction.reply({ephemeral: true, embeds: [embed], components: [row]});
             }
@@ -218,8 +218,8 @@ export = {
                     )
                 let total = parseInt(interaction.message.embeds[0].fields[0].value.slice(0, interaction.message.embeds[0].fields[0].value.indexOf("<")-1))
                 total = Math.ceil(total*0.9)
-                if (total < 32)
-                    total += 3
+                // if (total < 32)
+                //     total += 3
                 interaction.message.embeds[0].fields[0].value = `${total} <:diamond_ore:990969911671136336>`
 
                 interaction.message.embeds.push(embed as any)
