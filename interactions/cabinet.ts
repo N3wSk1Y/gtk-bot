@@ -179,6 +179,7 @@ export = {
                             .setStyle('SHORT')
                         const firstActionRow = new MessageActionRow().addComponents(value);
                         modal.addComponents(firstActionRow as any)
+                        break
                     }
 
                     case 'referal-settings': {
@@ -202,6 +203,7 @@ export = {
                             .setStyle('SHORT')
                         const firstActionRow = new MessageActionRow().addComponents(value);
                         modal.addComponents(firstActionRow as any)
+                        break
                     }
 
                     case 'address-settings': {
@@ -214,6 +216,7 @@ export = {
                             .setStyle('PARAGRAPH')
                         const firstActionRow = new MessageActionRow().addComponents(value);
                         modal.addComponents(firstActionRow as any)
+                        break
                     }
                 }
                 await interaction.showModal(modal);
@@ -482,17 +485,20 @@ export = {
                         await DBRequest(`UPDATE users SET card_number = ${parseInt(value)} WHERE minecraft_username = '${username}'`)
                         embed.setTitle("Карта по умолчанию обновлена")
                         embed.addField('Карта:', `${value} 💳`)
+                        break
                     }
                     case 'referal_settings_modal': {
                         await DBRequest(`UPDATE users SET referal = '${value}' WHERE minecraft_username = '${username}'`)
                         embed.setTitle("Реферал установлен")
                         embed.setDescription("Реферал не может быть изменен")
                         embed.addField('Реферал:', `${value}`)
+                        break
                     }
                     case 'address_settings_modal': {
                         await DBRequest(`UPDATE users SET address = '${value}' WHERE minecraft_username = '${username}'`)
                         embed.setTitle("Адрес по умолчанию обновлен")
                         embed.addField('Адрес:', `${value}`)
+                        break
                     }
                 }
                 await interaction.reply({ephemeral: true, embeds: [embed]})
