@@ -166,7 +166,7 @@ export = {
                             .setStyle('SECONDARY')
                     );
 
-                await interaction.reply({ ephemeral: true, components: [row] })
+                await interaction.reply({ ephemeral: true, embeds: [embed], components: [row] })
             }
 
             // Обработка настроек (выбор по кнопке)
