@@ -66,17 +66,9 @@ export = {
                                 .setLabel('Снять со счета')
                                 .setStyle('DANGER'),
                             new MessageButton()
-                                .setCustomId('takecredit')
-                                .setLabel('Взять кредит')
-                                .setStyle('PRIMARY')
-                                .setDisabled(true),
-                            new MessageButton()
                                 .setCustomId('history')
                                 .setLabel('История операций')
                                 .setStyle('SECONDARY'),
-                        );
-                    const row1 = new MessageActionRow()
-                        .addComponents(
                             new MessageButton()
                                 .setCustomId('settings')
                                 .setLabel('Настройки')
@@ -94,7 +86,7 @@ export = {
                             { name: 'Баланс счета', value: `\`${bank_account.balance}\` <:diamond_ore:990969911671136336>`, inline: true },
                             { name: 'Карта spworlds.ru', value: `\`${bank_account.card_number}\` 💳`, inline: true },
                         )
-                    await interaction.reply({ ephemeral: true, embeds: [embed], components: [row, row1] });
+                    await interaction.reply({ ephemeral: true, embeds: [embed], components: [row] });
                 }
 
             }
@@ -143,12 +135,12 @@ export = {
             if (interaction.customId === 'settings') {
                 const response = await DBRequest(`SELECT * FROM users WHERE minecraft_username = '${username}'`) as any[]
                 const embed = new MessageEmbed()
-                    .setTitle("Настройи")
+                    .setTitle(`Настройки ${username}`)
                     .setColor(AppearanceConfig.Colors.Default as ColorResolvable)
                     .setFooter(AppearanceConfig.Tags.GTK, AppearanceConfig.Images.MainLogo)
                     .addField("Карта:", `${response[0].card_number} 💳`)
                     .addField("Реферал:", response[0].referal ? response[0].referal : "Отсутствует")
-                    .addField("Адрес:", response[0].address ? response[0].address : "Отсутствует")
+                    .addField("Адрес по умолчанию:", response[0].address ? response[0].address : "Отсутствует")
 
                 const row = new MessageActionRow()
                     .addComponents(
