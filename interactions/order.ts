@@ -294,7 +294,9 @@ export = {
                     .setLabel("Введите адрес доставки")
                     .setPlaceholder(`Адрес по умолчанию: ${users[0].address ? users[0].address : "отсутствует"}`)
                     .setStyle('PARAGRAPH')
-                    .setRequired(true)
+
+                if (!users[0].address)
+                    value.setRequired(true)
 
                 const firstActionRow = new MessageActionRow().addComponents(value);
                 modal.addComponents(firstActionRow as any);
