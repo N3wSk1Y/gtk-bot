@@ -189,8 +189,7 @@ export = {
                                 .setColor(AppearanceConfig.Colors.Default as ColorResolvable)
                                 .setFooter(AppearanceConfig.Tags.GTK, AppearanceConfig.Images.MainLogo)
 
-                            // @ts-ignore
-                            await interaction.reply({ephermal: true, embeds: [embed]})
+                            await interaction.reply({ephemeral: true, embeds: [embed]})
                             return
                         }
                         modal.setCustomId('referal_settings_modal')
