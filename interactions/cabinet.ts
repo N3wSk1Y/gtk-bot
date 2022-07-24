@@ -145,15 +145,15 @@ export = {
                 const row = new MessageActionRow()
                     .addComponents(
                         new MessageButton()
-                            .setCustomId('cardnumber_settings')
+                            .setCustomId('cardnumber-settings')
                             .setLabel('Изменить номер карты')
                             .setStyle('SECONDARY'),
                         new MessageButton()
-                            .setCustomId('referal_settings')
+                            .setCustomId('referal-settings')
                             .setLabel('Установить реферала')
                             .setStyle('SECONDARY'),
                         new MessageButton()
-                            .setCustomId('address_settings')
+                            .setCustomId('address-settings')
                             .setLabel('Изменить адрес по умолчанию')
                             .setStyle('SECONDARY')
                     );
@@ -166,31 +166,22 @@ export = {
                 const response = await DBRequest(`SELECT * FROM users WHERE minecraft_username = '${username}'`) as any[]
                 const modal = new Modal()
                 switch (interaction.customId) {
-                    case 'cardnumber_settings': {
-                        modal.setCustomId('address_settings_modal')
-                        modal.setTitle('Изменить адрес по умолчанию')
+                    case 'cardnumber-settings': {
+                        modal.setCustomId('cardnumber_settings_modal')
+                        modal.setTitle('Изменить номер карты по умолчанию')
                         const value = new TextInputComponent()
-                            .setCustomId('value1')
-                            .setLabel('Введите новый адрес по умолчанию')
+                            .setCustomId('value')
+                            .setLabel('Введите новый номер карты')
+                            .setMinLength(5)
+                            .setMaxLength(5)
+                            .setPlaceholder(`Ваш текущий номер: ${response[0].card_number}`)
                             .setRequired(true)
-                            .setStyle('PARAGRAPH')
+                            .setStyle('SHORT')
                         const firstActionRow = new MessageActionRow().addComponents(value);
                         modal.addComponents(firstActionRow as any)
-                        // modal.setCustomId('cardnumber_settings_modal')
-                        // modal.setTitle('Изменить номер карты по умолчанию')
-                        // const value = new TextInputComponent()
-                        //     .setCustomId('value')
-                        //     .setLabel('Введите новый номер карты')
-                        //     .setMinLength(5)
-                        //     .setMaxLength(5)
-                        //     .setPlaceholder(`Ваш текущий номер: ${response[0].card_number}`)
-                        //     .setRequired(true)
-                        //     .setStyle('SHORT')
-                        // const firstActionRow = new MessageActionRow().addComponents(value);
-                        // modal.addComponents(firstActionRow as any)
                     }
 
-                    case 'referal_settings': {
+                    case 'referal-settings': {
                         if (response[0].referal) {
                             const embed = new MessageEmbed()
                                 .setTitle("Вы уже ввели пользователя, который вас пригласил")
@@ -213,7 +204,7 @@ export = {
                         modal.addComponents(firstActionRow as any)
                     }
 
-                    case 'address_settings': {
+                    case 'address-settings': {
                         modal.setCustomId('address_settings_modal')
                         modal.setTitle('Изменить адрес по умолчанию')
                         const value = new TextInputComponent()
