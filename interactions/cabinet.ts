@@ -170,7 +170,7 @@ export = {
                         modal.setCustomId('address_settings_modal')
                         modal.setTitle('Изменить адрес по умолчанию')
                         const value = new TextInputComponent()
-                            .setCustomId('value')
+                            .setCustomId('value1')
                             .setLabel('Введите новый адрес по умолчанию')
                             .setRequired(true)
                             .setStyle('PARAGRAPH')
