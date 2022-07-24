@@ -36,7 +36,9 @@ export = {
                             .setStyle('DANGER'),
                     )
 
-                const address = interaction.fields.getTextInputValue('submit_address')
+                const interactionAddress = interaction.fields.getTextInputValue('submit_address') as any
+                const response = await DBRequest(`SELECT * FROM users WHERE minecraft_username = '${username}'`) as any[]
+                const address = interactionAddress ? interactionAddress : response[0].address
                 interaction.message.embeds[0].title = interaction.message.embeds[0].title.replace("Корзина", "Заказ")
                 interaction.message.embeds[0].color = AppearanceConfig.Colors.Default as any
                 interaction.message.embeds = [interaction.message.embeds[0] as MessageEmbed] as MessageEmbed[]
@@ -229,7 +231,7 @@ export = {
             // Оплата через ГлорианБанк
             if (interaction.customId === 'submit_bank') {
                 const count = await DBRequest(`SELECT count(id) as count FROM users WHERE uuid='${minecraftUser.uuid}'`)
-                const users = await DBRequest(`SELECT * FROM users WHERE uuid = '${minecraftUser.uuid}'`)
+                const users = await DBRequest(`SELECT * FROM users WHERE uuid = '${minecraftUser.uuid}'`) as any[]
                 // @ts-ignore
                 const total = parseInt(interaction.message.embeds[0].fields[0].value.slice(0, interaction.message.embeds[0].fields[0].value.indexOf("<")-1))
 
@@ -258,7 +260,6 @@ export = {
                 }
 
                 // Проверка на баланс
-                // @ts-ignore
                 const balance = await getBalance(users[0].id as number)
                 if(balance - total < 0) {
                     const embed = new MessageEmbed()
@@ -291,6 +292,7 @@ export = {
                 const value = new TextInputComponent()
                     .setCustomId('submit_address')
                     .setLabel("Введите адрес доставки")
+                    .setPlaceholder(`Адрес по умолчанию: ${users[0].address ? users[0].address : "отсутствует"}`)
                     .setStyle('PARAGRAPH')
                     .setRequired(true)
 

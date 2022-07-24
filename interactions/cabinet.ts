@@ -482,13 +482,13 @@ export = {
                         embed.addField('Карта:', `${value} 💳`)
                     }
                     case 'referal_settings_modal': {
-                        await DBRequest(`UPDATE users SET referal = ${value} WHERE minecraft_username = '${username}'`)
+                        await DBRequest(`UPDATE users SET referal = '${value}' WHERE minecraft_username = '${username}'`)
                         embed.setTitle("Реферал установлен")
                         embed.setDescription("Реферал не может быть изменен")
                         embed.addField('Реферал:', `${value}`)
                     }
                     case 'address_settings_modal': {
-                        await DBRequest(`UPDATE users SET address = ${value} WHERE minecraft_username = '${username}'`)
+                        await DBRequest(`UPDATE users SET address = '${value}' WHERE minecraft_username = '${username}'`)
                         embed.setTitle("Адрес по умолчанию обновлен")
                         embed.addField('Адрес:', `${value}`)
                     }
