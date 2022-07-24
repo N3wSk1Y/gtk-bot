@@ -145,15 +145,15 @@ export = {
                 const row = new MessageActionRow()
                     .addComponents(
                         new MessageButton()
-                            .setCustomId('cardnumber-settings')
+                            .setCustomId('cardnumber_settings')
                             .setLabel('Изменить номер карты')
                             .setStyle('SECONDARY'),
                         new MessageButton()
-                            .setCustomId('referal-settings')
+                            .setCustomId('referal_settings')
                             .setLabel('Установить реферала')
                             .setStyle('SECONDARY'),
                         new MessageButton()
-                            .setCustomId('address-settings')
+                            .setCustomId('address_settings')
                             .setLabel('Изменить адрес по умолчанию')
                             .setStyle('SECONDARY')
                     );
@@ -166,7 +166,7 @@ export = {
                 const response = await DBRequest(`SELECT * FROM users WHERE minecraft_username = '${username}'`) as any[]
                 const modal = new Modal()
                 switch (interaction.customId) {
-                    case 'cardnumber-settings': {
+                    case 'cardnumber_settings': {
                         modal.setCustomId('cardnumber_settings_modal')
                         modal.setTitle('Изменить номер карты по умолчанию')
                         const value = new TextInputComponent()
@@ -182,7 +182,7 @@ export = {
                         break
                     }
 
-                    case 'referal-settings': {
+                    case 'referal_settings': {
                         if (response[0].referal) {
                             const embed = new MessageEmbed()
                                 .setTitle("Вы уже ввели пользователя, который вас пригласил")
@@ -206,7 +206,7 @@ export = {
                         break
                     }
 
-                    case 'address-settings': {
+                    case 'address_settings': {
                         modal.setCustomId('address_settings_modal')
                         modal.setTitle('Изменить адрес по умолчанию')
                         const value = new TextInputComponent()
