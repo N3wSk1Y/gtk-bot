@@ -187,7 +187,9 @@ export = {
                                 .setTitle("Вы уже ввели пользователя, который вас пригласил")
                                 .setColor(AppearanceConfig.Colors.Default as ColorResolvable)
                                 .setFooter(AppearanceConfig.Tags.GTK, AppearanceConfig.Images.MainLogo)
-                            interaction.reply({embeds: [embed]})
+
+                            // @ts-ignore
+                            await interaction.reply({ephermal: true, embeds: [embed]})
                             return
                         }
                         modal.setCustomId('referal_settings_modal')
