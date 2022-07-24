@@ -150,7 +150,7 @@ export = {
                             .setStyle('SECONDARY'),
                         new MessageButton()
                             .setCustomId('referal_settings')
-                            .setLabel('Изменить реферала')
+                            .setLabel('Установить реферала')
                             .setStyle('SECONDARY'),
                         new MessageButton()
                             .setCustomId('address_settings')
@@ -167,18 +167,27 @@ export = {
                 const modal = new Modal()
                 switch (interaction.customId) {
                     case 'cardnumber_settings': {
-                        modal.setCustomId('cardnumber_settings_modal')
-                        modal.setTitle('Изменить номер карты по умолчанию')
+                        modal.setCustomId('address_settings_modal')
+                        modal.setTitle('Изменить адрес по умолчанию')
                         const value = new TextInputComponent()
                             .setCustomId('value')
-                            .setLabel('Введите новый номер карты')
-                            .setMinLength(5)
-                            .setMaxLength(5)
-                            .setPlaceholder(`Ваш текущий номер: ${response[0].card_number}`)
+                            .setLabel('Введите новый адрес по умолчанию')
                             .setRequired(true)
-                            .setStyle('SHORT')
+                            .setStyle('PARAGRAPH')
                         const firstActionRow = new MessageActionRow().addComponents(value);
                         modal.addComponents(firstActionRow as any)
+                        // modal.setCustomId('cardnumber_settings_modal')
+                        // modal.setTitle('Изменить номер карты по умолчанию')
+                        // const value = new TextInputComponent()
+                        //     .setCustomId('value')
+                        //     .setLabel('Введите новый номер карты')
+                        //     .setMinLength(5)
+                        //     .setMaxLength(5)
+                        //     .setPlaceholder(`Ваш текущий номер: ${response[0].card_number}`)
+                        //     .setRequired(true)
+                        //     .setStyle('SHORT')
+                        // const firstActionRow = new MessageActionRow().addComponents(value);
+                        // modal.addComponents(firstActionRow as any)
                     }
 
                     case 'referal_settings': {
