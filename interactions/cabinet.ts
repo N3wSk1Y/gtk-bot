@@ -68,7 +68,7 @@ export = {
                             new MessageButton()
                                 .setCustomId('history')
                                 .setLabel('История операций')
-                                .setStyle('SECONDARY'),
+                                .setStyle('PRIMARY'),
                             new MessageButton()
                                 .setCustomId('settings')
                                 .setLabel('Настройки')
@@ -476,24 +476,24 @@ export = {
                     .setFooter(AppearanceConfig.Tags.GTK, AppearanceConfig.Images.MainLogo)
                 const value = interaction.fields.getTextInputValue('value')
                 switch (interaction.customId) {
-                    case 'cardnumber_settigns_modal': {
+                    case 'cardnumber_settings_modal': {
                         await DBRequest(`UPDATE users SET card_number = ${parseInt(value)} WHERE minecraft_username = '${username}'`)
                         embed.setTitle("Карта по умолчанию обновлена")
                         embed.addField('Карта:', `${value} 💳`)
                     }
-                    case 'referal_settigns_modal': {
+                    case 'referal_settings_modal': {
                         await DBRequest(`UPDATE users SET referal = ${value} WHERE minecraft_username = '${username}'`)
                         embed.setTitle("Реферал установлен")
                         embed.setDescription("Реферал не может быть изменен")
                         embed.addField('Реферал:', `${value}`)
                     }
-                    case 'address_settigns_modal': {
+                    case 'address_settings_modal': {
                         await DBRequest(`UPDATE users SET address = ${value} WHERE minecraft_username = '${username}'`)
                         embed.setTitle("Адрес по умолчанию обновлен")
                         embed.addField('Адрес:', `${value}`)
                     }
                 }
-                await interaction.reply({embeds: [embed]})
+                await interaction.reply({ephemeral: true, embeds: [embed]})
             }
 
 
