@@ -93,7 +93,9 @@ export = {
                     referalCashback = 3
 
                 const username = await bankCard.findUser(`${orderAuthor.id}`)
+                console.log(username)
                 const response = await DBRequest(`SELECT * from users WHERE minecraft_username = '${username}'`) as any[]
+                console.log(response)
                 const referal = await DBRequest(`SELECT * FROM users WHERE minecraft_username = '${response[0].referal}'`) as any[]
                 console.log(referal)
                 await DBRequest(`UPDATE users SET balance = ${referal[0].balance + referalCashback} WHERE minecraft_username = '${referal[0].minecraft_username}'`)
