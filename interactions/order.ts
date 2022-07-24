@@ -270,7 +270,7 @@ export = {
                     const row = new MessageActionRow()
                         .addComponents(
                             new MessageButton()
-                                .setLabel('Пополнить счет')
+                                .setLabel('Пополнить счет в личном кабинете')
                                 .setStyle('LINK')
                                 .setURL("https://discord.com/channels/990684607861116959/992156724494618694/992164274115981393"),
                             new MessageButton()

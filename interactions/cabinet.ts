@@ -39,8 +39,17 @@ export = {
                         .setMinLength(5)
                         .setMaxLength(5)
 
+                    const referal = new TextInputComponent()
+                        .setCustomId('registration_referal')
+                        .setLabel("Введите пользователя, который пригласил вас")
+                        .setStyle('SHORT')
+                        .setPlaceholder("Например: Spagetik")
+                        .setRequired(false)
+
+
                     const firstActionRow = new MessageActionRow().addComponents(cardnumber);
-                    modal.addComponents(firstActionRow as any);
+                    const secondActionRow = new MessageActionRow().addComponents(referal);
+                    modal.addComponents(firstActionRow as any, secondActionRow as any);
                     await interaction.showModal(modal);
                 } else {
                     const response = await DBRequest(`SELECT * FROM \`users\` WHERE \`minecraft_username\` = '${username}'`)
@@ -66,6 +75,13 @@ export = {
                                 .setLabel('История операций')
                                 .setStyle('SECONDARY'),
                         );
+                    const row1 = new MessageActionRow()
+                        .addComponents(
+                            new MessageButton()
+                                .setCustomId('settings')
+                                .setLabel('Настройки')
+                                .setStyle('SECONDARY'),
+                        );
 
                     const embed = new MessageEmbed()
                         .setColor(AppearanceConfig.Colors.Default as ColorResolvable)
@@ -78,7 +94,7 @@ export = {
                             { name: 'Баланс счета', value: `\`${bank_account.balance}\` <:diamond_ore:990969911671136336>`, inline: true },
                             { name: 'Карта spworlds.ru', value: `\`${bank_account.card_number}\` 💳`, inline: true },
                         )
-                    await interaction.reply({ ephemeral: true, embeds: [embed], components: [row] });
+                    await interaction.reply({ ephemeral: true, embeds: [embed], components: [row, row1] });
                 }
 
             }
@@ -121,6 +137,92 @@ export = {
                     );
 
                 await interaction.reply({ ephemeral: true, components: [row] })
+            }
+
+            // Обработка настроек
+            if (interaction.customId === 'settings') {
+                const response = await DBRequest(`SELECT * FROM users WHERE minecraft_username = '${username}'`) as any[]
+                const embed = new MessageEmbed()
+                    .setTitle("Настройи")
+                    .setColor(AppearanceConfig.Colors.Default as ColorResolvable)
+                    .setFooter(AppearanceConfig.Tags.GTK, AppearanceConfig.Images.MainLogo)
+                    .addField("Карта:", `${response[0].card_number} 💳`)
+                    .addField("Реферал:", response[0].referal ? response[0].referal : "Отсутствует")
+                    .addField("Адрес:", response[0].address ? response[0].address : "Отсутствует")
+
+                const row = new MessageActionRow()
+                    .addComponents(
+                        new MessageButton()
+                            .setCustomId('cardnumber_settings')
+                            .setLabel('Изменить номер карты')
+                            .setStyle('SECONDARY'),
+                        new MessageButton()
+                            .setCustomId('referal_settings')
+                            .setLabel('Изменить реферала')
+                            .setStyle('SECONDARY'),
+                        new MessageButton()
+                            .setCustomId('address_settings')
+                            .setLabel('Изменить адрес по умолчанию')
+                            .setStyle('SECONDARY')
+                    );
+
+                await interaction.reply({ ephemeral: true, components: [row] })
+            }
+
+            // Обработка настроек (выбор по кнопке)
+            if (interaction.customId.endsWith('_settings')) {
+                const response = await DBRequest(`SELECT * FROM users WHERE minecraft_username = '${username}'`) as any[]
+                const modal = new Modal()
+                switch (interaction.customId) {
+                    case 'cardnumber_settings': {
+                        modal.setCustomId('cardnumber_settings_modal')
+                        modal.setTitle('Изменить номер карты по умолчанию')
+                        const value = new TextInputComponent()
+                            .setCustomId('value')
+                            .setLabel('Введите новый номер карты')
+                            .setMinLength(5)
+                            .setMaxLength(5)
+                            .setPlaceholder(`Ваш текущий номер: ${response[0].card_number}`)
+                            .setRequired(true)
+                            .setStyle('SHORT')
+                        const firstActionRow = new MessageActionRow().addComponents(value);
+                        modal.addComponents(firstActionRow as any)
+                    }
+
+                    case 'referal_settings': {
+                        if (response[0].referal) {
+                            const embed = new MessageEmbed()
+                                .setTitle("Вы уже ввели пользователя, который вас пригласил")
+                                .setColor(AppearanceConfig.Colors.Default as ColorResolvable)
+                                .setFooter(AppearanceConfig.Tags.GTK, AppearanceConfig.Images.MainLogo)
+                            interaction.reply({embeds: [embed]})
+                            return
+                        }
+                        modal.setCustomId('referal_settings_modal')
+                        modal.setTitle('Изменить реферала')
+                        const value = new TextInputComponent()
+                            .setCustomId('value')
+                            .setLabel('Введите пользователя, который вас пригласил')
+                            .setPlaceholder(`Реферала невозможно изменить`)
+                            .setRequired(true)
+                            .setStyle('SHORT')
+                        const firstActionRow = new MessageActionRow().addComponents(value);
+                        modal.addComponents(firstActionRow as any)
+                    }
+
+                    case 'address_settings': {
+                        modal.setCustomId('address_settings_modal')
+                        modal.setTitle('Изменить адрес по умолчанию')
+                        const value = new TextInputComponent()
+                            .setCustomId('value')
+                            .setLabel('Введите новый адрес по умолчанию')
+                            .setRequired(true)
+                            .setStyle('PARAGRAPH')
+                        const firstActionRow = new MessageActionRow().addComponents(value);
+                        modal.addComponents(firstActionRow as any)
+                    }
+                }
+                await interaction.showModal(modal);
             }
 
             // Обработка историй (выбор по кнопке)
@@ -235,7 +337,8 @@ export = {
             // Форма регистрации
             if (interaction.customId === 'registration_modal') {
                 const cardnumber = interaction.fields.getTextInputValue('registration_cardnumber')
-                await DBRequest(`INSERT INTO \`users\` (\`uuid\`, \`minecraft_username\`, \`card_number\`) VALUES ('${minecraftUser.uuid}', '${username}', '${cardnumber}')`)
+                const referal = interaction.fields.getTextInputValue('registration_referal') ? interaction.fields.getTextInputValue('registration_referal') : null
+                await DBRequest(`INSERT INTO \`users\` (\`uuid\`, \`minecraft_username\`, \`card_number\`, referal) VALUES ('${minecraftUser.uuid}', '${username}', '${cardnumber}', '${referal}')`)
                 const row = new MessageActionRow()
                     .addComponents(
                         new MessageButton()
@@ -373,6 +476,36 @@ export = {
                     await interaction.reply({ ephemeral: true, embeds: [embed], components: [row] });
                 }
             }
+
+            // Форма изменения настроек
+            if (interaction.customId.endsWith('_settings_modal')) {
+                const embed = new MessageEmbed()
+                    .setColor(AppearanceConfig.Colors.Default as ColorResolvable)
+                    .setFooter(AppearanceConfig.Tags.GTK, AppearanceConfig.Images.MainLogo)
+                const value = interaction.fields.getTextInputValue('value')
+                switch (interaction.customId) {
+                    case 'cardnumber_settigns_modal': {
+                        await DBRequest(`UPDATE users SET card_number = ${parseInt(value)} WHERE minecraft_username = '${username}'`)
+                        embed.setTitle("Карта по умолчанию обновлена")
+                        embed.addField('Карта:', `${value} 💳`)
+                    }
+                    case 'referal_settigns_modal': {
+                        await DBRequest(`UPDATE users SET referal = ${value} WHERE minecraft_username = '${username}'`)
+                        embed.setTitle("Реферал установлен")
+                        embed.setDescription("Реферал не может быть изменен")
+                        embed.addField('Реферал:', `${value}`)
+                    }
+                    case 'address_settigns_modal': {
+                        await DBRequest(`UPDATE users SET address = ${value} WHERE minecraft_username = '${username}'`)
+                        embed.setTitle("Адрес по умолчанию обновлен")
+                        embed.addField('Адрес:', `${value}`)
+                    }
+                }
+                await interaction.reply({embeds: [embed]})
+            }
+
+
+
         }
 
     }
