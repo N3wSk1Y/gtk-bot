@@ -88,6 +88,19 @@ export = {
                         console.log(err)
                     })
 
+                let referalCashback = 0
+                if (total >= 32)
+                    referalCashback = 3
+
+                try {
+                    const username = await bankCard.findUser(`${orderAuthor.id}`)
+                    const response = await DBRequest(`SELECT * from users WHERE minecraft_username = '${username}'`) as any[]
+                    console.log(response[0].referal)
+                    const referal = await DBRequest(`SELECT * FROM users WHERE minecraft_username = '${response[0].referal}'`) as any[]
+                    await DBRequest(`UPDATE users SET balance = ${referal[0].balance + referalCashback} WHERE minecraft_username = '${referal[0].minecraft_username}'`)
+                } catch (e) {
+                    console.log(e)
+                }
                 await orderAuthor.send({ embeds: [embed], components: [row] })
                 await interaction.update({ content: null, embeds: interaction.message.embeds, components: [] })
             }
