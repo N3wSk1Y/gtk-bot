@@ -333,7 +333,7 @@ export = {
             // Форма регистрации
             if (interaction.customId === 'registration_modal') {
                 const cardnumber = interaction.fields.getTextInputValue('registration_cardnumber')
-                const referal = interaction.fields.getTextInputValue('registration_referal') ? interaction.fields.getTextInputValue('registration_referal') : null
+                const referal = interaction.fields.getTextInputValue('registration_referal') ? interaction.fields.getTextInputValue('registration_referal') : ''
                 await DBRequest(`INSERT INTO \`users\` (\`uuid\`, \`minecraft_username\`, \`card_number\`, referal) VALUES ('${minecraftUser.uuid}', '${username}', '${cardnumber}', '${referal}')`)
                 const row = new MessageActionRow()
                     .addComponents(
