@@ -37,6 +37,8 @@ export = {
                     )
 
                 const address = interaction.fields.getTextInputValue('submit_address')
+                const users = await DBRequest(`SELECT * FROM users WHERE uuid = '${minecraftUser.uuid}'`) as any[]
+                const total = parseInt(interaction.message.embeds[0].fields[0].value.slice(0, interaction.message.embeds[0].fields[0].value.indexOf("<")-1))
                 interaction.message.embeds[0].title = interaction.message.embeds[0].title.replace("Корзина", "Заказ")
                 interaction.message.embeds[0].color = AppearanceConfig.Colors.Default as any
                 interaction.message.embeds = [interaction.message.embeds[0] as MessageEmbed] as MessageEmbed[]
@@ -56,6 +58,7 @@ export = {
 
                 // Отправка уведомления о заказе в канал #заказы
                 await (client.channels.cache.get(ChannelsConfig.NEW_ORDERS_CHANNEL) as TextChannel).send({ content: `<@&992410294167011359>`, embeds: interaction.message.embeds, components: [row as any]});
+                await transferBalance(users[0].id as number, total, OperationTypes.iMarket, `Покупка товаров в iMarket`)
             }
         }
 
@@ -228,8 +231,8 @@ export = {
 
             // Оплата через ГлорианБанк
             if (interaction.customId === 'submit_bank') {
-                const count = await DBRequest(`SELECT count(id) as count FROM users WHERE uuid='${minecraftUser.uuid}'`)
-                const users = await DBRequest(`SELECT * FROM users WHERE uuid = '${minecraftUser.uuid}'`)
+                const count = await DBRequest(`SELECT count(id) as count FROM users WHERE uuid='${minecraftUser.uuid}'`) as any[]
+                const users = await DBRequest(`SELECT * FROM users WHERE uuid = '${minecraftUser.uuid}'`) as any[]
                 // @ts-ignore
                 const total = parseInt(interaction.message.embeds[0].fields[0].value.slice(0, interaction.message.embeds[0].fields[0].value.indexOf("<")-1))
 
@@ -258,7 +261,6 @@ export = {
                 }
 
                 // Проверка на баланс
-                // @ts-ignore
                 const balance = await getBalance(users[0].id as number)
                 if(balance - total < 0) {
                     const embed = new MessageEmbed()
@@ -297,8 +299,6 @@ export = {
                 const firstActionRow = new MessageActionRow().addComponents(value);
                 modal.addComponents(firstActionRow as any);
                 await interaction.showModal(modal)
-                // @ts-ignore
-                await transferBalance(users[0].id as number, total, OperationTypes.iMarket, `Покупка товаров в iMarket`)
             }
         }
     }
