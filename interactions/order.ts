@@ -287,7 +287,7 @@ export = {
 
                 const modal = new Modal()
                     .setCustomId('submit_modal')
-                    .setTitle('Оформление заказа')
+                    .setTitle('Оформление заказа. Не закрывайте это окно')
 
                 const value = new TextInputComponent()
                     .setCustomId('submit_address')

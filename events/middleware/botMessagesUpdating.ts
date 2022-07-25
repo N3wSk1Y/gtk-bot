@@ -69,12 +69,12 @@ export async function UpdateMessages (client: Client) {
                 .setCustomId('apply_job')
                 .setPlaceholder('Выберите вакансию')
                 .addOptions([
-                    {
-                        emoji: '993120126838779914',
-                        label: 'Сотрудник отдела доставки',
-                        description: 'Выполнение заказов iMarket',
-                        value: 'delivery',
-                    },
+                    // {
+                    //     emoji: '993120126838779914',
+                    //     label: 'Сотрудник отдела доставки',
+                    //     description: 'Выполнение заказов iMarket',
+                    //     value: 'delivery',
+                    // },
                     {
                         emoji: '993118818421456966',
                         label: 'Сотрудник отдела производства',
