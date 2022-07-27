@@ -22,7 +22,7 @@ export async function SendCatalog (client: Client) {
             .setTitle(category.name)
             .setColor(AppearanceConfig.Colors.Default as ColorResolvable)
             .setFooter(AppearanceConfig.Tags.iMarket, AppearanceConfig.Images.MainLogo)
-            .setDescription(category.description)
+            .setDescription(`**${category.description}**\n\n`)
         const products = await DBRequest(`SELECT * FROM products WHERE category_id = '${category.id}'`) as any[]
         for (const product of products) {
             if (product.enabled == 1) {
