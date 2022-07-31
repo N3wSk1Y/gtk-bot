@@ -18,6 +18,7 @@ export const client = new Client({
     ]
 });
 
+
 const botEvents = fs.readdirSync('./events/').filter(f => f.endsWith('.js'))
 const botRoutes = fs.readdirSync('./interactions/').filter(f => f.endsWith('.js'))
 
