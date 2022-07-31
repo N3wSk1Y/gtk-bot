@@ -18,8 +18,6 @@ export const client = new Client({
     ]
 });
 
-// TODO: Пройтись по всем варнингам во всех файлах
-
 const botEvents = fs.readdirSync('./events/').filter(f => f.endsWith('.js'))
 const botRoutes = fs.readdirSync('./interactions/').filter(f => f.endsWith('.js'))
 
