@@ -43,7 +43,7 @@ export = {
                         .setCustomId('registration_referal')
                         .setLabel("Введите пользователя, который пригласил вас")
                         .setStyle('SHORT')
-                        .setPlaceholder("Например: Spagetik")
+                        .setPlaceholder("Например: 5opka")
                         .setRequired(false)
 
 
@@ -333,7 +333,8 @@ export = {
             // Форма регистрации
             if (interaction.customId === 'registration_modal') {
                 const cardnumber = interaction.fields.getTextInputValue('registration_cardnumber')
-                const referal = interaction.fields.getTextInputValue('registration_referal') ? interaction.fields.getTextInputValue('registration_referal') : ''
+                const inputReferal = interaction.fields.getTextInputValue('registration_referal')
+                const referal = inputReferal && inputReferal !== username ? inputReferal : ''
                 await DBRequest(`INSERT INTO \`users\` (\`uuid\`, \`minecraft_username\`, \`card_number\`, referal) VALUES ('${minecraftUser.uuid}', '${username}', '${cardnumber}', '${referal}')`)
                 const row = new MessageActionRow()
                     .addComponents(
@@ -487,7 +488,8 @@ export = {
                         break
                     }
                     case 'referal_settings_modal': {
-                        await DBRequest(`UPDATE users SET referal = '${value}' WHERE minecraft_username = '${username}'`)
+                        const inputReferal = value !== username ? value : ''
+                        await DBRequest(`UPDATE users SET referal = '${inputReferal}' WHERE minecraft_username = '${username}'`)
                         embed.setTitle("Реферал установлен")
                         embed.setDescription("Реферал не может быть изменен")
                         embed.addField('Реферал:', `${value}`)

@@ -40,8 +40,6 @@ for (const file of botEvents) {
 for (const file of botRoutes) {
     const route = require(`./interactions/${file}`)
     client.on('interactionCreate', async (interaction) => {
-        // if (interaction.isButton())
-        //     await interaction.followUp()
         route.execute(client, interaction)
     })
 }
