@@ -28,11 +28,10 @@ export = {
         if (message.channelId === ChannelsConfig.SUPPORT_CHANNEL) {
             const username = await sp.findUser(message.author.id);
             const minecraftUser = await mcdata.playerStatus(username, { renderSize: 2 })
-            const channel = await message.guild.channels.create(username)
+            await message.guild.channels.create(username)
                 .then( async (channel) => {
 
-                    const category = await message.guild.channels.cache.find(c => c.name == "поддержка");
-                    console.log(category)
+                    const category = await message.guild.channels.cache.find(cathegory => cathegory.name == "поддержка");
                     await channel.setParent(category.id);
                     await channel.permissionOverwrites.edit(message.author, {
                         SEND_MESSAGES: true,
