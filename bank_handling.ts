@@ -23,17 +23,17 @@ export async function accountExists(userid: number): Promise<boolean> {
 export async function getBalance(userid: number): Promise<number> {
     if (!await accountExists(userid))
         return
-    const response = await DBRequest(`SELECT * FROM \`users\` WHERE id = ${userid}`) as any[]
+    const response = await DBRequest(`SELECT * FROM \`users\` WHERE id = ${userid}`) as User[]
     return response[0].balance;
 }
 
 export async function topupBalance (userid: number, value: number): Promise<number> {
     if (!await accountExists(userid))
         return
-    const balance = (await DBRequest(`SELECT * FROM users WHERE id = ${userid}`) as any[])[0].balance as number
+    const balance = (await DBRequest(`SELECT * FROM users WHERE id = ${userid}`) as User[])[0].balance as number
 
     await DBRequest(`UPDATE \`users\` SET balance = ${balance+value} WHERE \`users\`.\`id\` = ${userid}`)
-    const response = await DBRequest(`SELECT * FROM \`users\` WHERE id = ${userid}`) as any[]
+    const response = await DBRequest(`SELECT * FROM \`users\` WHERE id = ${userid}`) as User[]
     await postTopupHistory(userid, value)
     return response[0].balance;
 }
@@ -59,10 +59,10 @@ export async function withdrawBalance (userid: number, username: string, value: 
         .catch(err => {
             console.log(err)
         })
-    const balance = (await DBRequest(`SELECT * FROM users WHERE id = ${userid}`) as any[])[0].balance as number
+    const balance = (await DBRequest(`SELECT * FROM users WHERE id = ${userid}`) as User[])[0].balance as number
 
     await DBRequest(`UPDATE \`users\` SET balance = ${balance-value} WHERE \`users\`.\`id\` = ${userid}`)
-    const response = await DBRequest(`SELECT * FROM \`users\` WHERE id = ${userid}`) as any[]
+    const response = await DBRequest(`SELECT * FROM \`users\` WHERE id = ${userid}`) as User[]
     await postWithdrawHistory(userid, value)
     return response[0].balance;
 }
@@ -70,10 +70,10 @@ export async function withdrawBalance (userid: number, username: string, value: 
 export async function transferBalance (userid: number, value: number, target: OperationTypes, reason: string): Promise<number> {
     if (!await accountExists(userid))
         return
-    const balance = (await DBRequest(`SELECT * FROM users WHERE id = ${userid}`) as any[])[0].balance as number
+    const balance = (await DBRequest(`SELECT * FROM users WHERE id = ${userid}`) as User[])[0].balance as number
 
     await DBRequest(`UPDATE \`users\` SET balance = ${balance-value} WHERE \`users\`.\`id\` = ${userid}`)
-    const response = await DBRequest(`SELECT * FROM \`users\` WHERE id = ${userid}`) as any[]
+    const response = await DBRequest(`SELECT * FROM \`users\` WHERE id = ${userid}`) as User[]
     await postTransferHistory(userid, value, Math.abs(Object.keys(OperationTypes).indexOf(target)), reason)
     return response[0].balance;
 }
@@ -99,7 +99,7 @@ export async function postWithdrawHistory(userid: number, value: number) {
 }
 
 export async function returnTotal(userid: number, value: number) {
-    const balance = (await DBRequest(`SELECT * FROM users WHERE id = ${userid}`) as any[])[0].balance as number
+    const balance = (await DBRequest(`SELECT * FROM users WHERE id = ${userid}`) as User[])[0].balance as number
     const imarketBalance = (await DBRequest(`SELECT * FROM stats WHERE config_id = 1`) as any[])[0].imarket_balance as number
 
     await DBRequest(`UPDATE \`stats\` SET imarket_balance = ${imarketBalance-value} WHERE \`stats\`.\`config_id\` = 1`)

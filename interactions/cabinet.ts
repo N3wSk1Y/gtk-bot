@@ -23,7 +23,7 @@ export = {
         if (interaction.isButton()) {
             // Обработка запросов в ЛК
             if (interaction.customId === 'lk') {
-                const count = await DBRequest(`SELECT count(id) as count FROM \`users\` WHERE uuid='${minecraftUser.uuid}'`)
+                const count = await DBRequest(`SELECT count(id) as count FROM \`users\` WHERE uuid='${minecraftUser.uuid}'`) as User[]
 
                 // Проверка на наличие аккаунт => авторизация/регистрация
                 if((count as any[])[0].count === 0) {
@@ -52,8 +52,8 @@ export = {
                     modal.addComponents(firstActionRow as any, secondActionRow as any);
                     await interaction.showModal(modal);
                 } else {
-                    const response = await DBRequest(`SELECT * FROM \`users\` WHERE \`minecraft_username\` = '${username}'`)
-                    const bank_account = (response as any[])[0]
+                    const response = await DBRequest(`SELECT * FROM \`users\` WHERE \`minecraft_username\` = '${username}'`) as User[]
+                    const bank_account = (response)[0]
 
                     const row = new MessageActionRow()
                         .addComponents(
@@ -133,7 +133,7 @@ export = {
 
             // Обработка настроек
             if (interaction.customId === 'settings') {
-                const response = await DBRequest(`SELECT * FROM users WHERE minecraft_username = '${username}'`) as any[]
+                const response = await DBRequest(`SELECT * FROM users WHERE minecraft_username = '${username}'`) as User[]
                 const embed = new MessageEmbed()
                     .setTitle(`Настройки ${username}`)
                     .setColor(AppearanceConfig.Colors.Default as ColorResolvable)
@@ -163,7 +163,7 @@ export = {
 
             // Обработка настроек (выбор по кнопке)
             if (interaction.customId.endsWith('_settings')) {
-                const response = await DBRequest(`SELECT * FROM users WHERE minecraft_username = '${username}'`) as any[]
+                const response = await DBRequest(`SELECT * FROM users WHERE minecraft_username = '${username}'`) as User[]
                 const modal = new Modal()
                 switch (interaction.customId) {
                     case 'cardnumber_settings': {
@@ -227,10 +227,10 @@ export = {
                     .setFooter(AppearanceConfig.Tags.Bank, AppearanceConfig.Images.MainLogo)
                     .setThumbnail(minecraftUser.skin.avatar)
                     .setColor(AppearanceConfig.Colors.Default as ColorResolvable)
-                const users = await DBRequest(`SELECT * FROM users WHERE uuid = '${minecraftUser.uuid}'`) as any[]
+                const users = await DBRequest(`SELECT * FROM users WHERE uuid = '${minecraftUser.uuid}'`) as User[]
                 switch (interaction.customId) {
                     case 'transfer_history':
-                        const transferHistory = await DBRequest(`SELECT * FROM transfer_history WHERE userid = ${users[0].id}`) as any[]
+                        const transferHistory = await DBRequest(`SELECT * FROM transfer_history WHERE userid = ${users[0].id}`) as TransferHistoryEntry[]
                         let transferLog = ""
                         for (const responseElement of transferHistory) {
                             transferLog += `**${responseElement.date}** | **${responseElement.value}**  <:diamond_ore:990969911671136336> | **${responseElement.reason}**\n\n`
@@ -239,7 +239,7 @@ export = {
                         embed.setDescription(transferLog)
                         break
                     case 'withdraw_history':
-                        const withdrawHistory = await DBRequest(`SELECT * FROM withdraw_history WHERE userid = ${users[0].id}`) as any[]
+                        const withdrawHistory = await DBRequest(`SELECT * FROM withdraw_history WHERE userid = ${users[0].id}`) as WithdrawHistoryEntry[]
                         let withdrawLog = ""
                         for (const responseElement of withdrawHistory) {
                             withdrawLog += `**${responseElement.date}** | **${responseElement.value}**  <:diamond_ore:990969911671136336>\n\n`
@@ -248,7 +248,7 @@ export = {
                         embed.setDescription(withdrawLog)
                         break
                     case 'topup_history':
-                        const topupHistory = await DBRequest(`SELECT * FROM topup_history WHERE userid = ${users[0].id}`) as any[]
+                        const topupHistory = await DBRequest(`SELECT * FROM topup_history WHERE userid = ${users[0].id}`) as TopupHistoryEntry[]
                         let topupLog = ""
                         for (const responseElement of topupHistory) {
                             topupLog += `**${responseElement.date}** | **${responseElement.value}**  <:diamond_ore:990969911671136336>\n\n`
@@ -299,7 +299,7 @@ export = {
             // Обработка снятие со счета
             if (interaction.customId === 'withdraw') {
                 const username = await bankCard.findUser(interaction.user.id);
-                const response = await DBRequest(`SELECT * FROM \`users\` WHERE \`minecraft_username\` = '${username}'`) as any[]
+                const response = await DBRequest(`SELECT * FROM \`users\` WHERE \`minecraft_username\` = '${username}'`) as User[]
                 const modal = new Modal()
                     .setCustomId('withdraw_modal')
                     .setTitle(`Снятие средств (Баланс: ${response[0].balance} АР)`)
@@ -448,10 +448,10 @@ export = {
 
                 const username = await bankCard.findUser(interaction.user.id);
                 const value = parseInt(interaction.fields.getTextInputValue('withdraw_value'))
-                const response = await DBRequest(`SELECT * FROM \`users\` WHERE \`minecraft_username\` = '${username}'`) as any[]
-                const cardNumber = interaction.fields.getTextInputValue('card_number') ? interaction.fields.getTextInputValue('card_number') : response[0].card_number
+                const response = await DBRequest(`SELECT * FROM \`users\` WHERE \`minecraft_username\` = '${username}'`) as User[]
+                const cardNumber = interaction.fields.getTextInputValue('card_number') ? interaction.fields.getTextInputValue('card_number') : response[0].card_number;
                 if (response[0].balance - value >= 0) {
-                    await withdrawBalance(response[0].id, username, value, cardNumber)
+                    await withdrawBalance(response[0].id, username, value, cardNumber as number)
 
                     const embed = new MessageEmbed()
                         .setColor(AppearanceConfig.Colors.Success as ColorResolvable)

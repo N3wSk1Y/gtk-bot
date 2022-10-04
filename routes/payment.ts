@@ -38,7 +38,7 @@ router.post('/callback', async (req, res, next) => {
     const minecraftUser = await mcdata.playerStatus(req.body.payer, { renderSize: 2 })
 
     if (isValid) {
-        const account = (await DBRequest(`SELECT * FROM users WHERE minecraft_username = '${req.body.payer}'`) as any[])[0]
+        const account = (await DBRequest(`SELECT * FROM users WHERE minecraft_username = '${req.body.payer}'`) as User[])[0]
         const balance = await topupBalance(account.id, req.body.amount)
 
         const embed = new MessageEmbed()

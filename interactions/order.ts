@@ -37,7 +37,7 @@ export = {
                     )
 
                 const address = interaction.fields.getTextInputValue('submit_address')
-                const users = await DBRequest(`SELECT * FROM users WHERE uuid = '${minecraftUser.uuid}'`) as any[]
+                const users = await DBRequest(`SELECT * FROM users WHERE uuid = '${minecraftUser.uuid}'`) as User[]
                 const total = parseInt(interaction.message.embeds[0].fields[0].value.slice(0, interaction.message.embeds[0].fields[0].value.indexOf("<")-1))
                 interaction.message.embeds[0].title = interaction.message.embeds[0].title.replace("Корзина", "Заказ")
                 interaction.message.embeds[0].color = AppearanceConfig.Colors.Default as any
@@ -66,7 +66,7 @@ export = {
             // Обработка категории
             if (interaction.customId === 'select_category') {
                 interaction.message.components = [interaction.message.components[0] as any]
-                const products = await DBRequest(`SELECT * FROM \`products\` WHERE \`category_id\` = '${interaction.values[0]}'`) as any[]
+                const products = await DBRequest(`SELECT * FROM \`products\` WHERE \`category_id\` = '${interaction.values[0]}'`) as Product[]
                 let row = new MessageActionRow()
                 for (const product of products) {
                     if (row.components.length < 5) {
@@ -123,7 +123,7 @@ export = {
             if (interaction.customId === 'cart') {
                 const username = await sp.findUser(interaction.user.id);
                 const minecraftUser = await mcdata.playerStatus(username, {renderSize: 2})
-                const categories = await DBRequest("SELECT * FROM `categories` ORDER BY order_id") as any[]
+                const categories = await DBRequest("SELECT * FROM `categories` ORDER BY order_id") as Category[]
                 const options = () => {
                     const optionsArray = []
                     for (let x = 0; x < categories.length; x++) {
@@ -232,7 +232,7 @@ export = {
             // Оплата через ГлорианБанк
             if (interaction.customId === 'submit_bank') {
                 const count = await DBRequest(`SELECT count(id) as count FROM users WHERE uuid='${minecraftUser.uuid}'`) as any[]
-                const users = await DBRequest(`SELECT * FROM users WHERE uuid = '${minecraftUser.uuid}'`) as any[]
+                const users = await DBRequest(`SELECT * FROM users WHERE uuid = '${minecraftUser.uuid}'`) as User[]
                 // @ts-ignore
                 const total = parseInt(interaction.message.embeds[0].fields[0].value.slice(0, interaction.message.embeds[0].fields[0].value.indexOf("<")-1))
 

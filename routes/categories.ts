@@ -21,7 +21,7 @@ router.delete('/', async (req, res, next) => {
         })
         return;
     }
-    const category = await DBRequest(`SELECT * FROM categories WHERE categories.id = '${req.query.id}'`) as object[]
+    const category = await DBRequest(`SELECT * FROM categories WHERE categories.id = '${req.query.id}'`) as Category[]
     if (category.length === 0) {
         res.send({
             error: "Такой категории не существует"
@@ -41,7 +41,7 @@ router.post('/', async (req, res, next) => {
         })
         return;
     }
-    const categories = await DBRequest("SELECT * FROM `categories` ORDER BY order_id") as any[]
+    const categories = await DBRequest("SELECT * FROM `categories` ORDER BY order_id") as Category[]
     await DBRequest(`INSERT INTO categories (id, name, description, emoji_id, order_id) VALUES ('${req.query.id}', '${req.query.name}', '${req.query.description}', '${req.query.emoji_id}', ${categories.length})`)
     res.send({
         notification: "Категория добавлена"
@@ -50,7 +50,7 @@ router.post('/', async (req, res, next) => {
 
 router.put('/', async (req, res, next) => {
     if (req.query.id && (req.query.name || req.query.description || req.query.emoji_id)) {
-        const category = await DBRequest(`SELECT * FROM categories WHERE categories.id = '${req.query.id}'`) as object[]
+        const category = await DBRequest(`SELECT * FROM categories WHERE categories.id = '${req.query.id}'`) as Category[]
         if (category.length === 0) {
             res.send({
                 error: "Такой категории не существует"
@@ -76,7 +76,7 @@ router.put('/', async (req, res, next) => {
 
 router.put('/order', async (req, res, next) => {
     if (req.query.id && req.query.direction) {
-        const category = await DBRequest(`SELECT * FROM categories WHERE categories.id = '${req.query.id}'`) as any[]
+        const category = await DBRequest(`SELECT * FROM categories WHERE categories.id = '${req.query.id}'`) as Category[]
         if (category.length === 0) {
             res.send({
                 error: "Такой категории не существует"

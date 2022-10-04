@@ -94,9 +94,9 @@ export = {
 
                 try {
                     const username = await bankCard.findUser(`${orderAuthor.id}`)
-                    const response = await DBRequest(`SELECT * from users WHERE minecraft_username = '${username}'`) as any[]
+                    const response = await DBRequest(`SELECT * from users WHERE minecraft_username = '${username}'`) as User[]
                     console.log(response[0].referal)
-                    const referal = await DBRequest(`SELECT * FROM users WHERE minecraft_username = '${response[0].referal}'`) as any[]
+                    const referal = await DBRequest(`SELECT * FROM users WHERE minecraft_username = '${response[0].referal}'`) as User[]
                     await DBRequest(`UPDATE users SET balance = ${referal[0].balance + referalCashback} WHERE minecraft_username = '${referal[0].minecraft_username}'`)
                 } catch (e) {
                     console.log(e)
@@ -115,7 +115,7 @@ export = {
                     .setColor(AppearanceConfig.Colors.HighWarning as ColorResolvable)
                     .setFooter(AppearanceConfig.Tags.iMarket, AppearanceConfig.Images.MainLogo)
                 const username = await bankCard.findUser(orderAuthor.id.toString())
-                const users = await DBRequest(`SELECT * FROM users WHERE minecraft_username = '${username}'`) as any[]
+                const users = await DBRequest(`SELECT * FROM users WHERE minecraft_username = '${username}'`) as User[]
                 await returnTotal(users[0].id , total)
                 await orderAuthor.send({ embeds: [embed], components: [] })
                 await interaction.update({ content: null, embeds: interaction.message.embeds, components: [] })

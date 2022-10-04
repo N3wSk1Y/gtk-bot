@@ -8,7 +8,7 @@ import crypto from 'crypto';
 
 
 export async function SendCatalog (client: Client) {
-    const categories = await DBRequest("SELECT * FROM categories ORDER BY order_id") as any[]
+    const categories = await DBRequest("SELECT * FROM categories ORDER BY order_id") as Category[]
     let embeds = []
 
     const embedMarketMenu = new MessageEmbed()
@@ -23,7 +23,7 @@ export async function SendCatalog (client: Client) {
             .setColor(AppearanceConfig.Colors.Default as ColorResolvable)
             .setFooter(AppearanceConfig.Tags.iMarket, AppearanceConfig.Images.MainLogo)
             .setDescription(`**${category.description}**\n\n`)
-        const products = await DBRequest(`SELECT * FROM products WHERE category_id = '${category.id}'`) as any[]
+        const products = await DBRequest(`SELECT * FROM products WHERE category_id = '${category.id}'`) as Product[]
         for (const product of products) {
             if (product.enabled == 1) {
                 embed.description += `${client.emojis.cache.find(emoji => emoji.id === product.emoji_id)} ${product.name} - ${product.price} АР\n`
