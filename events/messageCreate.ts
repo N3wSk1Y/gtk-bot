@@ -1,11 +1,10 @@
 import Discord, {ColorResolvable, MessageActionRow, MessageButton, MessageEmbed, TextChannel} from "discord.js";
 import { SPWorlds } from "spworlds";
 import mcdata from "mcdata";
-import CardsConfig from '../configurations/cards.json';
 import AppearanceConfig from '../configurations/appearance.json'
 import ChannelsConfig from '../configurations/channels.json'
 
-const sp = new SPWorlds(CardsConfig.CARD_ID, CardsConfig.CARD_TOKEN);
+const sp = new SPWorlds(process.env.CARD_ID, process.env.CARD_TOKEN);
 
 export = {
     name: 'messageCreate',

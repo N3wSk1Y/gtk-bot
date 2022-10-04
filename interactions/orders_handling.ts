@@ -4,12 +4,11 @@ import Discord, {
     MessageButton, ColorResolvable
 } from "discord.js";
 import AppearanceConfig from '../configurations/appearance.json'
-import CardsConfig from "../configurations/cards.json";
 import {DBRequest, HTTPRequest} from "../database";
 import {returnTotal} from "../bank_handling";
 import {SPWorlds} from "spworlds";
 
-const bankCard = new SPWorlds(CardsConfig.CARD_ID, CardsConfig.CARD_TOKEN);
+const bankCard = new SPWorlds(process.env.CARD_ID, process.env.CARD_TOKEN);
 
 export = {
     async execute(client: Discord.Client, interaction: Discord.Interaction): Promise<void> {
@@ -73,7 +72,7 @@ export = {
                     'method': 'POST',
                     'url': 'https://spworlds.ru/api/public/transactions',
                     'headers': {
-                        'Authorization': `Bearer ${CardsConfig.CARD_BASE64}`,
+                        'Authorization': `Bearer ${process.env.CARD_BASE64}`,
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({

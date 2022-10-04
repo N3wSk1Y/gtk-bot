@@ -6,7 +6,6 @@ import Discord, {
     Modal, TextChannel
 } from "discord.js";
 import { SPWorlds } from "spworlds";
-import CardsConfig from '../configurations/cards.json';
 import AppearanceConfig from '../configurations/appearance.json'
 import ChannelsConfig from '../configurations/channels.json'
 import mcdata from "mcdata";
@@ -19,7 +18,7 @@ enum Vacancies {
     lawyer = "Юрист"
 }
 
-const sp = new SPWorlds(CardsConfig.CARD_ID, CardsConfig.CARD_TOKEN);
+const sp = new SPWorlds(process.env.CARD_ID, process.env.CARD_TOKEN);
 
 export = {
     async execute (client: Discord.Client, interaction: Discord.Interaction): Promise<void> {

@@ -6,7 +6,6 @@ import Discord, {
     Modal, TextChannel, MessageSelectMenu, MessageButton, Interaction
 } from "discord.js";
 import { SPWorlds } from "spworlds";
-import CardsConfig from '../configurations/cards.json';
 import AppearanceConfig from '../configurations/appearance.json'
 import ChannelsConfig from '../configurations/channels.json'
 import mcdata from "mcdata"
@@ -14,7 +13,7 @@ import { DBRequest } from "../database";
 import crypto from "crypto";
 import {getBalance, OperationTypes, postTopupHistory, transferBalance} from '../bank_handling'
 
-const sp = new SPWorlds(CardsConfig.CARD_ID, CardsConfig.CARD_TOKEN);
+const sp = new SPWorlds(process.env.CARD_ID, process.env.CARD_TOKEN);
 
 export = {
     async execute(client: Discord.Client, interaction: Discord.Interaction): Promise<void> {
@@ -43,7 +42,7 @@ export = {
                 interaction.message.embeds[0].color = AppearanceConfig.Colors.Default as any
                 interaction.message.embeds = [interaction.message.embeds[0] as MessageEmbed] as MessageEmbed[]
                 (interaction.message.embeds[0] as MessageEmbed).addFields(
-                    { name: "**Адрес**:", value: `**\`${address}\`**` },
+                    { name: "**Адрес**:", value: `**${address}**` },
                     { name: "**Покупатель:**", value: `**<@${interaction.user.id}>**` },
                 )
                 // Отправка уведомления о заказе в канал
@@ -53,7 +52,7 @@ export = {
                 const privateMessage = await interaction.user.send({embeds: interaction.message.embeds});
 
                 (interaction.message.embeds[0] as MessageEmbed).spliceFields(1, 1,
-                    { name: "**ID покупателя:**", value: `**\`${interaction.user.id}\`**` }
+                    { name: "**ID покупателя:**", value: `**${interaction.user.id}**` }
                 )
 
                 // Отправка уведомления о заказе в канал #заказы
@@ -66,7 +65,7 @@ export = {
             // Обработка категории
             if (interaction.customId === 'select_category') {
                 interaction.message.components = [interaction.message.components[0] as any]
-                const products = await DBRequest(`SELECT * FROM \`products\` WHERE \`category_id\` = '${interaction.values[0]}'`) as Product[]
+                const products = await DBRequest(`SELECT * FROM products WHERE category_id = '${interaction.values[0]}'`) as Product[]
                 let row = new MessageActionRow()
                 for (const product of products) {
                     if (row.components.length < 5) {

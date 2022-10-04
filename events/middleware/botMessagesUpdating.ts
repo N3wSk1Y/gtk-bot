@@ -10,7 +10,6 @@ import {
 import AppearanceConfig from '../../configurations/appearance.json'
 import ChannelsConfig from '../../configurations/channels.json'
 import TemplatesConfig from '../../configurations/templates.json'
-import CardsConfig from '../../configurations/cards.json'
 import crypto from 'crypto'
 import {client} from "../../index";
 import {SPWorlds} from "spworlds";

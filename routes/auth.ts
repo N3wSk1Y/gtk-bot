@@ -1,12 +1,10 @@
 import express from "express";
 import {SPWorlds} from "spworlds";
-import BotConfig from '../configurations/bot.json'
 import {HTTPRequest} from "../database";
 import mcdata from "mcdata";
-import CardsConfig from "../configurations/cards.json";
 
 const router = express.Router();
-const sp = new SPWorlds(CardsConfig.CARD_ID, CardsConfig.CARD_TOKEN);
+const sp = new SPWorlds(process.env.CARD_ID, process.env.CARD_TOKEN);
 
 router.get('/callback', async (req, res, next) => {
     const { code } = req.query;
@@ -19,8 +17,8 @@ router.get('/callback', async (req, res, next) => {
             'Content-Type': ' application/x-www-form-urlencoded'
         },
         formData: {
-            client_id: BotConfig.CLIENT_ID,
-            client_secret: BotConfig.CLIENT_SECRET,
+            client_id: process.env.CLIENT_ID,
+            client_secret: process.env.CLIENT_SECRET,
             grant_type: "authorization_code",
             code: code,
             redirect_uri: "https://gtk-sp.ru/auth/callback"
@@ -60,8 +58,8 @@ router.post('/refresh', async (req, res, next) => {
             'Content-Type': ' application/x-www-form-urlencoded'
         },
         formData: {
-            client_id: BotConfig.CLIENT_ID,
-            client_secret: BotConfig.CLIENT_SECRET,
+            client_id: process.env.CLIENT_ID,
+            client_secret: process.env.CLIENT_SECRET,
             grant_type: "refresh_token",
             code: refresh_token
         }

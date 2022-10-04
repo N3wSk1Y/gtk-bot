@@ -1,10 +1,9 @@
 import Discord, {ColorResolvable, MessageActionRow, MessageButton, MessageEmbed} from "discord.js";
 import { SPWorlds } from "spworlds";
-import CardsConfig from '../configurations/cards.json';
 import AppearanceConfig from '../configurations/appearance.json'
 import mcdata from "mcdata";
 
-const sp = new SPWorlds(CardsConfig.CARD_ID, CardsConfig.CARD_TOKEN);
+const sp = new SPWorlds(process.env.CARD_ID, process.env.CARD_TOKEN);
 
 export = {
     name: 'guildMemberAdd',

@@ -6,14 +6,13 @@ import Discord, {
     Modal, TextChannel, MessageButton
 } from "discord.js";
 import { SPWorlds } from "spworlds";
-import CardsConfig from '../configurations/cards.json';
 import AppearanceConfig from '../configurations/appearance.json'
 import ChannelsConfig from '../configurations/channels.json'
 import mcdata from "mcdata";
 import {DBRequest, HTTPRequest} from "../database";
 import {withdrawBalance} from "../bank_handling";
 
-const bankCard = new SPWorlds(CardsConfig.CARD_ID, CardsConfig.CARD_TOKEN);
+const bankCard = new SPWorlds(process.env.CARD_ID, process.env.CARD_TOKEN);
 
 export = {
     async execute (client: Discord.Client, interaction: Discord.Interaction): Promise<void> {
@@ -23,7 +22,7 @@ export = {
         if (interaction.isButton()) {
             // Обработка запросов в ЛК
             if (interaction.customId === 'lk') {
-                const count = await DBRequest(`SELECT count(id) as count FROM \`users\` WHERE uuid='${minecraftUser.uuid}'`) as User[]
+                const count = await DBRequest(`SELECT count(id) as count FROM users WHERE uuid='${minecraftUser.uuid}'`)
 
                 // Проверка на наличие аккаунт => авторизация/регистрация
                 if((count as any[])[0].count === 0) {
@@ -52,7 +51,7 @@ export = {
                     modal.addComponents(firstActionRow as any, secondActionRow as any);
                     await interaction.showModal(modal);
                 } else {
-                    const response = await DBRequest(`SELECT * FROM \`users\` WHERE \`minecraft_username\` = '${username}'`) as User[]
+                    const response = await DBRequest(`SELECT * FROM users WHERE minecraft_username = '${username}'`) as User[]
                     const bank_account = (response)[0]
 
                     const row = new MessageActionRow()
@@ -82,9 +81,9 @@ export = {
                         .setThumbnail(minecraftUser.skin.avatar)
                         .setFooter(AppearanceConfig.Tags.Bank, AppearanceConfig.Images.MainLogo)
                         .addFields(
-                            { name: 'Никнейм', value: `\`${bank_account.minecraft_username}\``, inline: true },
-                            { name: 'Баланс счета', value: `\`${bank_account.balance}\` <:diamond_ore:990969911671136336>`, inline: true },
-                            { name: 'Карта spworlds.ru', value: `\`${bank_account.card_number}\` 💳`, inline: true },
+                            { name: 'Никнейм', value: `${bank_account.minecraft_username}`, inline: true },
+                            { name: 'Баланс счета', value: `${bank_account.balance} <:diamond_ore:990969911671136336>`, inline: true },
+                            { name: 'Карта spworlds.ru', value: `${bank_account.card_number} 💳`, inline: true },
                         )
                     await interaction.reply({ ephemeral: true, embeds: [embed], components: [row] });
                 }
@@ -299,7 +298,7 @@ export = {
             // Обработка снятие со счета
             if (interaction.customId === 'withdraw') {
                 const username = await bankCard.findUser(interaction.user.id);
-                const response = await DBRequest(`SELECT * FROM \`users\` WHERE \`minecraft_username\` = '${username}'`) as User[]
+                const response = await DBRequest(`SELECT * FROM users WHERE minecraft_username = '${username}'`) as User[]
                 const modal = new Modal()
                     .setCustomId('withdraw_modal')
                     .setTitle(`Снятие средств (Баланс: ${response[0].balance} АР)`)
@@ -335,7 +334,7 @@ export = {
                 const cardnumber = interaction.fields.getTextInputValue('registration_cardnumber')
                 const inputReferal = interaction.fields.getTextInputValue('registration_referal')
                 const referal = inputReferal && inputReferal !== username ? inputReferal : ''
-                await DBRequest(`INSERT INTO \`users\` (\`uuid\`, \`minecraft_username\`, \`card_number\`, referal) VALUES ('${minecraftUser.uuid}', '${username}', '${cardnumber}', '${referal}')`)
+                await DBRequest(`INSERT INTO users (uuid, minecraft_username, card_number, referal) VALUES ('${minecraftUser.uuid}', '${username}', '${cardnumber}', '${referal}')`)
                 const row = new MessageActionRow()
                     .addComponents(
                         new MessageButton()
@@ -360,7 +359,7 @@ export = {
                     'method': 'POST',
                     'url': 'https://spworlds.ru/api/public/payment',
                     'headers': {
-                        'Authorization': `Bearer ${CardsConfig.CARD_BASE64}`,
+                        'Authorization': `Bearer ${process.env.CARD_BASE64}`,
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
@@ -385,8 +384,8 @@ export = {
                     .setTitle(`Пополнение счета на ${value} АР`)
                     .setFooter(AppearanceConfig.Tags.Bank, AppearanceConfig.Images.MainLogo)
                     .setFields(
-                        { name: 'Никнейм', value: `\`${username}\``, inline: true },
-                        { name: 'Сумма пополнения', value: `\`${value}\` <:diamond_ore:990969911671136336>`, inline: true },
+                        { name: 'Никнейм', value: `${username}`, inline: true },
+                        { name: 'Сумма пополнения', value: `${value} <:diamond_ore:990969911671136336>`, inline: true },
                     )
                 const embed2 = new MessageEmbed()
                     .setColor(AppearanceConfig.Colors.Default as ColorResolvable)
@@ -410,8 +409,8 @@ export = {
                     .setDescription("Заявление будет рассмотрено в течении дня.")
                     .setFooter(AppearanceConfig.Tags.Bank, AppearanceConfig.Images.MainLogo)
                     .setFields(
-                        { name: 'Никнейм', value: `\`${username}\`` },
-                        { name: 'Сумма кредитования', value: `\`${value}\` <:diamond_ore:990969911671136336>` },
+                        { name: 'Никнейм', value: `${username}` },
+                        { name: 'Сумма кредитования', value: `${value} <:diamond_ore:990969911671136336>` },
                         { name: 'Время кредитования', value: `${time} дней` },
                         { name: 'Цель кредитования', value: target },
                         { name: 'Процентная ставка', value: "Будет определена при составлении договора с сотрудником Банка." },
@@ -426,8 +425,8 @@ export = {
                     .setTimestamp()
                     .setFooter(AppearanceConfig.Tags.Bank, AppearanceConfig.Images.MainLogo)
                     .setFields(
-                        { name: 'Никнейм', value: `\`${username}\`` },
-                        { name: 'Сумма кредитования', value: `\`${value}\` <:diamond_ore:990969911671136336>` },
+                        { name: 'Никнейм', value: `${username}` },
+                        { name: 'Сумма кредитования', value: `${value} <:diamond_ore:990969911671136336>` },
                         { name: 'Время кредитования', value: `${time} дней` },
                         { name: 'Цель кредитования', value: target },
                         { name: 'Процентная ставка', value: "Не определена" },
@@ -448,7 +447,7 @@ export = {
 
                 const username = await bankCard.findUser(interaction.user.id);
                 const value = parseInt(interaction.fields.getTextInputValue('withdraw_value'))
-                const response = await DBRequest(`SELECT * FROM \`users\` WHERE \`minecraft_username\` = '${username}'`) as User[]
+                const response = await DBRequest(`SELECT * FROM users WHERE minecraft_username = '${username}'`) as User[]
                 const cardNumber = interaction.fields.getTextInputValue('card_number') ? interaction.fields.getTextInputValue('card_number') : response[0].card_number;
                 if (response[0].balance - value >= 0) {
                     await withdrawBalance(response[0].id, username, value, cardNumber as number)
@@ -458,9 +457,9 @@ export = {
                         .setTitle(`Оплата успешно проведена (-${value} <:diamond_ore:990969911671136336>)`)
                         .setFooter(AppearanceConfig.Tags.Bank, AppearanceConfig.Images.MainLogo)
                         .addFields(
-                            { name: 'Сумма списания', value: `\`${value}\` <:diamond_ore:990969911671136336>`, inline: true },
-                            { name: 'Текущий баланс', value: `\`${response[0].balance - value}\` <:diamond_ore:990969911671136336>`, inline: true },
-                            { name: 'Карта spworlds.ru', value: `\`${cardNumber}\` 💳`, inline: true },
+                            { name: 'Сумма списания', value: `${value} <:diamond_ore:990969911671136336>`, inline: true },
+                            { name: 'Текущий баланс', value: `${response[0].balance - value} <:diamond_ore:990969911671136336>`, inline: true },
+                            { name: 'Карта spworlds.ru', value: `${cardNumber} 💳`, inline: true },
                         )
 
                     await interaction.reply({ ephemeral: true, embeds: [embed], components: [row] });
@@ -469,7 +468,7 @@ export = {
                         .setColor(AppearanceConfig.Colors.Error as ColorResolvable)
                         .setTitle(`Ошибка списания`)
                         .setFooter(AppearanceConfig.Tags.Bank, AppearanceConfig.Images.MainLogo)
-                        .setDescription(`Недостаточно средств.\nНа вашем счету \`${response[0].balance}\` <:diamond_ore:990969911671136336>`)
+                        .setDescription(`Недостаточно средств.\nНа вашем счету ${response[0].balance} <:diamond_ore:990969911671136336>`)
                     await interaction.reply({ ephemeral: true, embeds: [embed], components: [row] });
                 }
             }

@@ -74,7 +74,7 @@ router.put('/', async (req, res, next) => {
 
 router.put('/stock', async (req, res, next) => {
     if (req.query.id && req.query.amount) {
-        const products = await DBRequest(`SELECT * FROM products WHERE products.id = '${req.query.id}'`) as any[]
+        const products = await DBRequest(`SELECT * FROM products WHERE products.id = '${req.query.id}'`) as Product[]
         if (products.length === 0) {
             res.send({
                 error: "Такого товара не существует"
@@ -83,7 +83,7 @@ router.put('/stock', async (req, res, next) => {
         }
         const currentStock = products[0].stock as number
         if (req.query.name)
-            await DBRequest(`UPDATE products SET stock = ${currentStock + parseInt(req.query.amount as string)} WHERE  products.id = '${req.query.id}'`)
+            await DBRequest(`UPDATE products SET stock = ${currentStock + parseInt(req.query.amount as string)} WHERE products.id = '${req.query.id}'`)
 
         if (currentStock + parseInt(req.query.amount as string) < 1)
             await DBRequest("UPDATE products SET enabled = 0 WHERE  products.id = '${req.query.id}' ")

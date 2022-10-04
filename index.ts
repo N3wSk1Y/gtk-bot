@@ -1,9 +1,7 @@
 import {Client, ColorResolvable, Intents, MessageEmbed, TextChannel} from 'discord.js';
 import fs from 'fs'
 import './app'
-import BotConfig from './configurations/bot.json';
 import {SPWorlds} from "spworlds";
-import CardsConfig from "./configurations/cards.json";
 import ChannelsConfig from "./configurations/channels.json";
 import TemplatesConfig from "./configurations/templates.json";
 import AppearanceConfig from "./configurations/appearance.json";
@@ -22,7 +20,7 @@ export const client = new Client({
 const botEvents = fs.readdirSync('./events/').filter(f => f.endsWith('.js'))
 const botRoutes = fs.readdirSync('./interactions/').filter(f => f.endsWith('.js'))
 
-client.login(BotConfig.BOT_TOKEN)
+client.login(process.env.BOT_TOKEN)
     .catch((error) => {
         console.error("Ошибка при авторизации бота:\n" + error);
     })
@@ -44,7 +42,7 @@ for (const file of botRoutes) {
     })
 }
 
-const sp = new SPWorlds(CardsConfig.CARD_ID, CardsConfig.CARD_TOKEN);
+const sp = new SPWorlds(process.env.CARD_ID, process.env.CARD_TOKEN);
 
 setInterval(async () => {
     await CheckSPWorldsAvaliability()

@@ -1,12 +1,11 @@
 import mysql from 'mysql';
-import DatabaseConfig from './configurations/database.json'
 import request from "request";
 
 const connection = mysql.createConnection({
-    host     : DatabaseConfig.HOST,
-    user     : DatabaseConfig.USER ,
-    password : DatabaseConfig.PASSWORD,
-    database : DatabaseConfig.DATABASE
+    host     : process.env.HOST,
+    user     : process.env.USER ,
+    password : process.env.PASSWORD,
+    database : process.env.DATABASE
 });
 
 export async function DBRequest(request: string) {

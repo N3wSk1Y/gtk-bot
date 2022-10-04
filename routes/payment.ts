@@ -1,15 +1,13 @@
 import express from "express";
 import {SPWorlds} from "spworlds";
-import CardsConfig from "../configurations/cards.json";
 import Discord, {Client, ColorResolvable, Intents, MessageEmbed, UserResolvable} from "discord.js";
 import AppearanceConfig from "../configurations/appearance.json";
-import BotConfig from '../configurations/bot.json'
 import mcdata from "mcdata";
 import {DBRequest} from "../database";
 import {topupBalance} from "../bank_handling";
 
 const router = express.Router();
-const sp = new SPWorlds(CardsConfig.CARD_ID, CardsConfig.CARD_TOKEN);
+const sp = new SPWorlds(process.env.CARD_ID, process.env.CARD_TOKEN);
 const client = new Client({
     intents: [
         Intents.FLAGS.GUILDS,
@@ -19,7 +17,7 @@ const client = new Client({
         Intents.FLAGS.GUILD_MEMBERS
     ]
 });
-client.login(BotConfig.BOT_TOKEN)
+client.login(process.env.BOT_TOKEN)
     .catch((error) => {
         console.error("Ошибка при авторизации бота:\n" + error);
     })
@@ -44,9 +42,9 @@ router.post('/callback', async (req, res, next) => {
         const embed = new MessageEmbed()
             .setColor(AppearanceConfig.Colors.Success as ColorResolvable)
             .setTitle(`Пополнение счета`)
-            .setDescription(`**Ваш счет успешно пополнен на \`${req.body.amount}\` <:diamond_ore:990969911671136336>**`)
+            .setDescription(`**Ваш счет успешно пополнен на ${req.body.amount} <:diamond_ore:990969911671136336>**`)
             .setThumbnail(minecraftUser.skin.avatar)
-            .addField("**Текущий баланс:**", `**\`${balance}\`** <:diamond_ore:990969911671136336>`)
+            .addField("**Текущий баланс:**", `**${balance}** <:diamond_ore:990969911671136336>`)
             .setFooter(AppearanceConfig.Tags.Bank, AppearanceConfig.Images.MainLogo)
         await user.send({embeds:[embed]})
     } else {

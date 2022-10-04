@@ -45,6 +45,7 @@ abstract class Product
     public category_id: string;
     public price: number;
     public enabled: number;
+    public stock: number;
 }
 
 abstract class Category

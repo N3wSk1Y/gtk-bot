@@ -1,5 +1,4 @@
 import Discord from "discord.js";
-import { STATUS } from "../configurations/bot.json"
 import { UpdateMessages } from './middleware/botMessagesUpdating'
 import { SendCatalog } from "./middleware/catalogUpdating";
 import {CheckSPWorldsAvaliability} from "../index";
@@ -12,7 +11,5 @@ export = {
         await UpdateMessages(client)
         await SendCatalog(client)
         await CheckSPWorldsAvaliability()
-        if (STATUS.enable)
-            client.user.setPresence(STATUS as Discord.PresenceData);
     }
 }

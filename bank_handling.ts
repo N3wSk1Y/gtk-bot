@@ -1,5 +1,4 @@
 import {DBRequest, HTTPRequest} from "./database";
-import CardsConfig from "./configurations/cards.json";
 
 export enum OperationTypes {
     iMarket = 'imarket_balance',
@@ -15,7 +14,7 @@ export enum HistoryTypes {
 
 export async function accountExists(userid: number): Promise<boolean> {
     const count = await DBRequest(`SELECT count(id) as count
-                                       FROM \`users\`
+                                       FROM users
                                        WHERE id = '${userid}'`)
     return (count as any[])[0].count !== 0
 }
@@ -23,7 +22,7 @@ export async function accountExists(userid: number): Promise<boolean> {
 export async function getBalance(userid: number): Promise<number> {
     if (!await accountExists(userid))
         return
-    const response = await DBRequest(`SELECT * FROM \`users\` WHERE id = ${userid}`) as User[]
+    const response = await DBRequest(`SELECT * FROM users WHERE id = ${userid}`) as User[]
     return response[0].balance;
 }
 
@@ -32,8 +31,8 @@ export async function topupBalance (userid: number, value: number): Promise<numb
         return
     const balance = (await DBRequest(`SELECT * FROM users WHERE id = ${userid}`) as User[])[0].balance as number
 
-    await DBRequest(`UPDATE \`users\` SET balance = ${balance+value} WHERE \`users\`.\`id\` = ${userid}`)
-    const response = await DBRequest(`SELECT * FROM \`users\` WHERE id = ${userid}`) as User[]
+    await DBRequest(`UPDATE users SET balance = ${balance+value} WHERE users.id = ${userid}`)
+    const response = await DBRequest(`SELECT * FROM users WHERE id = ${userid}`) as User[]
     await postTopupHistory(userid, value)
     return response[0].balance;
 }
@@ -45,7 +44,7 @@ export async function withdrawBalance (userid: number, username: string, value: 
         'method': 'POST',
         'url': 'https://spworlds.ru/api/public/transactions',
         'headers': {
-            'Authorization': `Bearer ${CardsConfig.CARD_BASE64}`,
+            'Authorization': `Bearer ${process.env.CARD_BASE64}`,
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
@@ -61,8 +60,8 @@ export async function withdrawBalance (userid: number, username: string, value: 
         })
     const balance = (await DBRequest(`SELECT * FROM users WHERE id = ${userid}`) as User[])[0].balance as number
 
-    await DBRequest(`UPDATE \`users\` SET balance = ${balance-value} WHERE \`users\`.\`id\` = ${userid}`)
-    const response = await DBRequest(`SELECT * FROM \`users\` WHERE id = ${userid}`) as User[]
+    await DBRequest(`UPDATE users SET balance = ${balance-value} WHERE users.id = ${userid}`)
+    const response = await DBRequest(`SELECT * FROM users WHERE id = ${userid}`) as User[]
     await postWithdrawHistory(userid, value)
     return response[0].balance;
 }
@@ -72,8 +71,8 @@ export async function transferBalance (userid: number, value: number, target: Op
         return
     const balance = (await DBRequest(`SELECT * FROM users WHERE id = ${userid}`) as User[])[0].balance as number
 
-    await DBRequest(`UPDATE \`users\` SET balance = ${balance-value} WHERE \`users\`.\`id\` = ${userid}`)
-    const response = await DBRequest(`SELECT * FROM \`users\` WHERE id = ${userid}`) as User[]
+    await DBRequest(`UPDATE users SET balance = ${balance-value} WHERE users.id = ${userid}`)
+    const response = await DBRequest(`SELECT * FROM users WHERE id = ${userid}`) as User[]
     await postTransferHistory(userid, value, Math.abs(Object.keys(OperationTypes).indexOf(target)), reason)
     return response[0].balance;
 }
@@ -82,27 +81,27 @@ export async function postTransferHistory(userid: number, value: number, target:
     await DBRequest(`INSERT INTO transfer_history (userid, value, target, reason) VALUES (${userid}, ${value}, ${target}, '${reason}')`)
     const imarketBalance = (await DBRequest(`SELECT * FROM stats WHERE config_id = 1`) as any[])[0].imarket_balance as number
     const freeBalance = (await DBRequest(`SELECT * FROM stats WHERE config_id = 1`) as any[])[0].free_money as number
-    await DBRequest(`UPDATE \`stats\` SET imarket_balance = ${imarketBalance-value} WHERE \`stats\`.\`config_id\` = 1`)
-    await DBRequest(`UPDATE \`stats\` SET free_money = ${freeBalance+value} WHERE \`stats\`.\`config_id\` = 1`)
+    await DBRequest(`UPDATE stats SET imarket_balance = ${imarketBalance-value} WHERE stats.config_id = 1`)
+    await DBRequest(`UPDATE stats SET free_money = ${freeBalance+value} WHERE stats.config_id = 1`)
 }
 
 export async function postTopupHistory(userid: number, value: number) {
     await DBRequest(`INSERT INTO topup_history (userid, value) VALUES (${userid}, ${value})`)
     const imarketBalance = (await DBRequest(`SELECT * FROM stats WHERE config_id = 1`) as any[])[0].imarket_balance as number
-    await DBRequest(`UPDATE \`stats\` SET imarket_balance = ${imarketBalance+value} WHERE \`stats\`.\`config_id\` = 1`)
+    await DBRequest(`UPDATE stats SET imarket_balance = ${imarketBalance+value} WHERE stats.config_id = 1`)
 }
 
 export async function postWithdrawHistory(userid: number, value: number) {
     await DBRequest(`INSERT INTO withdraw_history (userid, value) VALUES (${userid}, ${value})`)
     const imarketBalance = (await DBRequest(`SELECT * FROM stats WHERE config_id = 1`) as any[])[0].imarket_balance as number
-    await DBRequest(`UPDATE \`stats\` SET imarket_balance = ${imarketBalance-value} WHERE \`stats\`.\`config_id\` = 1`)
+    await DBRequest(`UPDATE stats SET imarket_balance = ${imarketBalance-value} WHERE stats.config_id = 1`)
 }
 
 export async function returnTotal(userid: number, value: number) {
     const balance = (await DBRequest(`SELECT * FROM users WHERE id = ${userid}`) as User[])[0].balance as number
     const imarketBalance = (await DBRequest(`SELECT * FROM stats WHERE config_id = 1`) as any[])[0].imarket_balance as number
 
-    await DBRequest(`UPDATE \`stats\` SET imarket_balance = ${imarketBalance-value} WHERE \`stats\`.\`config_id\` = 1`)
-    await DBRequest(`UPDATE \`users\` SET balance = ${balance+value} WHERE \`users\`.\`id\` = ${userid}`)
+    await DBRequest(`UPDATE stats SET imarket_balance = ${imarketBalance-value} WHERE stats.config_id = 1`)
+    await DBRequest(`UPDATE users SET balance = ${balance+value} WHERE users.id = ${userid}`)
     await postTopupHistory(userid, value)
 }

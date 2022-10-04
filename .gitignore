@@ -4,3 +4,4 @@
 /events/*.js
 /routes/*.js
 /events/middleware/*.js
+.env
